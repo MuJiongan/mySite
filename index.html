@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jiongan Mu</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+    <div class="background-animation"></div>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <a href="#home">Jiongan Mu</a>
+            </div>
+            <div class="nav-toggle" id="mobile-menu">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+            <div class="nav-menu" id="nav-menu">
+                <div class="nav-item">
+                    <a href="#home" class="nav-link">Home</a>
+                </div>
+                <div class="nav-item">
+                    <a href="#about" class="nav-link">About</a>
+                </div>
+                <div class="nav-item">
+                    <a href="#projects" class="nav-link">Projects</a>
+                </div>
+                <div class="nav-item">
+                    <a href="#contact" class="nav-link">Contact</a>
+                </div>
+            </div>
+            <div class="theme-switch-wrapper">
+                <div class="theme-switch">
+                    <input type="checkbox" id="theme-toggle" />
+                    <label for="theme-toggle" class="switch-label">
+                        <span class="sun-icon">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2">
+                                <circle cx="12" cy="12" r="5" />
+                                <path
+                                    d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" />
+                            </svg>
+                        </span>
+                        <span class="moon-icon">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+                            </svg>
+                        </span>
+                        <div class="switch-button"></div>
+                    </label>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main>
+        <section id="home" class="hero">
+            <div class="hero-content">
+                <h1 class="hero-name">Jiongan Mu</h1>
+                <p class="hero-subtitle">Computer Systems & AI</p>
+                <p class="hero-description">AI Resident at Ema</p>
+                <p class="hero-description">Master's student at University of Toronto</p>
+                <p class="hero-location"><i class="fas fa-map-marker-alt"></i> Toronto, ON • <span
+                        id="live-time">EST/EDT</span></p>
+            </div>
+        </section>
+
+        <section id="about" class="about">
+            <div class="container">
+                <h2 class="fade-in-title">About Me</h2>
+                <div class="about-content">
+                    <p class="reveal-text" data-delay="0">Hello! I'm pursuing a Master of Science degree in Applied
+                        Computing at the University of Toronto, with a focus on computer systems and large language
+                        models. I currently work as an AI Resident at Ema, where I build the auto-builder
+                        (conversational workflow builder) that automatically generate and orchestrate multi-agent AI
+                        workflows from natural language descriptions.</p>
+
+                    <p class="reveal-text" data-delay="300">I completed my undergraduate degree in Computer Science at
+                        the University of Toronto, specializing in computer systems. I have worked as a backend software
+                        engineer at Kijiji and gained experience as both a research assistant and teaching assistant.
+                    </p>
+
+                    <p class="reveal-text" data-delay="600">I'm focused on building custom AI systems that are
+                        efficient, reliable, and scalable for businesses. Outside of work, I enjoy music—I sing and play
+                        piano and guitar.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="projects" class="projects">
+            <div class="container">
+                <h2 class="fade-in-title">Projects</h2>
+                <div class="projects-grid">
+                    <div class="project-card animate-on-scroll">
+                        <div class="project-header">
+                            <h3>Swork</h3>
+                            <div class="project-links">
+                                <a href="https://swork.jiongan.me" target="_blank" class="project-link">
+                                    <i class="fas fa-external-link-alt"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <p class="project-description">An AI music critic that roasts your Spotify taste with sarcastic
+                            commentary and real-time streaming responses.</p>
+                        <div class="project-tech">
+                            <span class="tech-tag">FastAPI</span>
+                            <span class="tech-tag">Python</span>
+                            <span class="tech-tag">Spotify API</span>
+                            <span class="tech-tag">OpenRouter</span>
+                        </div>
+                    </div>
+                    <!-- <div class="project-card">
+                        <div class="project-header">
+                            <h3>DashDB</h3>
+                            <div class="project-links">
+                                <a href="https://github.com/MuJiongan/key-value-store" target="_blank" class="project-link">
+                                    <i class="fab fa-github"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <p class="project-description">A high-performance key-value database built from scratch with LSM-tree architecture, featuring AVL tree memtables and Bloom filters for optimized storage and retrieval.</p>
+                        <div class="project-tech">
+                            <span class="tech-tag">C++</span>
+                        </div>
+                    </div> -->
+                    <div class="project-card animate-on-scroll">
+                        <div class="project-header">
+                            <h3>Vector Database Performance Study</h3>
+                            <div class="project-links">
+                                <a href="/files/VDBMS Final Report.pdf" target="_blank" class="project-link">
+                                    <i class="fas fa-file-pdf"></i>
+                                </a>
+                                <a href="https://github.com/dlrudwo1269/w25_csc2233_project" target="_blank"
+                                    class="project-link">
+                                    <i class="fab fa-github"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <p class="project-description">Research investigating how metadata distribution affects filtered
+                            vector search performance across ElasticSearch, ChromaDB, and VBase.</p>
+                        <div class="project-tech">
+                            <span class="tech-tag">Python</span>
+                            <span class="tech-tag">VDBMS</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="contact" class="contact">
+            <div class="container">
+                <h2 class="fade-in-title">Get In Touch</h2>
+                <p class="slide-up-text">Feel free to reach out if you'd like to connect or collaborate.</p>
+                <div class="contact-links">
+                    <a href="mailto:jiongan@cs.toronto.edu" class="contact-link float-in" data-delay="0">
+                        <i class="fas fa-envelope"></i>
+                        <span>Email</span>
+                    </a>
+                    <a href="https://www.linkedin.com/in/jionganmu" class="contact-link float-in" data-delay="150">
+                        <i class="fab fa-linkedin"></i>
+                        <span>LinkedIn</span>
+                    </a>
+                    <a href="https://github.com/MuJiongan" class="contact-link float-in" data-delay="300">
+                        <i class="fab fa-github"></i>
+                        <span>GitHub</span>
+                    </a>
+                    <a href="https://discord.com/users/zo6231" class="contact-link float-in" data-delay="450">
+                        <i class="fab fa-discord"></i>
+                        <span>Discord</span>
+                    </a>
+                </div>
+            </div>
+        </section>
+    </main>
+    <script src="script.js"></script>
+</body>
+
+</html>
