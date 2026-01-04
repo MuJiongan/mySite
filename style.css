@@ -554,6 +554,83 @@ body {
     color: var(--text-light);
 }
 
+/* Education Section */
+.education {
+    padding: 6rem 0;
+    background-color: var(--bg-color);
+    transition: background-color 0.3s ease;
+}
+
+.education h2 {
+    font-family: var(--font-serif);
+    font-size: 2.5rem;
+    font-weight: 600;
+    text-align: center;
+    margin-bottom: 3rem;
+    color: var(--text-color);
+}
+
+.education-timeline {
+    max-width: 700px;
+    margin: 0 auto;
+}
+
+.education-item {
+    background-color: var(--hover-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 2rem;
+    margin-bottom: 2rem;
+    transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    box-shadow: 0 4px 6px var(--shadow-light);
+}
+
+.education-item:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 24px var(--shadow-light);
+    border-color: var(--text-light);
+}
+
+.education-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 1rem;
+    gap: 1rem;
+}
+
+.education-institution h3 {
+    font-family: var(--font-serif);
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--text-color);
+    margin-bottom: 0.5rem;
+}
+
+.education-degree {
+    font-size: 1.1rem;
+    color: var(--text-light);
+    font-weight: 500;
+    margin: 0;
+}
+
+.education-date {
+    font-size: 0.95rem;
+    color: var(--text-light);
+    font-weight: 400;
+    white-space: nowrap;
+    padding: 0.25rem 0.75rem;
+    background-color: var(--border-color);
+    border-radius: 20px;
+}
+
+.education-description {
+    color: var(--text-light);
+    font-size: 1rem;
+    line-height: 1.6;
+    margin: 0;
+}
+
 /* Projects Section */
 .projects {
     padding: 6rem 0;
@@ -852,8 +929,19 @@ body {
     }
 
     .about h2,
+    .education h2,
+    .projects h2,
     .contact h2 {
         font-size: 2rem;
+    }
+
+    .education-header {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+
+    .education-date {
+        align-self: flex-start;
     }
 
     .container {
@@ -936,9 +1024,14 @@ body {
     }
 
     .about,
+    .education,
     .projects,
     .contact {
         padding: 4rem 0;
+    }
+
+    .education-item {
+        padding: 1.5rem;
     }
 
     .project-card {
