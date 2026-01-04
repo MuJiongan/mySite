@@ -556,7 +556,7 @@ body {
 
 /* Education Section */
 .education {
-    padding: 6rem 0;
+    padding: 6rem 0 3rem 0;
     background-color: var(--bg-color);
     transition: background-color 0.3s ease;
 }
@@ -716,7 +716,7 @@ body {
 
 /* Projects Section */
 .projects {
-    padding: 6rem 0;
+    padding: 3rem 0 6rem 0;
     background-color: var(--bg-color);
     transition: background-color 0.3s ease;
 }
