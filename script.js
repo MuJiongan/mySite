@@ -109,22 +109,22 @@ document.addEventListener('DOMContentLoaded', function () {
         observer.observe(element);
     });
 
-    // Live time for Toronto
-    function updateTorontoTime() {
+    // Live time for Pacific timezone
+    function updatePacificTime() {
         const now = new Date();
-        const torontoTime = new Date(now.toLocaleString("en-US", { timeZone: "America/Toronto" }));
-        const timeString = torontoTime.toLocaleTimeString("en-US", {
+        const pacificTime = new Date(now.toLocaleString("en-US", { timeZone: "America/Los_Angeles" }));
+        const timeString = pacificTime.toLocaleTimeString("en-US", {
             hour: 'numeric',
             minute: '2-digit',
             second: '2-digit',
             hour12: true
         });
 
-        // Determine if it's EST or EDT
-        const jan = new Date(torontoTime.getFullYear(), 0, 1);
-        const jul = new Date(torontoTime.getFullYear(), 6, 1);
-        const isDST = torontoTime.getTimezoneOffset() < Math.max(jan.getTimezoneOffset(), jul.getTimezoneOffset());
-        const timezone = isDST ? 'EDT' : 'EST';
+        // Determine if it's PST or PDT
+        const jan = new Date(pacificTime.getFullYear(), 0, 1);
+        const jul = new Date(pacificTime.getFullYear(), 6, 1);
+        const isDST = pacificTime.getTimezoneOffset() < Math.max(jan.getTimezoneOffset(), jul.getTimezoneOffset());
+        const timezone = isDST ? 'PDT' : 'PST';
 
         const liveTimeElement = document.getElementById('live-time');
         if (liveTimeElement) {
@@ -133,6 +133,6 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     // Update time immediately and then every second
-    updateTorontoTime();
-    setInterval(updateTorontoTime, 1000);
+    updatePacificTime();
+    setInterval(updatePacificTime, 1000);
 });
