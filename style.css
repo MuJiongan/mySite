@@ -909,6 +909,11 @@ body {
     transition: background-color 0.3s ease;
 }
 
+.sale-page {
+    padding-top: calc(70px + 4rem);
+    min-height: 100vh;
+}
+
 .sale-container {
     max-width: 1200px;
 }
