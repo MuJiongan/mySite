@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Items For Sale - Jiongan Mu</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background-color: #f8f8f8;
+            color: #333;
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .page-wrapper {
+            max-width: 960px;
+            margin: 0 auto;
+            padding: 3rem 1.5rem 4rem;
+        }
+
+        .page-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .page-header h1 {
+            font-size: 2.25rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: #111;
+        }
+
+        .page-header p {
+            font-size: 1.05rem;
+            color: #666;
+            max-width: 540px;
+            margin: 0 auto 1.5rem;
+        }
+
+        .contact-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: #111;
+            color: #fff;
+            padding: 0.6rem 1.25rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: background 0.2s ease;
+        }
+
+        .contact-badge:hover {
+            background: #444;
+        }
+
+        .contact-badge i {
+            font-size: 1.1rem;
+        }
+
+        .items-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .item-card {
+            background: #fff;
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid #e8e8e8;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .item-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 32px rgba(0, 0, 0, 0.08);
+        }
+
+        .item-image {
+            width: 100%;
+            height: 200px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #fafafa;
+            border-bottom: 1px solid #eee;
+            overflow: hidden;
+        }
+
+        .item-image img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+            padding: 1rem;
+        }
+
+        .item-image-placeholder {
+            background: #f0f0f0;
+        }
+
+        .item-image-placeholder i {
+            font-size: 3.5rem;
+            color: #ccc;
+        }
+
+        .item-body {
+            padding: 1.25rem;
+        }
+
+        .item-body h3 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #111;
+            margin-bottom: 0.5rem;
+        }
+
+        .item-body p {
+            font-size: 0.88rem;
+            color: #777;
+            line-height: 1.65;
+            margin-bottom: 1rem;
+        }
+
+        .item-pricing {
+            display: flex;
+            align-items: baseline;
+            gap: 0.6rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .price-original {
+            font-size: 0.9rem;
+            color: #aaa;
+            text-decoration: line-through;
+        }
+
+        .price-sale {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: #111;
+        }
+
+        .item-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.35rem;
+            font-size: 0.82rem;
+            font-weight: 500;
+            color: #888;
+            text-decoration: none;
+            padding: 0.3rem 0.7rem;
+            border: 1px solid #ddd;
+            border-radius: 20px;
+            transition: all 0.2s ease;
+        }
+
+        .item-link:hover {
+            color: #fff;
+            background: #111;
+            border-color: #111;
+        }
+
+        .item-link i {
+            font-size: 0.72rem;
+        }
+
+        .badge-new {
+            display: inline-block;
+            background: #111;
+            color: #fff;
+            font-size: 0.65rem;
+            font-weight: 600;
+            padding: 0.15rem 0.5rem;
+            border-radius: 20px;
+            vertical-align: middle;
+            margin-left: 0.4rem;
+            letter-spacing: 0.03em;
+            text-transform: uppercase;
+        }
+
+        @media (max-width: 640px) {
+            .page-wrapper {
+                padding: 2rem 1rem 3rem;
+            }
+
+            .page-header h1 {
+                font-size: 1.75rem;
+            }
+
+            .items-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="page-wrapper">
+        <div class="page-header">
+            <h1>Items For Sale</h1>
+            <p>I'm leaving Toronto and moving to a new place — here are some items I have available. All items are in great condition!</p>
+            <a href="https://www.instagram.com/jiongan12/" target="_blank" class="contact-badge">
+                <i class="fab fa-instagram"></i> DM me on Instagram
+            </a>
+        </div>
+
+        <div class="items-grid">
+            <div class="item-card">
+                <div class="item-image">
+                    <img src="https://images.samsung.com/is/image/samsung/p6pim/ca/ls27d702eanxgo/gallery/ca-viewfinity-s7-27s700d27s702d27s704d-27s706d32s700d32s702d32s704d32s706d-ls27d702eanxgo-547450832?$Q90_1920_1280_F_PNG$" alt="Samsung ViewFinity S7 27 inch 4K Monitor">
+                </div>
+                <div class="item-body">
+                    <h3>Samsung ViewFinity S7 27" 4K Monitor</h3>
+                    <p>27-inch UHD (3840x2160) IPS display at 60Hz. HDR10 support with 1.07 billion colors — great for productivity and content creation.</p>
+                    <div class="item-pricing">
+                        <span class="price-original">$360</span>
+                        <span class="price-sale">$200</span>
+                    </div>
+                    <a href="https://www.samsung.com/ca/monitors/high-resolution/viewfinity-s7-27-inch-ls27d702eanxgo/" target="_blank" class="item-link"><i class="fas fa-external-link-alt"></i> View Product</a>
+                </div>
+            </div>
+
+            <div class="item-card">
+                <div class="item-image">
+                    <img src="https://www.lg.com/content/dam/channel/wcms/hk_en/images/monitor/27gn800-b_ahk_echk_hk_en_c/gallery/mnt-27gn800-1600-01.jpg" alt="LG UltraGear 27 inch Gaming Monitor">
+                </div>
+                <div class="item-body">
+                    <h3>LG UltraGear 27" Gaming Monitor</h3>
+                    <p>27-inch QHD (2560x1440) IPS gaming monitor with 165Hz refresh rate, 1ms response time, NVIDIA G-SYNC and AMD FreeSync Premium.</p>
+                    <div class="item-pricing">
+                        <span class="price-original">$400</span>
+                        <span class="price-sale">$160</span>
+                    </div>
+                    <a href="https://a.co/d/0aaWeoK8" target="_blank" class="item-link"><i class="fas fa-external-link-alt"></i> View Product</a>
+                </div>
+            </div>
+
+            <div class="item-card">
+                <div class="item-image">
+                    <img src="https://www.imgadgets.com/cdn/shop/files/Desk_manual_01-585990.jpg?v=1717094562" alt="IMGadgets Standing Desk with Wheels">
+                </div>
+                <div class="item-body">
+                    <h3>Standing Desk with Wheels</h3>
+                    <p>IMGadgets height-adjustable standing desk (31.5" x 15.7") with pneumatic lift, C-table design, and concealed rolling casters.</p>
+                    <div class="item-pricing">
+                        <span class="price-original">$132</span>
+                        <span class="price-sale">$75</span>
+                    </div>
+                    <a href="https://a.co/d/0qk4cvR" target="_blank" class="item-link"><i class="fas fa-external-link-alt"></i> View Product</a>
+                </div>
+            </div>
+
+            <div class="item-card">
+                <div class="item-image">
+                    <img src="https://images.keurig.com/is/image/keurig/k-iced-single-serve-coffee-maker_5000371871?fmt=png-alpha&wid=575" alt="Keurig K-Iced Coffee Maker">
+                </div>
+                <div class="item-body">
+                    <h3>Keurig K-Iced Coffee Maker</h3>
+                    <p>Single serve K-Cup pod coffee maker with Brew Over Ice button. Supports 8oz, 10oz, and 12oz cups with a 42oz removable reservoir. Arctic Gray.</p>
+                    <div class="item-pricing">
+                        <span class="price-original">$130</span>
+                        <span class="price-sale">$40</span>
+                    </div>
+                    <a href="https://a.co/d/gC4Wsww" target="_blank" class="item-link"><i class="fas fa-external-link-alt"></i> View Product</a>
+                </div>
+            </div>
+
+            <div class="item-card">
+                <div class="item-image">
+                    <img src="https://cdn.long-mcquade.com/files/153684/xl_ef0a13780575551a88c71b2beeaf9609.webp?alt=Allegro%20III%2088%20Weighted-Key%20Digial%20Piano%20-%20Black" alt="Williams Allegro III 88-Key Digital Piano">
+                </div>
+                <div class="item-body">
+                    <h3>Williams Allegro III Digital Piano</h3>
+                    <p>88-key hammer-action graded weighted keyboard with 10 high-resolution sounds. Bluetooth MIDI, built-in dual-driver speakers, metronome, and drum machine. Includes sustain pedal and power supply.</p>
+                    <div class="item-pricing">
+                        <span class="price-original">$450</span>
+                        <span class="price-sale">$190</span>
+                    </div>
+                    <a href="https://williamspianos.com/dp/allegro-iii-portable-digital-piano/" target="_blank" class="item-link"><i class="fas fa-external-link-alt"></i> View Product</a>
+                </div>
+            </div>
+
+            <div class="item-card">
+                <div class="item-image">
+                    <img src="https://www.ikea.com/us/en/images/products/huvudspelare-gaming-desk-beige__1128039_pe876390_s5.jpg" alt="IKEA HUVUDSPELARE Gaming Desk">
+                </div>
+                <div class="item-body">
+                    <h3>IKEA HUVUDSPELARE Gaming Desk</h3>
+                    <p>Beige gaming desk (55 1/8" x 31 1/2") with built-in cable management and headphone hook. Spacious surface for gaming or office use.</p>
+                    <div class="item-pricing">
+                        <span class="price-original">$130</span>
+                        <span class="price-sale">$20</span>
+                    </div>
+                    <a href="https://www.ikea.com/us/en/p/huvudspelare-gaming-desk-beige-70539167/" target="_blank" class="item-link"><i class="fas fa-external-link-alt"></i> View Product</a>
+                </div>
+            </div>
+            <div class="item-card">
+                <div class="item-image">
+                    <img src="https://m.media-amazon.com/images/I/A1UVQHSfgvL._AC_SX679_.jpg" alt="Amazon Basics Queen Bed Frame">
+                </div>
+                <div class="item-body">
+                    <h3>Amazon Basics Queen Bed Frame</h3>
+                    <p>Foldable metal platform bed frame, 14" high with steel support. Tool-free setup, no box spring needed. Holds up to 700 lbs with 13" under-bed storage clearance.</p>
+                    <div class="item-pricing">
+                        <span class="price-sale">$40</span>
+                    </div>
+                    <a href="https://www.amazon.ca/dp/B073WRLNS9?ref_=ppx_hzsearch_conn_dt_b_fed_asin_title_1&th=1" target="_blank" class="item-link"><i class="fas fa-external-link-alt"></i> View Product</a>
+                </div>
+            </div>
+            <div class="item-card">
+                <div class="item-image">
+                    <img src="https://hamiltonbeach.com/media/products/31190C-01.jpg" alt="Hamilton Beach Convection Toaster Oven with Rotisserie">
+                </div>
+                <div class="item-body">
+                    <h3>Hamilton Beach Convection Toaster Oven <span class="badge-new">New</span></h3>
+                    <p>Digital countertop convection toaster oven with rotisserie. 6 cooking settings: convection, toast, bake, broil, pizza, and rotisserie. Fits a 12" pizza or 6 slices of toast. Stainless steel.</p>
+                    <div class="item-pricing">
+                        <span class="price-original">$170</span>
+                        <span class="price-sale">$80</span>
+                    </div>
+                    <a href="https://a.co/d/0aMT9Apz" target="_blank" class="item-link"><i class="fas fa-external-link-alt"></i> View Product</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
