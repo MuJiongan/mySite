@@ -902,6 +902,163 @@ body {
     transform: translateY(-2px);
 }
 
+/* Sale Section */
+.sale {
+    padding: 6rem 0;
+    background-color: var(--bg-color);
+    transition: background-color 0.3s ease;
+}
+
+.sale-container {
+    max-width: 1200px;
+}
+
+.sale h2 {
+    font-family: var(--font-serif);
+    font-size: 2.5rem;
+    font-weight: 600;
+    text-align: center;
+    margin-bottom: 1rem;
+    color: var(--text-color);
+}
+
+.sale-intro {
+    text-align: center;
+    font-size: 1.1rem;
+    color: var(--text-light);
+    margin-bottom: 3rem;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.sale-intro a {
+    color: var(--text-color);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+}
+
+.sale-intro a:hover {
+    opacity: 0.7;
+}
+
+.sale-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+    gap: 2rem;
+}
+
+.sale-card {
+    background-color: var(--hover-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    overflow: hidden;
+    transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    box-shadow: 0 4px 6px var(--shadow-light);
+}
+
+.sale-card:hover {
+    transform: translateY(-8px) scale(1.01);
+    box-shadow: 0 15px 35px var(--shadow-light);
+    border-color: var(--text-light);
+}
+
+.sale-card-image {
+    width: 100%;
+    height: 220px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--bg-color);
+    border-bottom: 1px solid var(--border-color);
+}
+
+.sale-card-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    padding: 1rem;
+    transition: transform 0.4s ease;
+}
+
+.sale-card:hover .sale-card-image img {
+    transform: scale(1.05);
+}
+
+.sale-card-image-placeholder {
+    background-color: var(--hover-bg);
+}
+
+.sale-card-image-placeholder i {
+    font-size: 4rem;
+    color: var(--text-light);
+    opacity: 0.5;
+}
+
+.sale-card-content {
+    padding: 1.5rem;
+}
+
+.sale-card-content h3 {
+    font-family: var(--font-serif);
+    font-size: 1.35rem;
+    font-weight: 600;
+    color: var(--text-color);
+    margin-bottom: 0.75rem;
+}
+
+.sale-description {
+    color: var(--text-light);
+    font-size: 0.95rem;
+    line-height: 1.7;
+    margin-bottom: 1.25rem;
+}
+
+.sale-pricing {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+}
+
+.sale-original-price {
+    font-size: 1rem;
+    color: var(--text-light);
+    text-decoration: line-through;
+    opacity: 0.7;
+}
+
+.sale-price {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--text-color);
+}
+
+.sale-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    color: var(--text-light);
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 500;
+    padding: 0.4rem 0.8rem;
+    border: 1px solid var(--border-color);
+    border-radius: 20px;
+    transition: all 0.3s ease;
+}
+
+.sale-link:hover {
+    background-color: var(--text-color);
+    color: var(--bg-color);
+    border-color: var(--text-color);
+}
+
+.sale-link i {
+    font-size: 0.8rem;
+}
+
 /* Contact Section */
 .contact {
     padding: 6rem 0;
@@ -1014,8 +1171,13 @@ body {
     .about h2,
     .education h2,
     .projects h2,
+    .sale h2,
     .contact h2 {
         font-size: 2rem;
+    }
+
+    .sale-grid {
+        grid-template-columns: 1fr;
     }
 
     .education-timeline {
@@ -1138,6 +1300,7 @@ body {
     .about,
     .education,
     .projects,
+    .sale,
     .contact {
         padding: 4rem 0;
     }
