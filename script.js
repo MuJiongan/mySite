@@ -56,24 +56,26 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Hero name typewriter effect
     const heroName = document.querySelector('.hero-name');
-    const heroText = heroName.textContent;
-    heroName.textContent = '';
+    if (heroName) {
+        const heroText = heroName.textContent;
+        heroName.textContent = '';
 
-    setTimeout(() => {
-        let i = 0;
-        const typeWriter = () => {
-            if (i < heroText.length) {
-                heroName.textContent += heroText.charAt(i);
-                i++;
-                setTimeout(typeWriter, 100);
-            } else {
-                // Remove cursor after typing is complete
-                heroName.classList.remove('hero-name');
-                heroName.classList.add('hero-name-no-cursor');
-            }
-        };
-        typeWriter();
-    }, 200);
+        setTimeout(() => {
+            let i = 0;
+            const typeWriter = () => {
+                if (i < heroText.length) {
+                    heroName.textContent += heroText.charAt(i);
+                    i++;
+                    setTimeout(typeWriter, 100);
+                } else {
+                    // Remove cursor after typing is complete
+                    heroName.classList.remove('hero-name');
+                    heroName.classList.add('hero-name-no-cursor');
+                }
+            };
+            typeWriter();
+        }, 200);
+    }
 
     // Alternative animation effects
     const animationElements = document.querySelectorAll('.fade-in-title, .reveal-text, .slide-up-text, .float-in, .animate-on-scroll');
