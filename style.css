@@ -13,6 +13,7 @@
     --font-serif: 'EB Garamond', Georgia, 'Times New Roman', serif;
     --bg-color: #fefefe;
     --text-color: #333;
+    --text-color-rgb: 51, 51, 51;
     --text-light: #666;
     --nav-bg: rgba(254, 254, 254, 0.95);
     --border-color: #e5e5e5;
@@ -23,6 +24,7 @@
 [data-theme="dark"] {
     --bg-color: #1a1a1a;
     --text-color: #e0e0e0;
+    --text-color-rgb: 224, 224, 224;
     --text-light: #b0b0b0;
     --nav-bg: rgba(26, 26, 26, 0.95);
     --border-color: #333;
@@ -402,6 +404,8 @@ body {
     text-align: center;
     background-color: var(--bg-color);
     transition: background-color 0.3s ease;
+    position: relative;
+    overflow: hidden;
 }
 
 .hero-content {
@@ -453,9 +457,7 @@ body {
     opacity: 1;
 }
 
-.typewriter-text-no-cursor {
-    /* Inherits all styles from parent elements, no cursor */
-}
+
 
 
 /* Alternative Animation Effects */
@@ -528,31 +530,94 @@ body {
 
 /* About Section */
 .about {
-    padding: 6rem 0;
+    padding: 8rem 0;
+    position: relative;
     background-color: var(--hover-bg);
     transition: background-color 0.3s ease;
+    overflow: hidden;
+}
+
+/* Subtle background decoration for About section */
+.about::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle at 70% 30%, rgba(var(--text-color-rgb), 0.03) 0%, transparent 70%);
+    pointer-events: none;
+    z-index: 0;
 }
 
 .about h2 {
     font-family: var(--font-serif);
-    font-size: 2.5rem;
+    font-size: 3rem;
     font-weight: 600;
     text-align: center;
-    margin-bottom: 3rem;
+    margin-bottom: 4rem;
     color: var(--text-color);
+    position: relative;
+    z-index: 1;
 }
 
 .about-content {
-    max-width: 600px;
+    max-width: 800px;
     margin: 0 auto;
-    font-size: 1.1rem;
-    line-height: 1.8;
+    position: relative;
+    z-index: 1;
 }
 
-.about-content p {
-    margin-bottom: 1.5rem;
-    color: var(--text-light);
+.about-card {
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-radius: 24px;
+    padding: 3.5rem;
+    box-shadow:
+        0 4px 6px -1px rgba(0, 0, 0, 0.05),
+        0 2px 4px -1px rgba(0, 0, 0, 0.03),
+        0 0 0 1px rgba(0, 0, 0, 0.05);
+    transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
 }
+
+[data-theme="dark"] .about-card {
+    background: rgba(30, 30, 30, 0.6);
+    box-shadow:
+        0 4px 6px -1px rgba(0, 0, 0, 0.3),
+        0 2px 4px -1px rgba(0, 0, 0, 0.2),
+        0 0 0 1px rgba(255, 255, 255, 0.1);
+}
+
+.about-card:hover {
+    transform: translateY(-5px);
+    box-shadow:
+        0 20px 25px -5px rgba(0, 0, 0, 0.1),
+        0 10px 10px -5px rgba(0, 0, 0, 0.04),
+        0 0 0 1px rgba(0, 0, 0, 0.05);
+}
+
+[data-theme="dark"] .about-card:hover {
+    box-shadow:
+        0 20px 25px -5px rgba(0, 0, 0, 0.4),
+        0 10px 10px -5px rgba(0, 0, 0, 0.3),
+        0 0 0 1px rgba(255, 255, 255, 0.15);
+}
+
+.about-card p {
+    font-family: var(--font-sans);
+    font-size: 1.1rem;
+    line-height: 1.8;
+    color: var(--text-light);
+    margin-bottom: 1.5rem;
+    font-weight: 300;
+}
+
+.about-card p:last-child {
+    margin-bottom: 0;
+}
+
+
 
 /* Education Section */
 .education {
@@ -586,9 +651,9 @@ body {
     bottom: 0.5rem;
     width: 2px;
     background: linear-gradient(to bottom,
-        var(--border-color) 0%,
-        var(--text-light) 50%,
-        var(--border-color) 100%);
+            var(--border-color) 0%,
+            var(--text-light) 50%,
+            var(--border-color) 100%);
 }
 
 .education-item {
@@ -627,9 +692,12 @@ body {
 }
 
 @keyframes pulse {
-    0%, 100% {
+
+    0%,
+    100% {
         box-shadow: 0 0 0 0 var(--border-color);
     }
+
     50% {
         box-shadow: 0 0 0 6px var(--border-color);
     }
@@ -796,6 +864,102 @@ body {
 .delay-100 {
     animation-delay: 100ms;
     transition-delay: 100ms;
+}
+
+/* Figurine Styles */
+.figurine {
+    position: absolute;
+    z-index: 10;
+    pointer-events: none;
+    filter: drop-shadow(0 10px 15px rgba(0, 0, 0, 0.3));
+    transition: transform 0.3s ease;
+}
+
+/* Coding Figurine (Left, upper) */
+.figurine-coding {
+    width: 150px;
+    height: auto;
+    top: 15%;
+    left: 12%;
+    transform: rotate(-5deg);
+}
+
+/* Guitar Figurine (Right, upper) */
+.figurine-guitar {
+    width: 160px;
+    height: auto;
+    top: 10%;
+    right: 12%;
+    transform: rotate(8deg);
+}
+
+/* Piano Figurine (Left, lower) */
+.figurine-piano {
+    width: 170px;
+    height: auto;
+    bottom: 10%;
+    left: 14%;
+    transform: rotate(-3deg);
+}
+
+/* Gaming Figurine (Right, lower) */
+.figurine-gaming {
+    width: 150px;
+    height: auto;
+    bottom: 8%;
+    right: 13%;
+    transform: rotate(5deg);
+}
+
+/* Floating Animation */
+@keyframes float {
+    0% {
+        transform: translateY(0px) rotate(0deg);
+    }
+
+    50% {
+        transform: translateY(-8px) rotate(2deg);
+    }
+
+    100% {
+        transform: translateY(0px) rotate(0deg);
+    }
+}
+
+.float-animation {
+    animation: float 6s ease-in-out infinite;
+}
+
+.float-animation-delayed {
+    animation: float 6s ease-in-out infinite;
+    animation-delay: 3s;
+}
+
+/* Mobile Adjustments for Figurines */
+@media (max-width: 768px) {
+    .figurine {
+        width: 80px !important;
+    }
+
+    .figurine-coding {
+        top: 12%;
+        left: 5%;
+    }
+
+    .figurine-guitar {
+        top: 10%;
+        right: 5%;
+    }
+
+    .figurine-piano {
+        bottom: 5%;
+        left: 8%;
+    }
+
+    .figurine-gaming {
+        bottom: 4%;
+        right: 5%;
+    }
 }
 
 .delay-200 {
