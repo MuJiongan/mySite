@@ -1,0 +1,1387 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recipes — Jiongan Mu</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&family=EB+Garamond:wght@400;600&display=swap">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* ── Recipe page overrides ── */
+        .recipes-hero {
+            padding: 140px 0 5rem;
+            background-color: var(--bg-color);
+            transition: background-color 0.3s ease;
+        }
+
+        .recipes-hero .container {
+            max-width: 900px;
+        }
+
+        .recipes-hero .eyebrow {
+            font-family: var(--font-sans);
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 0.15em;
+            color: var(--accent);
+            margin-bottom: 0.5rem;
+            opacity: 0.9;
+        }
+
+        .recipes-hero h1 {
+            font-family: var(--font-serif);
+            font-size: clamp(2.5rem, 6vw, 4rem);
+            font-weight: 600;
+            color: var(--text-color);
+            line-height: 1.1;
+            letter-spacing: -0.02em;
+            margin-bottom: 1.25rem;
+        }
+
+        .recipes-hero p {
+            font-size: 1.1rem;
+            color: var(--text-light);
+            font-weight: 300;
+            max-width: 540px;
+        }
+
+        /* ── Filter bar ── */
+        .filter-bar {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            margin-top: 2rem;
+        }
+
+        .filter-btn {
+            background: none;
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            padding: 0.35rem 1rem;
+            min-height: 44px;
+            font-family: var(--font-sans);
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: var(--text-light);
+            cursor: pointer;
+            transition: background-color 0.25s var(--ease), color 0.25s var(--ease), border-color 0.25s var(--ease);
+        }
+
+        .filter-btn:hover {
+            color: var(--text-color);
+            border-color: var(--text-color);
+        }
+
+        .filter-btn:active {
+            opacity: 0.75;
+            transition-duration: 0.08s;
+        }
+
+        .filter-btn:focus-visible {
+            outline: 2px solid var(--accent);
+            outline-offset: 3px;
+        }
+
+        .filter-btn.active {
+            background-color: var(--text-color);
+            color: var(--bg-color);
+            border-color: var(--text-color);
+        }
+
+        /* ── Recipe grid ── */
+        .recipes-section {
+            padding: 1rem 0 8rem;
+            background-color: var(--bg-color);
+            transition: background-color 0.3s ease;
+        }
+
+        .recipes-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 1.75rem;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .recipe-card {
+            background-color: var(--hover-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 14px;
+            padding: 1.75rem;
+            cursor: pointer;
+            transition: transform 0.4s var(--ease), box-shadow 0.4s var(--ease), border-color 0.4s var(--ease);
+            box-shadow: 0 4px 10px var(--shadow-light);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .recipe-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 3px;
+            background: var(--accent);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.4s var(--ease);
+        }
+
+        .recipe-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .recipe-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 16px 40px var(--shadow-light);
+            border-color: var(--text-light);
+        }
+
+        .recipe-card:active {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px var(--shadow-light);
+            transition-duration: 0.1s;
+        }
+
+        .recipe-card:focus-visible {
+            outline: 2px solid var(--accent);
+            outline-offset: 3px;
+        }
+
+        .recipe-card.hidden {
+            display: none;
+        }
+
+        .recipe-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 0.6rem;
+            gap: 1rem;
+        }
+
+        .recipe-card h3 {
+            font-family: var(--font-serif);
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: var(--text-color);
+            line-height: 1.3;
+        }
+
+        .recipe-open-btn {
+            color: var(--text-light);
+            font-size: 0.9rem;
+            flex-shrink: 0;
+            padding: 0.4rem;
+            transition: color 0.3s ease, transform 0.3s var(--ease);
+        }
+
+        .recipe-card:hover .recipe-open-btn {
+            color: var(--accent);
+            transform: translateX(3px);
+        }
+
+        .recipe-desc {
+            color: var(--text-light);
+            font-size: 0.95rem;
+            line-height: 1.65;
+            margin-bottom: 1.25rem;
+        }
+
+        .recipe-meta {
+            display: flex;
+            gap: 1.25rem;
+            margin-bottom: 1.25rem;
+        }
+
+        .recipe-meta-item {
+            display: flex;
+            flex-direction: column;
+            gap: 0.1rem;
+        }
+
+        .recipe-meta-label {
+            font-size: 0.7rem;
+            font-weight: 600;
+            letter-spacing: 0.1em;
+            color: var(--accent);
+            text-transform: uppercase;
+        }
+
+        .recipe-meta-value {
+            font-size: 0.9rem;
+            color: var(--text-color);
+            font-weight: 500;
+        }
+
+        .recipe-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.4rem;
+        }
+
+        .recipe-tag {
+            background-color: var(--border-color);
+            color: var(--text-color);
+            padding: 0.2rem 0.65rem;
+            border-radius: 20px;
+            font-size: 0.78rem;
+            font-weight: 500;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        .recipe-card:hover .recipe-tag {
+            background-color: var(--accent-light);
+        }
+
+        /* ── Modal ── */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.55);
+            backdrop-filter: blur(6px);
+            z-index: 2000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1.5rem;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.35s var(--ease);
+        }
+
+        .modal-overlay.open {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .modal {
+            background: var(--bg-color);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            max-width: 740px;
+            width: 100%;
+            max-height: 88vh;
+            overflow-y: auto;
+            padding: 2.5rem;
+            padding-top: 4rem;
+            position: relative;
+            transform: translateY(40px) scale(0.97);
+            transition: transform 0.4s var(--ease);
+            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.25);
+            scrollbar-width: thin;
+            scrollbar-color: var(--border-color) transparent;
+        }
+
+        .modal-overlay.open .modal {
+            transform: translateY(0) scale(1);
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 1.1rem;
+            right: 1.1rem;
+            background: var(--hover-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 50%;
+            width: 44px;
+            height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            color: var(--text-light);
+            font-size: 1rem;
+            transition: background-color 0.2s var(--ease), color 0.2s var(--ease), transform 0.25s var(--ease);
+            z-index: 10;
+            flex-shrink: 0;
+        }
+
+        .modal-close:hover {
+            background-color: var(--text-color);
+            color: var(--bg-color);
+            transform: rotate(90deg);
+        }
+
+        .modal-close:focus-visible {
+            outline: 2px solid var(--accent);
+            outline-offset: 3px;
+        }
+
+        .modal-eyebrow {
+            font-family: var(--font-sans);
+            font-size: 0.72rem;
+            font-weight: 600;
+            letter-spacing: 0.12em;
+            color: var(--accent);
+            text-transform: uppercase;
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+
+        .modal h2 {
+            font-family: var(--font-serif);
+            font-size: 2.2rem;
+            font-weight: 600;
+            color: var(--text-color);
+            line-height: 1.2;
+            margin-bottom: 0.75rem;
+        }
+
+        .modal-subtitle {
+            font-size: 1rem;
+            color: var(--text-light);
+            font-weight: 300;
+            line-height: 1.65;
+            margin-bottom: 1.75rem;
+            font-style: italic;
+        }
+
+        .modal-timing {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 0;
+            background-color: var(--hover-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            overflow: hidden;
+            margin-bottom: 1.5rem;
+        }
+
+        .modal-timing-item {
+            padding: 1rem 1.25rem;
+            border-right: 1px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem;
+        }
+
+        .modal-timing-item:last-child {
+            border-right: none;
+        }
+
+        .modal-timing-label {
+            font-size: 0.68rem;
+            font-weight: 600;
+            letter-spacing: 0.12em;
+            color: var(--accent);
+            text-transform: uppercase;
+        }
+
+        .modal-timing-value {
+            font-size: 1rem;
+            color: var(--text-color);
+            font-weight: 500;
+        }
+
+        .modal-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.4rem;
+            margin-bottom: 2rem;
+        }
+
+        .modal-tag {
+            background-color: var(--accent);
+            color: #fff;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        /* Dark mode: accent (#D4924A) is too light for white text (2.5:1) — use dark text */
+        body[data-theme="dark"] .modal-tag {
+            color: #1a1a1a;
+        }
+
+        /* Dark mode: step-number circles have same contrast issue */
+        body[data-theme="dark"] .step-number {
+            color: #1a1a1a;
+        }
+
+        .modal-divider {
+            height: 1px;
+            background: var(--border-color);
+            margin: 2rem 0;
+        }
+
+        .modal-body {
+            display: grid;
+            grid-template-columns: 1fr 1.5fr;
+            gap: 2.5rem;
+        }
+
+        .modal-section-title {
+            font-family: var(--font-serif);
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--text-color);
+            margin-bottom: 1rem;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 0.5rem;
+        }
+
+        .ingredients-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .ingredients-list li {
+            font-size: 0.95rem;
+            color: var(--text-light);
+            line-height: 1.5;
+            padding: 0.35rem 0;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .ingredients-list li:last-child {
+            border-bottom: none;
+        }
+
+        .ingredient-amount {
+            color: var(--accent);
+            font-weight: 500;
+            white-space: nowrap;
+            flex-shrink: 0;
+        }
+
+        .steps-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .steps-list li {
+            display: flex;
+            gap: 1rem;
+            align-items: flex-start;
+        }
+
+        .step-number {
+            width: 26px;
+            height: 26px;
+            min-width: 26px;
+            background-color: var(--accent);
+            color: #fff;
+            border-radius: 50%;
+            font-size: 0.8rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: 0.1rem;
+        }
+
+        .step-text {
+            font-size: 0.95rem;
+            color: var(--text-light);
+            line-height: 1.65;
+        }
+
+        .modal-tip {
+            margin-top: 2rem;
+            background-color: var(--accent-light);
+            border-left: 3px solid var(--accent);
+            border-radius: 0 8px 8px 0;
+            padding: 1rem 1.25rem;
+        }
+
+        .modal-tip-label {
+            font-size: 0.72rem;
+            font-weight: 600;
+            letter-spacing: 0.12em;
+            color: var(--accent);
+            text-transform: uppercase;
+            margin-bottom: 0.4rem;
+            display: block;
+        }
+
+        .modal-tip p {
+            font-size: 0.9rem;
+            color: var(--text-light);
+            line-height: 1.65;
+        }
+
+        /* ── Screen-reader only ── */
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border: 0;
+        }
+
+        /* ── Back link ── */
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            color: var(--text-light);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            margin-bottom: 2rem;
+            transition: color 0.3s var(--ease), transform 0.2s var(--ease);
+        }
+
+        .back-link:hover {
+            color: var(--text-color);
+            transform: translateX(-3px);
+        }
+
+        /* ── Responsive ── */
+        @media (max-width: 768px) {
+            .modal-body {
+                grid-template-columns: 1fr;
+            }
+
+            .modal-timing {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .modal-timing-item:nth-child(2) {
+                border-right: none;
+            }
+
+            .modal-timing-item:nth-child(3) {
+                border-top: 1px solid var(--border-color);
+                border-right: 1px solid var(--border-color);
+            }
+
+            .modal-timing-item:last-child {
+                border-top: 1px solid var(--border-color);
+            }
+
+            .modal {
+                padding: 1.5rem;
+                padding-top: 3.75rem;
+            }
+
+            .modal h2 {
+                font-size: 1.7rem;
+            }
+
+            .recipes-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .recipes-hero {
+                padding-top: 110px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <a href="index.html">Jiongan Mu</a>
+            </div>
+            <button class="nav-toggle" id="mobile-menu" aria-label="Toggle navigation" aria-expanded="false" aria-controls="nav-menu">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </button>
+            <div class="nav-menu" id="nav-menu">
+                <div class="nav-item"><a href="index.html#about" class="nav-link">About</a></div>
+                <div class="nav-item"><a href="index.html#projects" class="nav-link">Projects</a></div>
+                <div class="nav-item"><a href="recipes.html" class="nav-link active">Recipes</a></div>
+            </div>
+            <div class="theme-switch-wrapper">
+                <div class="theme-switch">
+                    <input type="checkbox" id="theme-toggle" aria-label="Toggle dark mode" />
+                    <label for="theme-toggle" class="switch-label">
+                        <span class="sun-icon">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="12" cy="12" r="5" />
+                                <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" />
+                            </svg>
+                        </span>
+                        <span class="moon-icon">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+                            </svg>
+                        </span>
+                        <div class="switch-button"></div>
+                    </label>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main id="main-content">
+        <section class="recipes-hero">
+            <div class="container">
+                <a href="index.html" class="back-link"><i class="fas fa-arrow-left"></i> Back</a>
+                <p class="eyebrow">Kitchen</p>
+                <h1>My Recipes</h1>
+                <p>A personal collection of home-cooked favourites — Chinese classics and a few Western staples.</p>
+                <div class="filter-bar">
+                    <button class="filter-btn active" data-filter="all">All</button>
+                    <button class="filter-btn" data-filter="川菜">川菜</button>
+                    <button class="filter-btn" data-filter="湘菜">湘菜</button>
+                    <button class="filter-btn" data-filter="东北菜">东北菜</button>
+                    <button class="filter-btn" data-filter="下饭">下饭</button>
+                    <button class="filter-btn" data-filter="万能">万能</button>
+                    <button class="filter-btn" data-filter="quick">Quick (&lt;20 min)</button>
+                </div>
+            </div>
+        </section>
+
+        <section class="recipes-section">
+            <div class="container" style="max-width: 1100px;">
+                <div class="recipes-grid" id="recipes-grid">
+
+                    <!-- 1. 肉末茄子 -->
+                    <article class="recipe-card animate-on-scroll" tabindex="0" role="button" aria-label="肉末茄子 — 点击查看菜谱" data-tags="川菜,下饭" data-total="25" data-recipe="0" data-delay="0">
+                        <div class="recipe-card-header">
+                            <h3>肉末茄子</h3>
+                            <span class="recipe-open-btn"><i class="fas fa-arrow-right"></i></span>
+                        </div>
+                        <p class="recipe-desc">一道超级下饭的经典川菜家常菜，先蒸后炒，少油健康，茄子软嫩入味，肉末鲜香四溢。</p>
+                        <div class="recipe-meta">
+                            <div class="recipe-meta-item">
+                                <span class="recipe-meta-label">准备</span>
+                                <span class="recipe-meta-value">10 min</span>
+                            </div>
+                            <div class="recipe-meta-item">
+                                <span class="recipe-meta-label">烹饪</span>
+                                <span class="recipe-meta-value">15 min</span>
+                            </div>
+                            <div class="recipe-meta-item">
+                                <span class="recipe-meta-label">总计</span>
+                                <span class="recipe-meta-value">25 min</span>
+                            </div>
+                            <div class="recipe-meta-item">
+                                <span class="recipe-meta-label">份量</span>
+                                <span class="recipe-meta-value">2</span>
+                            </div>
+                        </div>
+                        <div class="recipe-tags">
+                            <span class="recipe-tag">川菜</span>
+                            <span class="recipe-tag">下饭菜</span>
+                            <span class="recipe-tag">家常菜</span>
+                            <span class="recipe-tag">少油健康</span>
+                        </div>
+                    </article>
+
+                    <!-- 2. 麻婆豆腐 -->
+                    <article class="recipe-card animate-on-scroll" tabindex="0" role="button" aria-label="麻婆豆腐 — 点击查看菜谱" data-tags="川菜,下饭" data-total="25" data-recipe="1" data-delay="75">
+                        <div class="recipe-card-header">
+                            <h3>麻婆豆腐</h3>
+                            <span class="recipe-open-btn"><i class="fas fa-arrow-right"></i></span>
+                        </div>
+                        <p class="recipe-desc">四川经典名菜，麻辣鲜香，嫩滑入味，一道让人欲罢不能的下饭神菜。</p>
+                        <div class="recipe-meta">
+                            <div class="recipe-meta-item">
+                                <span class="recipe-meta-label">准备</span>
+                                <span class="recipe-meta-value">10 min</span>
+                            </div>
+                            <div class="recipe-meta-item">
+                                <span class="recipe-meta-label">烹饪</span>
+                                <span class="recipe-meta-value">15 min</span>
+                            </div>
+                            <div class="recipe-meta-item">
+                                <span class="recipe-meta-label">总计</span>
+                                <span class="recipe-meta-value">25 min</span>
+                            </div>
+                            <div class="recipe-meta-item">
+                                <span class="recipe-meta-label">份量</span>
+                                <span class="recipe-meta-value">2</span>
+                            </div>
+                        </div>
+                        <div class="recipe-tags">
+                            <span class="recipe-tag">川菜</span>
+                            <span class="recipe-tag">麻辣</span>
+                            <span class="recipe-tag">家常菜</span>
+                            <span class="recipe-tag">下饭</span>
+                        </div>
+                    </article>
+
+                    <!-- 3. 辣椒炒肉 -->
+                    <article class="recipe-card animate-on-scroll" tabindex="0" role="button" aria-label="辣椒炒肉 — 点击查看菜谱" data-tags="湘菜,下饭" data-total="20" data-recipe="2" data-delay="150">
+                        <div class="recipe-card-header">
+                            <h3>辣椒炒肉</h3>
+                            <span class="recipe-open-btn"><i class="fas fa-arrow-right"></i></span>
+                        </div>
+                        <p class="recipe-desc">经典湘菜家常菜，香辣下饭，肉嫩椒鲜，锅气十足。</p>
+                        <div class="recipe-meta">
+                            <div class="recipe-meta-item">
+                                <span class="recipe-meta-label">准备</span>
+                                <span class="recipe-meta-value">10 min</span>
+                            </div>
+                            <div class="recipe-meta-item">
+                                <span class="recipe-meta-label">烹饪</span>
+                                <span class="recipe-meta-value">10 min</span>
+                            </div>
+                            <div class="recipe-meta-item">
+                                <span class="recipe-meta-label">总计</span>
+                                <span class="recipe-meta-value">20 min</span>
+                            </div>
+                            <div class="recipe-meta-item">
+                                <span class="recipe-meta-label">份量</span>
+                                <span class="recipe-meta-value">2</span>
+                            </div>
+                        </div>
+                        <div class="recipe-tags">
+                            <span class="recipe-tag">湘菜</span>
+                            <span class="recipe-tag">香辣</span>
+                            <span class="recipe-tag">家常菜</span>
+                            <span class="recipe-tag">下饭</span>
+                        </div>
+                    </article>
+
+                    <!-- 4. 东北土豆炖茄子 -->
+                    <article class="recipe-card animate-on-scroll" tabindex="0" role="button" aria-label="东北土豆炖茄子 — 点击查看菜谱" data-tags="东北菜,下饭" data-total="30" data-recipe="3" data-delay="225">
+                        <div class="recipe-card-header">
+                            <h3>东北土豆炖茄子</h3>
+                            <span class="recipe-open-btn"><i class="fas fa-arrow-right"></i></span>
+                        </div>
+                        <p class="recipe-desc">东北经典家常炖菜，土豆绵软、茄子入味、汤汁浓稠，拌饭一绝。俗话说：土豆炖茄子，撑死老爷子！</p>
+                        <div class="recipe-meta">
+                            <div class="recipe-meta-item">
+                                <span class="recipe-meta-label">准备</span>
+                                <span class="recipe-meta-value">10 min</span>
+                            </div>
+                            <div class="recipe-meta-item">
+                                <span class="recipe-meta-label">烹饪</span>
+                                <span class="recipe-meta-value">20 min</span>
+                            </div>
+                            <div class="recipe-meta-item">
+                                <span class="recipe-meta-label">总计</span>
+                                <span class="recipe-meta-value">30 min</span>
+                            </div>
+                            <div class="recipe-meta-item">
+                                <span class="recipe-meta-label">份量</span>
+                                <span class="recipe-meta-value">2</span>
+                            </div>
+                        </div>
+                        <div class="recipe-tags">
+                            <span class="recipe-tag">东北菜</span>
+                            <span class="recipe-tag">家常菜</span>
+                            <span class="recipe-tag">下饭菜</span>
+                        </div>
+                    </article>
+
+                    <!-- 5. 可乐鸡翅 -->
+                    <article class="recipe-card animate-on-scroll" tabindex="0" role="button" aria-label="可乐鸡翅 — 点击查看菜谱" data-tags="下饭,万能" data-total="45" data-recipe="4" data-delay="300">
+                        <div class="recipe-card-header">
+                            <h3>可乐鸡翅</h3>
+                            <span class="recipe-open-btn"><i class="fas fa-arrow-right"></i></span>
+                        </div>
+                        <p class="recipe-desc">经典家常菜，甜咸适口，色泽红亮，肉质嫩滑，大人小孩都爱吃。</p>
+                        <div class="recipe-meta">
+                            <div class="recipe-meta-item">
+                                <span class="recipe-meta-label">准备</span>
+                                <span class="recipe-meta-value">20 min</span>
+                            </div>
+                            <div class="recipe-meta-item">
+                                <span class="recipe-meta-label">烹饪</span>
+                                <span class="recipe-meta-value">25 min</span>
+                            </div>
+                            <div class="recipe-meta-item">
+                                <span class="recipe-meta-label">总计</span>
+                                <span class="recipe-meta-value">45 min</span>
+                            </div>
+                            <div class="recipe-meta-item">
+                                <span class="recipe-meta-label">份量</span>
+                                <span class="recipe-meta-value">2</span>
+                            </div>
+                        </div>
+                        <div class="recipe-tags">
+                            <span class="recipe-tag">家常菜</span>
+                            <span class="recipe-tag">甜咸</span>
+                            <span class="recipe-tag">简单快手</span>
+                        </div>
+                    </article>
+
+                    <!-- 6. Crispy Skin Salmon -->
+                    <article class="recipe-card animate-on-scroll" tabindex="0" role="button" aria-label="Crispy Skin Salmon — click to view recipe" data-tags="quick" data-total="13" data-recipe="5" data-delay="375">
+                        <div class="recipe-card-header">
+                            <h3>Crispy Skin Salmon</h3>
+                            <span class="recipe-open-btn"><i class="fas fa-arrow-right"></i></span>
+                        </div>
+                        <p class="recipe-desc">Restaurant-quality salmon with shatteringly crispy skin and a buttery, flaky interior — ready in under 15 minutes.</p>
+                        <div class="recipe-meta">
+                            <div class="recipe-meta-item">
+                                <span class="recipe-meta-label">Prep</span>
+                                <span class="recipe-meta-value">5 min</span>
+                            </div>
+                            <div class="recipe-meta-item">
+                                <span class="recipe-meta-label">Cook</span>
+                                <span class="recipe-meta-value">8 min</span>
+                            </div>
+                            <div class="recipe-meta-item">
+                                <span class="recipe-meta-label">Total</span>
+                                <span class="recipe-meta-value">13 min</span>
+                            </div>
+                            <div class="recipe-meta-item">
+                                <span class="recipe-meta-label">Serves</span>
+                                <span class="recipe-meta-value">2</span>
+                            </div>
+                        </div>
+                        <div class="recipe-tags">
+                            <span class="recipe-tag">Quick</span>
+                            <span class="recipe-tag">High-Protein</span>
+                            <span class="recipe-tag">Gluten-Free</span>
+                            <span class="recipe-tag">Weeknight</span>
+                        </div>
+                    </article>
+
+                    <!-- 7. 万能牛肉馅 -->
+                    <article class="recipe-card animate-on-scroll" tabindex="0" role="button" aria-label="万能牛肉馅 — 点击查看菜谱" data-tags="万能,quick" data-total="20" data-recipe="6" data-delay="450">
+                        <div class="recipe-card-header">
+                            <h3>万能牛肉馅</h3>
+                            <span class="recipe-open-btn"><i class="fas fa-arrow-right"></i></span>
+                        </div>
+                        <p class="recipe-desc">鲜嫩多汁、汤汁饱满的牛肉馅，适用于饺子、包子、馅饼等各种面食。</p>
+                        <div class="recipe-meta">
+                            <div class="recipe-meta-item">
+                                <span class="recipe-meta-label">准备</span>
+                                <span class="recipe-meta-value">15 min</span>
+                            </div>
+                            <div class="recipe-meta-item">
+                                <span class="recipe-meta-label">烹饪</span>
+                                <span class="recipe-meta-value">5 min</span>
+                            </div>
+                            <div class="recipe-meta-item">
+                                <span class="recipe-meta-label">总计</span>
+                                <span class="recipe-meta-value">20 min</span>
+                            </div>
+                            <div class="recipe-meta-item">
+                                <span class="recipe-meta-label">份量</span>
+                                <span class="recipe-meta-value">2</span>
+                            </div>
+                        </div>
+                        <div class="recipe-tags">
+                            <span class="recipe-tag">万能馅料</span>
+                            <span class="recipe-tag">饺子</span>
+                            <span class="recipe-tag">包子</span>
+                            <span class="recipe-tag">馅饼</span>
+                        </div>
+                    </article>
+
+                    <!-- 8. 万能油泼辣子拌酱 -->
+                    <article class="recipe-card animate-on-scroll" tabindex="0" role="button" aria-label="万能油泼辣子拌酱 — 点击查看菜谱" data-tags="万能,quick" data-total="15" data-recipe="7" data-delay="525">
+                        <div class="recipe-card-header">
+                            <h3>万能油泼辣子拌酱</h3>
+                            <span class="recipe-open-btn"><i class="fas fa-arrow-right"></i></span>
+                        </div>
+                        <p class="recipe-desc">一碗香气四溢的万能拌酱，泼油激香，拌面拌菜都绝了。</p>
+                        <div class="recipe-meta">
+                            <div class="recipe-meta-item">
+                                <span class="recipe-meta-label">准备</span>
+                                <span class="recipe-meta-value">10 min</span>
+                            </div>
+                            <div class="recipe-meta-item">
+                                <span class="recipe-meta-label">烹饪</span>
+                                <span class="recipe-meta-value">5 min</span>
+                            </div>
+                            <div class="recipe-meta-item">
+                                <span class="recipe-meta-label">总计</span>
+                                <span class="recipe-meta-value">15 min</span>
+                            </div>
+                            <div class="recipe-meta-item">
+                                <span class="recipe-meta-label">份量</span>
+                                <span class="recipe-meta-value">2</span>
+                            </div>
+                        </div>
+                        <div class="recipe-tags">
+                            <span class="recipe-tag">万能酱料</span>
+                            <span class="recipe-tag">拌面</span>
+                            <span class="recipe-tag">简单快手</span>
+                        </div>
+                    </article>
+
+                    <!-- 9. 青椒炒鸡蛋 -->
+                    <article class="recipe-card animate-on-scroll" tabindex="0" role="button" aria-label="青椒炒鸡蛋 — 点击查看菜谱" data-tags="家常菜,下饭,quick" data-total="10" data-recipe="8" data-delay="600">
+                        <div class="recipe-card-header">
+                            <h3>青椒炒鸡蛋</h3>
+                            <span class="recipe-open-btn"><i class="fas fa-arrow-right"></i></span>
+                        </div>
+                        <p class="recipe-desc">一道经典的中式家常菜，青椒的清香与鸡蛋的嫩滑完美结合，简单快手，非常下饭。</p>
+                        <div class="recipe-meta">
+                            <div class="recipe-meta-item">
+                                <span class="recipe-meta-label">准备</span>
+                                <span class="recipe-meta-value">5 min</span>
+                            </div>
+                            <div class="recipe-meta-item">
+                                <span class="recipe-meta-label">烹饪</span>
+                                <span class="recipe-meta-value">5 min</span>
+                            </div>
+                            <div class="recipe-meta-item">
+                                <span class="recipe-meta-label">总计</span>
+                                <span class="recipe-meta-value">10 min</span>
+                            </div>
+                            <div class="recipe-meta-item">
+                                <span class="recipe-meta-label">份量</span>
+                                <span class="recipe-meta-value">2</span>
+                            </div>
+                        </div>
+                        <div class="recipe-tags">
+                            <span class="recipe-tag">家常菜</span>
+                            <span class="recipe-tag">快手菜</span>
+                            <span class="recipe-tag">下饭菜</span>
+                        </div>
+                    </article>
+
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Screen-reader live region for filter status -->
+    <div class="sr-only" role="status" aria-live="polite" aria-atomic="true" id="filter-status"></div>
+
+    <!-- Modal -->
+    <div class="modal-overlay" id="modal-overlay" aria-hidden="true">
+        <div class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+            <button class="modal-close" id="modal-close" aria-label="Close recipe"><i class="fas fa-times"></i></button>
+            <div id="modal-content"></div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+    <script>
+        // ── Recipe data ──
+        const recipes = [
+            {
+                title: '肉末茄子',
+                subtitle: '一道超级下饭的经典川菜家常菜，先蒸后炒，少油健康，茄子软嫩入味，肉末鲜香四溢。',
+                cuisine: '川菜',
+                prep: '10分钟', cook: '15分钟', total: '25分钟', servings: '2',
+                tags: ['川菜', '下饭菜', '家常菜', '少油健康'],
+                ingredients: [
+                    ['1个', '茄子（中等大小），去皮切长条'],
+                    ['100克', '猪肉末'],
+                    ['2根', '小米辣（红绿各一），切小段'],
+                    ['3瓣', '蒜头，切碎'],
+                    ['2片', '姜，切末'],
+                    ['1根', '葱，切葱花'],
+                    ['1勺', '生抽'],
+                    ['半勺', '老抽'],
+                    ['半勺', '陈醋'],
+                    ['1勺', '白糖'],
+                    ['1勺', '淀粉'],
+                    ['适量', '盐'],
+                    ['小半碗', '清水（调酱汁用）'],
+                    ['少许', '食用油'],
+                ],
+                steps: [
+                    '茄子洗净去皮，切成粗细均匀的长条，泡在清水中防止氧化变黑。',
+                    '锅中烧开水，水开后将茄子隔水蒸5分钟，蒸好后倒掉多余水分备用。注意不要蒸过头，茄子稍软即可。',
+                    '调酱汁：碗中加入生抽1勺、老抽半勺、陈醋半勺、盐适量、白糖1勺、淀粉1勺、清水小半碗，搅拌均匀备用。',
+                    '锅内放少许食用油，小火放入姜末、蒜末、小米辣和葱白爆香，再加入肉末，保持小火翻炒至肉末变色散开。',
+                    '将蒸好的茄子放入锅中，与肉末一起翻炒均匀。',
+                    '倒入调好的酱汁，大火快速翻炒均匀，待酱汁收浓即可出锅，撒上葱花装盘。',
+                ],
+                tip: '先蒸后炒是这道菜的关键，蒸过的茄子不再大量吸油，更加健康。茄子切好后要尽快蒸或泡水，避免氧化发黑。炒肉末时保持小火，才能炒散不结团。',
+            },
+            {
+                title: '麻婆豆腐',
+                subtitle: '四川经典名菜，麻辣鲜香，嫩滑入味，一道让人欲罢不能的下饭神菜。',
+                cuisine: '川菜',
+                prep: '10分钟', cook: '15分钟', total: '25分钟', servings: '2',
+                tags: ['川菜', '麻辣', '家常菜', '下饭'],
+                ingredients: [
+                    ['1块 (200克)', '嫩豆腐，切2厘米方块'],
+                    ['50克', '牛肉末（或猪肉末）'],
+                    ['1大勺', '郫县红油豆瓣酱'],
+                    ['1小勺', '豆豉，切碎'],
+                    ['1大勺', '食用油'],
+                    ['2瓣', '大蒜，切末'],
+                    ['1小块', '生姜，切末'],
+                    ['2根', '小葱，切葱花'],
+                    ['2颗', '干辣椒，切段去籽'],
+                    ['1小勺', '花椒粒（或花椒粉）'],
+                    ['150毫升', '高汤或清水'],
+                    ['1小勺', '生抽'],
+                    ['1小勺', '料酒'],
+                    ['少许', '白糖'],
+                    ['适量', '水淀粉（淀粉兑水）'],
+                ],
+                steps: [
+                    '豆腐切成约2厘米的方块，放入加了少许盐的沸水中焯烫2分钟，捞出沥干备用。这一步可以去除豆腥味，同时让豆腐更嫩滑不易碎。',
+                    '牛肉末加入少许料酒拌匀，腌制5分钟备用。',
+                    '锅中倒入食用油，中火烧热，放入花椒粒小火炒出香味后捞出丢弃（如用花椒粉则最后撒入）。',
+                    '锅中放入牛肉末，大火翻炒至变色微焦，约2分钟，盛出备用。',
+                    '锅中留底油，转中小火，放入郫县豆瓣酱和豆豉，炒出红油和香味，约1分钟。再加入姜末、蒜末和干辣椒段翻炒均匀。',
+                    '倒入高汤，加入生抽和少许白糖调味，大火烧开后轻轻放入豆腐块，转中小火焖煮约5分钟，让豆腐充分入味。',
+                    '放回炒好的牛肉末，轻轻翻匀。淋入水淀粉勾芡，边倒边轻轻推动豆腐，使汤汁变得浓稠包裹住豆腐。',
+                    '出锅装盘，撒上花椒粉和葱花即可。趁热配白米饭享用。',
+                ],
+                tip: '素食版可用香菇碎代替肉末，用蔬菜高汤代替鸡汤。豆腐建议选用嫩豆腐或南豆腐，口感最佳。郫县豆瓣酱本身有咸味，无需额外加盐。',
+            },
+            {
+                title: '辣椒炒肉',
+                subtitle: '经典湘菜家常菜，香辣下饭，肉嫩椒鲜，锅气十足。',
+                cuisine: '湘菜',
+                prep: '10分钟', cook: '10分钟', total: '20分钟', servings: '2',
+                tags: ['湘菜', '香辣', '家常菜', '下饭'],
+                ingredients: [
+                    ['150克', '五花肉（肥瘦相间），切薄片'],
+                    ['200克', '螺丝椒或尖椒，斜切段'],
+                    ['4-5瓣', '大蒜，拍扁'],
+                    ['1小块', '生姜，切片'],
+                    ['1小勺', '豆豉'],
+                    ['1大勺', '生抽'],
+                    ['1小勺', '老抽'],
+                    ['适量', '盐'],
+                    ['少许', '白糖'],
+                    ['适量', '食用油'],
+                ],
+                steps: [
+                    '五花肉切成薄片，肥肉和瘦肉分开。瘦肉用少许生抽和老抽抓拌均匀，腌制5分钟。辣椒洗净去蒂，斜切成段。大蒜拍扁，生姜切片备用。',
+                    '锅烧热不放油，倒入辣椒段，中小火干煸至辣椒表皮起虎皮焦斑、变软出香，盛出备用。这一步是辣椒炒肉好吃的关键。',
+                    '锅中不放油，先下入肥肉片，小火慢煸至出油、边缘微焦金黄。这样用猪油炒菜更香。',
+                    '将腌好的瘦肉片倒入锅中，转大火快速翻炒至变色，约1分钟。',
+                    '把肉拨到一边，下入蒜瓣、姜片和豆豉，炒出香味。',
+                    '倒入之前煸好的辣椒，大火快速翻炒，加入适量盐和少许白糖调味，翻炒均匀即可出锅。',
+                ],
+                tip: '辣椒首选螺丝椒，皮薄辣度适中，炒出来最香。肉片要逆纹切薄，口感更嫩。全程大火快炒，保持锅气。',
+            },
+            {
+                title: '东北土豆炖茄子',
+                subtitle: '东北经典家常炖菜，土豆绵软、茄子入味、汤汁浓稠，拌饭一绝。俗话说：土豆炖茄子，撑死老爷子！',
+                cuisine: '东北菜',
+                prep: '10分钟', cook: '20分钟', total: '30分钟', servings: '2',
+                tags: ['东北菜', '家常菜', '下饭菜'],
+                ingredients: [
+                    ['1根', '紫皮长茄子，手掰成滚刀块'],
+                    ['1个(中等)', '黄心土豆，去皮切滚刀块'],
+                    ['1根', '青尖椒，切段（可选）'],
+                    ['3瓣', '大蒜，切末'],
+                    ['1段', '大葱，切葱花'],
+                    ['2片', '生姜'],
+                    ['1.5大勺', '东北大酱（或黄豆酱）'],
+                    ['1大勺', '生抽'],
+                    ['1/2小勺', '十三香'],
+                    ['适量', '食盐'],
+                    ['2大勺', '食用油'],
+                    ['约300毫升', '清水（刚没过食材）'],
+                ],
+                steps: [
+                    '茄子洗净用手掰成块（手掰比刀切口感更好，更容易入味），撒一小勺盐拌匀腌制5-10分钟，杀出水分，炒时更省油。土豆去皮切滚刀块，大小与茄子相近。',
+                    '锅中倒入食用油，中火烧热。先倒入土豆块翻炒2-3分钟，炒至表面微微变透明发软。',
+                    '将腌好的茄子挤掉多余水分，倒入锅中与土豆一起翻炒，炒至茄子变软变色，约3分钟。',
+                    '加入东北大酱翻炒均匀，让酱香裹满食材。再加入生抽、十三香调味翻炒片刻。',
+                    '倒入清水，水量刚没过食材即可。大火烧开后转中小火，盖锅盖炖煮约10分钟，至土豆绵软、茄子软烂。',
+                    '开盖大火收汁，用锅铲将部分土豆和茄子铲碎（不用全碎，半碎半块口感最佳），让淀粉融入汤汁使其浓稠。',
+                    '汤汁收至浓稠时关火，撒上蒜末和葱花拌匀，即可出锅装盘。',
+                ],
+                tip: '茄子一定选紫色茄子把的，口感更好。大酱是灵魂调料，不可省略。喜欢吃辣可加青尖椒段一起炖，尖椒能调和茄子土豆的味道，使汤汁更鲜美。多留些汤汁拌米饭，极其下饭。',
+            },
+            {
+                title: '可乐鸡翅',
+                subtitle: '经典家常菜，甜咸适口，色泽红亮，肉质嫩滑，大人小孩都爱吃。',
+                cuisine: '家常菜',
+                prep: '20分钟', cook: '25分钟', total: '45分钟', servings: '2',
+                tags: ['家常菜', '甜咸', '简单快手'],
+                ingredients: [
+                    ['6个', '鸡中翅'],
+                    ['200毫升', '可口可乐'],
+                    ['1大勺', '生抽'],
+                    ['1小勺', '老抽（上色用）'],
+                    ['1大勺', '料酒'],
+                    ['3片', '生姜'],
+                    ['1段', '葱（切段）'],
+                    ['1个', '八角'],
+                    ['少许', '食用油'],
+                    ['适量', '盐（根据口味调整）'],
+                ],
+                steps: [
+                    '鸡翅洗净，在背面划两刀方便入味。放入碗中加姜片、料酒腌制15分钟。',
+                    '锅中加冷水和葱姜片，放入鸡翅，大火煮开后撇去浮沫，焯水约2分钟，捞出用温水冲洗干净，沥干备用。',
+                    '锅中倒入少许油，中火烧热后放入鸡翅，煎至两面金黄，约每面2分钟。',
+                    '放入八角和姜丝，翻炒出香味，倒入可乐和生抽、老抽，可乐基本没过鸡翅即可。',
+                    '大火煮开后转小火，盖上锅盖炖煮约15分钟，中途翻面一次使鸡翅均匀上色。',
+                    '开盖转大火收汁，不断翻动鸡翅防止粘锅，直至汤汁浓稠裹满鸡翅即可出锅。',
+                ],
+                tip: '喜欢甜口用可口可乐，偏淡甜用百事可乐。收汁时要看着锅，汤汁浓稠后很容易糊底。也可挤几滴柠檬汁中和甜味，口感更清爽。',
+            },
+            {
+                title: 'Crispy Skin Pan-Seared Salmon',
+                subtitle: 'Restaurant-quality salmon with shatteringly crispy skin and a buttery, flaky interior — ready in under 15 minutes.',
+                cuisine: 'Western',
+                prep: '5 min', cook: '8 min', total: '13 min', servings: '2',
+                tags: ['Quick', 'High-Protein', 'Gluten-Free', 'Weeknight'],
+                ingredients: [
+                    ['2 (6 oz each)', 'skin-on salmon fillets, pin-boned'],
+                    ['1 tbsp', 'avocado or vegetable oil'],
+                    ['1 tsp', 'kosher salt'],
+                    ['1/2 tsp', 'freshly ground black pepper'],
+                    ['2 tbsp', 'unsalted butter'],
+                    ['2 cloves', 'garlic, smashed'],
+                    ['3 sprigs', 'fresh thyme'],
+                    ['2 wedges', 'lemon, for serving'],
+                ],
+                steps: [
+                    'Pat the salmon fillets very dry on all sides with paper towels — this is the single most important step for crispy skin. Season both sides generously with kosher salt and black pepper.',
+                    'Let the seasoned fillets rest uncovered on a plate for 10 minutes to bring them closer to room temperature and further dry the skin.',
+                    'Heat the oil in a stainless steel or cast iron skillet over medium-high heat until it shimmers. Do not use nonstick — you need direct heat contact for truly crispy skin.',
+                    'Place salmon skin-side down in the hot pan. Immediately press each fillet gently with a spatula for about 10 seconds to prevent the skin from curling. Reduce heat to medium.',
+                    'Cook without moving for 4 to 5 minutes until the skin is deep golden and releases easily from the pan. You should see the flesh lighten in color about three-quarters of the way up.',
+                    'Flip the fillets. Add the butter, garlic, and thyme to the pan. Tilt the pan and baste the salmon with the foaming brown butter for 1 to 2 minutes until just cooked through (slightly translucent in the very center for medium doneness, about 125°F / 52°C).',
+                    'Transfer to plates skin-side up so the crispy skin stays intact. Spoon the browned garlic-thyme butter over the top and serve immediately with lemon wedges.',
+                ],
+                tip: 'The key to crispy skin is removing moisture — pat aggressively dry and don\'t skip the resting step. Serve skin-side up so it stays crispy. A fish spatula makes flipping much easier. Target an internal temperature of 125°F (52°C) for medium, or 130°F (54°C) for medium-well.',
+            },
+            {
+                title: '万能牛肉馅',
+                subtitle: '鲜嫩多汁、汤汁饱满的牛肉馅，适用于饺子、包子、馅饼等各种面食。掌握打水、调味、搅拌三大要点，轻松做出鲜香不柴的完美牛肉馅。',
+                cuisine: '万能馅料',
+                prep: '15分钟', cook: '5分钟', total: '20分钟', servings: '2',
+                tags: ['万能馅料', '饺子', '包子', '馅饼'],
+                ingredients: [
+                    ['250克', '牛肉（肥瘦相间），剁成馅'],
+                    ['半个', '洋葱，切碎末'],
+                    ['1个', '鸡蛋'],
+                    ['2片', '姜，切极细末'],
+                    ['3大勺', '花椒水（花椒煮3分钟泡半小时）'],
+                    ['1小勺', '生抽'],
+                    ['半小勺', '老抽'],
+                    ['1大勺', '花椒油'],
+                    ['适量', '盐'],
+                    ['适量', '黑胡椒粉'],
+                ],
+                steps: [
+                    '牛肉馅中打入鸡蛋，沿同一方向搅拌均匀。鸡蛋能让肉馅更加嫩滑。',
+                    '花椒水分2-3次加入肉馅中，每次都沿同一方向用力搅打至完全吸收。花椒水能去腥提鲜，使馅料汤汁饱满。',
+                    '加入盐，继续同方向搅拌上劲，锁住肉馅和汤汁的鲜味。再加入生抽和老抽，搅拌均匀，提鲜上色。',
+                    '加入洋葱碎和姜末，撒入黑胡椒粉，搅拌均匀。洋葱与牛肉是绝配，姜末要足够细碎以去腥提鲜。',
+                    '花椒油加热后趁热浇在洋葱上，激发出香味，然后同方向搅拌均匀。成品应呈现油润粘稠状态。',
+                    '馅料拌好后放冰箱冷藏30分钟再使用，口感更佳。可用于包饺子、蒸包子或煎馅饼。',
+                ],
+                tip: '关键要点：1）始终沿同一方向搅拌，使肉馅上劲有嚼头；2）花椒水分次加入，不要一次倒入；3）洋葱是牛肉馅的灵魂搭档，切勿省略。',
+            },
+            {
+                title: '万能油泼辣子拌酱',
+                subtitle: '一碗香气四溢的万能拌酱，泼油激香，拌面拌菜都绝了。',
+                cuisine: '万能酱料',
+                prep: '10分钟', cook: '5分钟', total: '15分钟', servings: '2',
+                tags: ['万能酱料', '拌面', '简单快手'],
+                ingredients: [
+                    ['3瓣', '蒜，切末'],
+                    ['2根', '小葱，切葱花'],
+                    ['1小勺', '白芝麻'],
+                    ['1小勺', '孜然粉'],
+                    ['2大勺', '辣椒面'],
+                    ['适量', '热油（烧至冒烟）'],
+                    ['适量', '盐'],
+                    ['2大勺', '生抽'],
+                    ['1大勺', '香醋'],
+                    ['1小勺', '蚝油'],
+                    ['3大勺', '雪碧'],
+                    ['1大勺', '芝麻酱（提前用温水泄开）'],
+                ],
+                steps: [
+                    '碗中放入蒜末、葱花、白芝麻、孜然粉和辣椒面，混合均匀。',
+                    '锅中烧油至冒烟（约七八成热），将热油浇在碗中的调料上，激发出香味，搅拌均匀。',
+                    '依次加入盐、生抽、香醋和蚝油，搅拌混合。',
+                    '倒入雪碧，搅拌均匀（雪碧可以增加回甜和气泡口感）。',
+                    '最后加入提前用温水泄开的芝麻酱，充分搅拌至酱汁顺滑均匀即可。',
+                ],
+                tip: '芝麻酱提前用少量温水搅开至流动状态，避免结块。此酱可拌面、拌凉菜、蘸饺子，用途广泛。辣椒面和雪碧的量可根据个人口味调整。',
+            },
+            {
+                title: '青椒炒鸡蛋',
+                subtitle: '一道经典的中式家常菜，青椒的清香与鸡蛋的嫩滑完美结合，简单快手，非常下饭。',
+                cuisine: '家常菜',
+                prep: '5分钟', cook: '5分钟', total: '10分钟', servings: '2',
+                tags: ['家常菜', '快手菜', '下饭菜'],
+                ingredients: [
+                    ['3个', '鸡蛋'],
+                    ['2个', '青椒，去籽切丝或切块'],
+                    ['2瓣', '蒜，切末'],
+                    ['1段', '葱白，切碎'],
+                    ['适量', '食用油'],
+                    ['适量', '盐'],
+                    ['1小勺', '生抽'],
+                    ['少许', '料酒'],
+                ],
+                steps: [
+                    '青椒洗净去籽，切成细丝或小块备用。蒜切末，葱白切碎。',
+                    '鸡蛋打入碗中，加少许盐和料酒，用筷子充分搅打均匀。',
+                    '锅中倒入适量油，大火烧热，倒入蛋液，用筷子快速搅散，蛋液刚凝固即盛出备用，不要炒太老。',
+                    '锅中留少许底油，放入蒜末和葱白爆香，随后倒入青椒丝，大火快速翻炒至青椒变色微软。',
+                    '将炒好的鸡蛋倒回锅中，加入生抽，翻炒均匀即可出锅。',
+                ],
+                tip: '炒鸡蛋时油要多一些且油温要高，鸡蛋才会蓬松鲜嫩。青椒不宜炒太久，保持脆嫩口感最佳。喜辣可加少许干辣椒段一起爆香。',
+            },
+        ];
+
+        // ── Build modal content ──
+        function buildModal(r) {
+            return `
+                <span class="modal-eyebrow">${r.cuisine}</span>
+                <h2 id="modal-title">${r.title}</h2>
+                <p class="modal-subtitle">${r.subtitle}</p>
+                <div class="modal-timing">
+                    <div class="modal-timing-item">
+                        <span class="modal-timing-label">准备 / Prep</span>
+                        <span class="modal-timing-value">${r.prep}</span>
+                    </div>
+                    <div class="modal-timing-item">
+                        <span class="modal-timing-label">烹饪 / Cook</span>
+                        <span class="modal-timing-value">${r.cook}</span>
+                    </div>
+                    <div class="modal-timing-item">
+                        <span class="modal-timing-label">总计 / Total</span>
+                        <span class="modal-timing-value">${r.total}</span>
+                    </div>
+                    <div class="modal-timing-item">
+                        <span class="modal-timing-label">份量 / Serves</span>
+                        <span class="modal-timing-value">${r.servings}</span>
+                    </div>
+                </div>
+                <div class="modal-tags">
+                    ${r.tags.map(t => `<span class="modal-tag">${t}</span>`).join('')}
+                </div>
+                <div class="modal-body">
+                    <div class="modal-ingredients">
+                        <h3 class="modal-section-title">食材 / Ingredients</h3>
+                        <ul class="ingredients-list">
+                            ${r.ingredients.map(([amt, name]) => `
+                                <li>
+                                    <span class="ingredient-amount">${amt}</span>
+                                    <span>${name}</span>
+                                </li>
+                            `).join('')}
+                        </ul>
+                    </div>
+                    <div class="modal-steps">
+                        <h3 class="modal-section-title">做法 / Instructions</h3>
+                        <ol class="steps-list">
+                            ${r.steps.map((s, i) => `
+                                <li>
+                                    <span class="step-number">${i + 1}</span>
+                                    <span class="step-text">${s}</span>
+                                </li>
+                            `).join('')}
+                        </ol>
+                        <div class="modal-tip">
+                            <span class="modal-tip-label">小贴士 / Tip</span>
+                            <p>${r.tip}</p>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // ── Modal open/close ──
+        const overlay = document.getElementById('modal-overlay');
+        const modalEl = document.getElementById('modal');
+        const modalContent = document.getElementById('modal-content');
+        const closeBtn = document.getElementById('modal-close');
+        const mainEl = document.getElementById('main-content');
+        let lastFocusedCard = null;
+
+        function getFocusable() {
+            return Array.from(modalEl.querySelectorAll(
+                'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+            )).filter(el => !el.disabled);
+        }
+
+        function openModal(idx, triggerEl) {
+            lastFocusedCard = triggerEl || null;
+            modalContent.innerHTML = buildModal(recipes[idx]);
+            overlay.classList.add('open');
+            overlay.removeAttribute('aria-hidden');
+            document.body.style.overflow = 'hidden';
+            modalEl.scrollTop = 0;
+            if (mainEl) mainEl.inert = true;
+            // Focus the close button after transition starts
+            requestAnimationFrame(() => closeBtn.focus());
+        }
+
+        function closeModal() {
+            overlay.classList.remove('open');
+            overlay.setAttribute('aria-hidden', 'true');
+            document.body.style.overflow = '';
+            if (mainEl) mainEl.inert = false;
+            if (lastFocusedCard) lastFocusedCard.focus();
+        }
+
+        // Focus trap inside modal
+        modalEl.addEventListener('keydown', e => {
+            if (e.key !== 'Tab') return;
+            const focusable = getFocusable();
+            if (focusable.length === 0) return;
+            const first = focusable[0];
+            const last = focusable[focusable.length - 1];
+            if (e.shiftKey) {
+                if (document.activeElement === first) { e.preventDefault(); last.focus(); }
+            } else {
+                if (document.activeElement === last) { e.preventDefault(); first.focus(); }
+            }
+        });
+
+        document.querySelectorAll('.recipe-card').forEach(card => {
+            card.addEventListener('click', () => openModal(+card.dataset.recipe, card));
+            card.addEventListener('keydown', e => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    openModal(+card.dataset.recipe, card);
+                }
+            });
+        });
+
+        closeBtn.addEventListener('click', closeModal);
+
+        overlay.addEventListener('click', e => {
+            if (e.target === overlay) closeModal();
+        });
+
+        document.addEventListener('keydown', e => {
+            if (e.key === 'Escape' && overlay.classList.contains('open')) closeModal();
+        });
+
+        // ── Filter ──
+        const filterStatus = document.getElementById('filter-status');
+
+        document.querySelectorAll('.filter-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+
+                const filter = btn.dataset.filter;
+                let visible = 0;
+                document.querySelectorAll('.recipe-card').forEach(card => {
+                    let show;
+                    if (filter === 'all') {
+                        show = true;
+                    } else if (filter === 'quick') {
+                        show = +card.dataset.total <= 20;
+                    } else {
+                        show = card.dataset.tags.split(',').includes(filter);
+                    }
+                    card.classList.toggle('hidden', !show);
+                    if (show) visible++;
+                });
+
+                // Announce result to screen readers
+                if (filterStatus) {
+                    filterStatus.textContent = `Showing ${visible} recipe${visible !== 1 ? 's' : ''}`;
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>
