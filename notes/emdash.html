@@ -7,7 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,300;1,9..144,400;1,9..144,500&family=JetBrains+Mono:wght@300;400;500&display=swap">
-<link rel="stylesheet" href="../site.css?v=14">
+<link rel="stylesheet" href="../site.css?v=16">
 <style>
   /* =========================================================
      POST PAGE — medium note, narrow column, sticky ToC left
@@ -387,7 +387,7 @@
         Why I use <em>Emdash</em>.
       </h1>
       <p class="post-dek">
-        On running multiple coding agents in parallel without losing your mind in terminal tabs &mdash; and why organization, not capability, is the feature that matters.
+        On running multiple coding agents in parallel without losing your mind in terminal tabs, and why organization, not capability, is the feature that matters.
       </p>
       <div class="post-meta">
         <span><strong>3 min</strong> read</span>
@@ -401,7 +401,7 @@
     <div class="prose">
 
       <p id="context">
-        Quick context before I get into it: <a href="https://www.emdash.sh/" target="_blank" rel="noopener">Emdash</a> is an open-source desktop app for running multiple coding agents in parallel, each in its own Git worktree. It&rsquo;s built by Arne and Raban at <a href="https://github.com/generalaction/emdash" target="_blank" rel="noopener">generalaction</a> (YC&nbsp;W26), it&rsquo;s provider-agnostic &mdash; works with Claude Code, Codex, Gemini, Droid, and ~20 others &mdash; and it&rsquo;s local-first, meaning app state lives in a SQLite file on your machine rather than on someone&rsquo;s server. You can <code>brew install --cask emdash</code> or grab it from <a href="https://github.com/generalaction/emdash/releases" target="_blank" rel="noopener">GitHub releases</a>.
+        Quick context before I get into it: <a href="https://www.emdash.sh/" target="_blank" rel="noopener">Emdash</a> is an open-source desktop app for running multiple coding agents in parallel, each in its own Git worktree. It&rsquo;s built by Arne and Raban at <a href="https://github.com/generalaction/emdash" target="_blank" rel="noopener">generalaction</a> (YC&nbsp;W26), it&rsquo;s provider-agnostic (works with Claude Code, Codex, Gemini, Droid, and ~20 others) and it&rsquo;s local-first, meaning app state lives in a SQLite file on your machine rather than on someone&rsquo;s server. You can <code>brew install --cask emdash</code> or grab it from <a href="https://github.com/generalaction/emdash/releases" target="_blank" rel="noopener">GitHub releases</a>.
       </p>
 
       <p>Okay, onto why I actually use it.</p>
@@ -414,15 +414,15 @@
 
       <p>That sounds boring, but hear me out. Before Emdash, running coding agents meant a forest of terminal tabs. One for the agent working on the bug fix. Another for the one refactoring the API. A third for &ldquo;wait, what was this one doing again?&rdquo; I&rsquo;d lose track of which tab belonged to which task within about twenty minutes.</p>
 
-      <p>Emdash gives every task its own Git worktree and wraps the whole thing in a UI you can actually navigate. Switching between tasks is seamless &mdash; you click, you&rsquo;re there, the state is preserved, the diffs are waiting for you. It&rsquo;s the same repo, multiple workstreams, no collisions. That alone is worth it to me. Way better than juggling terminal tabs.</p>
+      <p>Emdash gives every task its own Git worktree and wraps the whole thing in a UI you can actually navigate. Switching between tasks is seamless: you click, you&rsquo;re there, the state is preserved, the diffs are waiting for you. It&rsquo;s the same repo, multiple workstreams, no collisions. That alone is worth it to me. Way better than juggling terminal tabs.</p>
 
       <p>You can also spawn multiple agents inside a single worktree, each working on a different piece of the same feature. That&rsquo;s been useful when a feature has clearly separable parts and I want them moving in parallel without fragmenting into separate branches.</p>
 
       <h2 id="missing" data-n="01">What it <em>doesn&rsquo;t</em> do (yet)</h2>
 
-      <p>No split screen. You only see one agent at a time. If you want to watch two of them work simultaneously, you can&rsquo;t &mdash; you pick one, the others run in the background.</p>
+      <p>No split screen. You only see one agent at a time. If you want to watch two of them work simultaneously, you can&rsquo;t; you pick one, the others run in the background.</p>
 
-      <p>Honestly, this bothered me less than I expected. Emdash fires off a notification and a sound when an agent finishes, with the agent&rsquo;s name. So I queue up work, go do something else &mdash; read, answer email, work on something in a different worktree &mdash; and the sound pulls me back when there&rsquo;s a diff to review. It turns out I don&rsquo;t actually need to <em>watch</em> agents work. I need to know when they&rsquo;re done.</p>
+      <p>Honestly, this bothered me less than I expected. Emdash fires off a notification and a sound when an agent finishes, with the agent&rsquo;s name. So I queue up work, go do something else (read, answer email, work on something in a different worktree) and the sound pulls me back when there&rsquo;s a diff to review. It turns out I don&rsquo;t actually need to <em>watch</em> agents work. I need to know when they&rsquo;re done.</p>
 
       <p class="pull">
         That&rsquo;s the loop: kick off tasks, go do other things, hear a chime, review a diff, move&nbsp;on.
@@ -430,9 +430,9 @@
 
       <h2 id="takeaway" data-n="02">The <em>actual</em> takeaway</h2>
 
-      <p>Emdash didn&rsquo;t make agents smarter. It made running them sane. The organization is the product &mdash; worktrees per task, clean switching, notifications that let you step away. For something that&rsquo;s still early and missing obvious features like split screen, it&rsquo;s already the tool I reach for.</p>
+      <p>Emdash didn&rsquo;t make agents smarter. It made running them sane. The organization is the product: worktrees per task, clean switching, notifications that let you step away. For something that&rsquo;s still early and missing obvious features like split screen, it&rsquo;s already the tool I reach for.</p>
 
-      <p>The fact that it&rsquo;s open source is a nice bonus. If split screen matters enough to someone, they can go build it &mdash; the repo is right <a href="https://github.com/generalaction/emdash" target="_blank" rel="noopener">there</a>, contributions welcome.</p>
+      <p>The fact that it&rsquo;s open source is a nice bonus. If split screen matters enough to someone, they can go build it; the repo is right <a href="https://github.com/generalaction/emdash" target="_blank" rel="noopener">there</a>, contributions welcome.</p>
 
       <p>If you&rsquo;ve been running agents in terminal tabs and losing your mind, try it: <a href="https://www.emdash.sh/" target="_blank" rel="noopener">emdash.sh</a>.</p>
 
