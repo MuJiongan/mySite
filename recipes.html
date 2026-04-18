@@ -1,1722 +1,1253 @@
 <!DOCTYPE html>
-<html lang="zh">
-
+<html lang="en" data-lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Recipes — Jiongan Mu</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&family=EB+Garamond:wght@400;600&display=swap">
-    <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        /* ── Recipe page overrides ── */
-        .recipes-hero {
-            padding: 140px 0 5rem;
-            background-color: var(--bg-color);
-            transition: background-color 0.3s ease;
-        }
-
-        .recipes-hero .container {
-            max-width: 900px;
-        }
-
-        .recipes-hero .eyebrow {
-            font-family: var(--font-sans);
-            font-size: 0.75rem;
-            font-weight: 600;
-            letter-spacing: 0.15em;
-            color: var(--accent);
-            margin-bottom: 0.5rem;
-            opacity: 0.9;
-        }
-
-        .recipes-hero h1 {
-            font-family: var(--font-serif);
-            font-size: clamp(2.5rem, 6vw, 4rem);
-            font-weight: 600;
-            color: var(--text-color);
-            line-height: 1.1;
-            letter-spacing: -0.02em;
-            margin-bottom: 1.25rem;
-        }
-
-        .recipes-hero p {
-            font-size: 1.1rem;
-            color: var(--text-light);
-            font-weight: 300;
-            max-width: 540px;
-        }
-
-        /* ── Filter bar ── */
-        .filter-bar {
-            display: flex;
-            gap: 0.5rem;
-            flex-wrap: wrap;
-            margin-top: 2rem;
-        }
-
-        .filter-btn {
-            background: none;
-            border: 1px solid var(--border-color);
-            border-radius: 20px;
-            padding: 0.35rem 1rem;
-            min-height: 44px;
-            font-family: var(--font-sans);
-            font-size: 0.85rem;
-            font-weight: 500;
-            color: var(--text-light);
-            cursor: pointer;
-            transition: background-color 0.25s var(--ease), color 0.25s var(--ease), border-color 0.25s var(--ease);
-        }
-
-        .filter-btn:hover {
-            color: var(--text-color);
-            border-color: var(--text-color);
-        }
-
-        .filter-btn:active {
-            opacity: 0.75;
-            transition-duration: 0.08s;
-        }
-
-        .filter-btn:focus-visible {
-            outline: 2px solid var(--accent);
-            outline-offset: 3px;
-        }
-
-        .filter-btn.active {
-            background-color: var(--text-color);
-            color: var(--bg-color);
-            border-color: var(--text-color);
-        }
-
-        /* ── Recipe grid ── */
-        .recipes-section {
-            padding: 1rem 0 8rem;
-            background-color: var(--bg-color);
-            transition: background-color 0.3s ease;
-        }
-
-        .recipes-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-            gap: 1.75rem;
-            max-width: 1100px;
-            margin: 0 auto;
-        }
-
-        .recipe-card {
-            background-color: var(--hover-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 14px;
-            padding: 1.75rem;
-            cursor: pointer;
-            transition: transform 0.4s var(--ease), box-shadow 0.4s var(--ease), border-color 0.4s var(--ease);
-            box-shadow: 0 4px 10px var(--shadow-light);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .recipe-card::before {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; right: 0;
-            height: 3px;
-            background: var(--accent);
-            transform: scaleX(0);
-            transform-origin: left;
-            transition: transform 0.4s var(--ease);
-        }
-
-        .recipe-card:hover::before {
-            transform: scaleX(1);
-        }
-
-        .recipe-card:hover {
-            transform: translateY(-6px);
-            box-shadow: 0 16px 40px var(--shadow-light);
-            border-color: var(--text-light);
-        }
-
-        .recipe-card:active {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 16px var(--shadow-light);
-            transition-duration: 0.1s;
-        }
-
-        .recipe-card:focus-visible {
-            outline: 2px solid var(--accent);
-            outline-offset: 3px;
-        }
-
-        .recipe-card.hidden {
-            display: none;
-        }
-
-        .recipe-card-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            margin-bottom: 0.6rem;
-            gap: 1rem;
-        }
-
-        .recipe-card h3 {
-            font-family: var(--font-serif);
-            font-size: 1.4rem;
-            font-weight: 600;
-            color: var(--text-color);
-            line-height: 1.3;
-        }
-
-        .recipe-open-btn {
-            color: var(--text-light);
-            font-size: 0.9rem;
-            flex-shrink: 0;
-            padding: 0.4rem;
-            transition: color 0.3s ease, transform 0.3s var(--ease);
-        }
-
-        .recipe-card:hover .recipe-open-btn {
-            color: var(--accent);
-            transform: translateX(3px);
-        }
-
-        .recipe-desc {
-            color: var(--text-light);
-            font-size: 0.95rem;
-            line-height: 1.65;
-            margin-bottom: 1.25rem;
-        }
-
-        .recipe-meta {
-            display: flex;
-            gap: 1.25rem;
-            margin-bottom: 1.25rem;
-        }
-
-        .recipe-meta-item {
-            display: flex;
-            flex-direction: column;
-            gap: 0.1rem;
-        }
-
-        .recipe-meta-label {
-            font-size: 0.7rem;
-            font-weight: 600;
-            letter-spacing: 0.1em;
-            color: var(--accent);
-            text-transform: uppercase;
-        }
-
-        .recipe-meta-value {
-            font-size: 0.9rem;
-            color: var(--text-color);
-            font-weight: 500;
-        }
-
-        .recipe-tags {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.4rem;
-        }
-
-        .recipe-tag {
-            background-color: var(--border-color);
-            color: var(--text-color);
-            padding: 0.2rem 0.65rem;
-            border-radius: 20px;
-            font-size: 0.78rem;
-            font-weight: 500;
-            transition: background-color 0.3s ease, color 0.3s ease;
-        }
-
-        .recipe-card:hover .recipe-tag {
-            background-color: var(--accent-light);
-        }
-
-        /* ── Modal ── */
-        .modal-overlay {
-            position: fixed;
-            inset: 0;
-            background: rgba(0, 0, 0, 0.55);
-            backdrop-filter: blur(6px);
-            z-index: 2000;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 1.5rem;
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.35s var(--ease);
-        }
-
-        .modal-overlay.open {
-            opacity: 1;
-            pointer-events: auto;
-        }
-
-        .modal {
-            background: var(--bg-color);
-            border: 1px solid var(--border-color);
-            border-radius: 20px;
-            max-width: 740px;
-            width: 100%;
-            max-height: 88vh;
-            overflow-y: auto;
-            padding: 2.5rem;
-            padding-top: 4rem;
-            position: relative;
-            transform: translateY(40px) scale(0.97);
-            transition: transform 0.4s var(--ease);
-            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.25);
-            scrollbar-width: thin;
-            scrollbar-color: var(--border-color) transparent;
-        }
-
-        .modal-overlay.open .modal {
-            transform: translateY(0) scale(1);
-        }
-
-        .modal-close {
-            position: absolute;
-            top: 1.1rem;
-            right: 1.1rem;
-            background: var(--hover-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 50%;
-            width: 44px;
-            height: 44px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            color: var(--text-light);
-            font-size: 1rem;
-            transition: background-color 0.2s var(--ease), color 0.2s var(--ease), transform 0.25s var(--ease);
-            z-index: 10;
-            flex-shrink: 0;
-        }
-
-        .modal-close:hover {
-            background-color: var(--text-color);
-            color: var(--bg-color);
-            transform: rotate(90deg);
-        }
-
-        .modal-close:focus-visible {
-            outline: 2px solid var(--accent);
-            outline-offset: 3px;
-        }
-
-        .modal-eyebrow {
-            font-family: var(--font-sans);
-            font-size: 0.72rem;
-            font-weight: 600;
-            letter-spacing: 0.12em;
-            color: var(--accent);
-            text-transform: uppercase;
-            margin-bottom: 0.5rem;
-            display: block;
-        }
-
-        .modal h2 {
-            font-family: var(--font-serif);
-            font-size: 2.2rem;
-            font-weight: 600;
-            color: var(--text-color);
-            line-height: 1.2;
-            margin-bottom: 0.75rem;
-        }
-
-        .modal-subtitle {
-            font-size: 1rem;
-            color: var(--text-light);
-            font-weight: 300;
-            line-height: 1.65;
-            margin-bottom: 1.75rem;
-            font-style: italic;
-        }
-
-        .modal-timing {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 0;
-            background-color: var(--hover-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 12px;
-            overflow: hidden;
-            margin-bottom: 1.5rem;
-        }
-
-        .modal-timing-item {
-            padding: 1rem 1.25rem;
-            border-right: 1px solid var(--border-color);
-            display: flex;
-            flex-direction: column;
-            gap: 0.25rem;
-        }
-
-        .modal-timing-item:last-child {
-            border-right: none;
-        }
-
-        .modal-timing-label {
-            font-size: 0.68rem;
-            font-weight: 600;
-            letter-spacing: 0.12em;
-            color: var(--accent);
-            text-transform: uppercase;
-        }
-
-        .modal-timing-value {
-            font-size: 1rem;
-            color: var(--text-color);
-            font-weight: 500;
-        }
-
-        .modal-tags {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.4rem;
-            margin-bottom: 2rem;
-        }
-
-        .modal-tag {
-            background-color: var(--accent);
-            color: #fff;
-            padding: 0.25rem 0.75rem;
-            border-radius: 20px;
-            font-size: 0.8rem;
-            font-weight: 500;
-        }
-
-        /* Dark mode: accent (#D4924A) is too light for white text (2.5:1) — use dark text */
-        body[data-theme="dark"] .modal-tag {
-            color: #1a1a1a;
-        }
-
-        /* Dark mode: step-number circles have same contrast issue */
-        body[data-theme="dark"] .step-number {
-            color: #1a1a1a;
-        }
-
-        .modal-divider {
-            height: 1px;
-            background: var(--border-color);
-            margin: 2rem 0;
-        }
-
-        .modal-body {
-            display: grid;
-            grid-template-columns: 1fr 1.5fr;
-            gap: 2.5rem;
-        }
-
-        .modal-section-title {
-            font-family: var(--font-serif);
-            font-size: 1.25rem;
-            font-weight: 600;
-            color: var(--text-color);
-            margin-bottom: 1rem;
-            border-bottom: 1px solid var(--border-color);
-            padding-bottom: 0.5rem;
-        }
-
-        .ingredients-list {
-            list-style: none;
-            display: flex;
-            flex-direction: column;
-            gap: 0.5rem;
-        }
-
-        .ingredients-list li {
-            font-size: 0.95rem;
-            color: var(--text-light);
-            line-height: 1.5;
-            padding: 0.35rem 0;
-            border-bottom: 1px solid var(--border-color);
-            display: flex;
-            gap: 0.5rem;
-        }
-
-        .ingredients-list li:last-child {
-            border-bottom: none;
-        }
-
-        .ingredient-amount {
-            color: var(--accent);
-            font-weight: 500;
-            white-space: nowrap;
-            flex-shrink: 0;
-        }
-
-        .steps-list {
-            list-style: none;
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
-        }
-
-        .steps-list li {
-            display: flex;
-            gap: 1rem;
-            align-items: flex-start;
-        }
-
-        .step-number {
-            width: 26px;
-            height: 26px;
-            min-width: 26px;
-            background-color: var(--accent);
-            color: #fff;
-            border-radius: 50%;
-            font-size: 0.8rem;
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-top: 0.1rem;
-        }
-
-        .step-text {
-            font-size: 0.95rem;
-            color: var(--text-light);
-            line-height: 1.65;
-        }
-
-        .modal-tip {
-            margin-top: 2rem;
-            background-color: var(--accent-light);
-            border-left: 3px solid var(--accent);
-            border-radius: 0 8px 8px 0;
-            padding: 1rem 1.25rem;
-        }
-
-        .modal-tip-label {
-            font-size: 0.72rem;
-            font-weight: 600;
-            letter-spacing: 0.12em;
-            color: var(--accent);
-            text-transform: uppercase;
-            margin-bottom: 0.4rem;
-            display: block;
-        }
-
-        .modal-tip p {
-            font-size: 0.9rem;
-            color: var(--text-light);
-            line-height: 1.65;
-        }
-
-        /* ── Screen-reader only ── */
-        .sr-only {
-            position: absolute;
-            width: 1px;
-            height: 1px;
-            padding: 0;
-            margin: -1px;
-            overflow: hidden;
-            clip: rect(0, 0, 0, 0);
-            white-space: nowrap;
-            border: 0;
-        }
-
-        /* ── Back link ── */
-        .back-link {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.4rem;
-            color: var(--text-light);
-            text-decoration: none;
-            font-size: 0.9rem;
-            font-weight: 500;
-            margin-bottom: 2rem;
-            transition: color 0.3s var(--ease), transform 0.2s var(--ease);
-        }
-
-        .back-link:hover {
-            color: var(--text-color);
-            transform: translateX(-3px);
-        }
-
-        /* ── Responsive ── */
-        @media (max-width: 768px) {
-            .modal-body {
-                grid-template-columns: 1fr;
-            }
-
-            .modal-timing {
-                grid-template-columns: repeat(2, 1fr);
-            }
-
-            .modal-timing-item:nth-child(2) {
-                border-right: none;
-            }
-
-            .modal-timing-item:nth-child(3) {
-                border-top: 1px solid var(--border-color);
-                border-right: 1px solid var(--border-color);
-            }
-
-            .modal-timing-item:last-child {
-                border-top: 1px solid var(--border-color);
-            }
-
-            .modal {
-                padding: 1.5rem;
-                padding-top: 3.75rem;
-            }
-
-            .modal h2 {
-                font-size: 1.7rem;
-            }
-
-            .recipes-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .recipes-hero {
-                padding-top: 110px;
-            }
-        }
-    </style>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Recipes — Jiongan Mu</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;1,9..144,300;1,9..144,400&family=Noto+Serif+SC:wght@300;400;500&family=JetBrains+Mono:wght@300;400;500&display=swap">
+<link rel="stylesheet" href="site.css">
+<style>
+  /* Recipes — editorial, matches index. Bilingual: Fraunces for Latin,
+     Noto Serif SC for Chinese. Mono for Latin labels only. */
+  :root { --sc: "Noto Serif SC", "Fraunces", Georgia, serif; }
+
+  /* ── bilingual visibility ── */
+  html[data-lang="zh"] .en { display: none; }
+  html[data-lang="en"] .zh { display: none; }
+  /* inline variants default to inline; block/list overrides below */
+  .zh, .en { }
+  li.zh, li.en { display: list-item; }
+
+  .rec-top {
+    padding: 24px var(--pad-x);
+    display: grid; grid-template-columns: auto 1fr auto;
+    align-items: center;
+    gap: 24px;
+    border-bottom: 1px solid var(--rule);
+    background: var(--bg);
+    position: sticky; top: 0; z-index: 30;
+  }
+  .rec-top .back {
+    font-family: var(--serif); font-style: italic;
+    font-size: 15px; color: var(--ink-2);
+  }
+  .rec-top .back:hover { color: var(--accent); }
+  .rec-top nav { display: flex; gap: 20px; justify-self: center; }
+  .rec-top nav a {
+    font-family: var(--serif); font-style: italic;
+    font-size: 15px; color: var(--muted);
+  }
+  .rec-top nav a:hover { color: var(--ink); }
+
+  /* ── language toggle segmented control ── */
+  .lang-toggle {
+    display: inline-flex;
+    border: 1px solid var(--rule);
+    border-radius: 999px;
+    overflow: hidden;
+    justify-self: end;
+  }
+  .lang-toggle button {
+    background: none; border: none; cursor: pointer;
+    padding: 6px 14px;
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--muted);
+    transition: background 220ms ease, color 220ms ease;
+  }
+  .lang-toggle button + button { border-left: 1px solid var(--rule); }
+  .lang-toggle button:hover { color: var(--ink); }
+  .lang-toggle button.is-active {
+    background: var(--ink);
+    color: var(--bg);
+  }
+
+  .rec-cover {
+    position: relative;
+    min-height: calc(100svh - 80px);
+    padding: 0 var(--pad-x);
+    border-bottom: 1px solid var(--ink);
+    overflow: hidden;
+  }
+  .rec-cover h1 {
+    position: absolute;
+    top: 50%; left: 0; right: 0;
+    transform: translateY(-54%);
+    text-align: center;
+    margin: 0;
+    font-family: var(--serif); font-weight: 300;
+    font-size: clamp(72px, 14vw, 220px);
+    line-height: 0.86; letter-spacing: -0.04em;
+    font-variation-settings: "opsz" 144;
+    pointer-events: none;
+  }
+  .rec-cover h1 em { font-style: italic; color: var(--accent); }
+  .rec-cover h1 .sub {
+    font-family: var(--sc); font-weight: 400; color: var(--muted);
+    font-size: 0.55em; display: block; margin-top: 0.1em; letter-spacing: 0;
+  }
+  .rec-cover h1 .sub.en {
+    font-family: var(--serif); font-style: italic; font-weight: 300;
+    letter-spacing: -0.02em;
+  }
+  .rec-cover .kicker {
+    position: absolute;
+    bottom: 32px; left: var(--pad-x);
+    max-width: 38ch;
+    margin: 0;
+    font-family: var(--serif); font-style: italic;
+    font-size: clamp(16px, 1.3vw, 20px);
+    line-height: 1.5; color: var(--muted);
+    text-align: left;
+    padding: 0;
+  }
+  .rec-cover .kicker.zh { font-family: var(--sc); font-style: normal; }
+  .rec-cover .rec-scroll {
+    position: absolute;
+    bottom: 32px; right: var(--pad-x);
+    text-align: right;
+    display: inline-flex; flex-direction: column; align-items: flex-end; gap: 6px;
+    color: var(--muted);
+  }
+  .rec-cover .rec-scroll .mono { color: var(--muted); font-family: var(--mono); font-size: 11px; text-transform: uppercase; letter-spacing: 0.16em; }
+  .rec-cover .rec-scroll .arrow { font-family: var(--serif); font-size: 28px; color: var(--ink); animation: rec-bob 2.2s ease-in-out infinite; }
+  @keyframes rec-bob { 0%,100% { transform: translateY(0); } 50% { transform: translateY(6px); } }
+  @media (prefers-reduced-motion: reduce) {
+    .rec-cover .rec-scroll .arrow { animation: none; }
+  }
+
+  .rec-filter {
+    padding: 32px var(--pad-x);
+    display: flex; flex-wrap: wrap; gap: 8px 24px;
+    align-items: center;
+    border-bottom: 1px solid var(--rule);
+    background: var(--bg);
+  }
+  .rec-filter .fl-label {
+    font-family: var(--mono); font-size: 11px;
+    text-transform: uppercase; letter-spacing: 0.18em;
+    color: var(--muted);
+    margin-right: 8px;
+  }
+  .rec-filter button {
+    background: none; border: none; cursor: pointer; padding: 4px 0;
+    font-family: var(--serif); font-style: italic;
+    font-size: clamp(17px, 1.4vw, 22px);
+    color: var(--muted);
+    border-bottom: 1px solid transparent;
+    transition: color 220ms ease, border-color 220ms ease;
+    letter-spacing: -0.005em;
+  }
+  .rec-filter button .sc { font-family: var(--sc); font-style: normal; font-weight: 400; }
+  .rec-filter button:hover { color: var(--ink); }
+  .rec-filter button.is-active { color: var(--ink); border-bottom-color: var(--accent); }
+  .rec-filter .count {
+    margin-left: auto;
+    font-family: var(--mono); font-size: 11px;
+    color: var(--muted); letter-spacing: 0.14em; text-transform: uppercase;
+  }
+
+  /* Recipe list — same pattern as the journal on index */
+  .rec-list {
+    list-style: none; margin: 0; padding: 0;
+    border-top: 1px solid var(--ink);
+  }
+  .rec-row { border-bottom: 1px solid var(--rule); position: relative; }
+  .rec-row:last-child { border-bottom: 1px solid var(--ink); }
+  .rec-row[hidden] { display: none; }
+
+  .rec-head {
+    display: grid;
+    grid-template-columns: 70px 1fr auto 40px;
+    gap: 24px;
+    padding: 28px var(--pad-x);
+    align-items: baseline;
+    cursor: pointer;
+    transition: background 300ms ease, padding 400ms cubic-bezier(.7,0,.2,1);
+    user-select: none;
+  }
+  .rec-head:hover { background: var(--bg-deep); }
+  .rec-row.is-open .rec-head { background: var(--bg-deep); }
+  .rec-num {
+    font-family: var(--mono); font-size: 11px;
+    text-transform: uppercase; letter-spacing: 0.16em;
+    color: var(--muted);
+  }
+  .rec-title {
+    margin: 0;
+    font-size: clamp(26px, 3.2vw, 46px);
+    font-weight: 400;
+    line-height: 1.1;
+    color: var(--ink);
+  }
+  .rec-title .zh, .rec-title .sc {
+    font-family: var(--sc); font-weight: 400;
+    letter-spacing: -0.01em;
+  }
+  .rec-title .en {
+    font-family: var(--serif);
+    font-variation-settings: "opsz" 144;
+    font-weight: 400;
+    letter-spacing: -0.02em;
+  }
+  .rec-title .en em { font-style: italic; color: var(--accent); font-family: var(--serif); }
+  .rec-title .zh em { font-style: normal; color: var(--accent); font-family: var(--sc); }
+  .rec-meta {
+    display: flex; gap: 18px;
+    font-family: var(--mono); font-size: 11px;
+    text-transform: uppercase; letter-spacing: 0.14em;
+    color: var(--muted);
+  }
+  .rec-meta .sep { opacity: 0.4; }
+  .rec-toggle {
+    font-family: var(--serif); font-size: 32px; font-weight: 300;
+    color: var(--muted);
+    transition: transform 400ms cubic-bezier(.7,0,.2,1), color 220ms ease;
+    line-height: 1; text-align: right;
+  }
+  .rec-row.is-open .rec-toggle { transform: rotate(45deg); color: var(--accent); }
+
+  /* Expanded body — inline, no modal */
+  .rec-body {
+    max-height: 0; overflow: hidden;
+    transition: max-height 600ms cubic-bezier(.7,0,.2,1);
+  }
+  .rec-row.is-open .rec-body { max-height: 6000px; }
+  .rec-body-inner {
+    padding: 8px var(--pad-x) 48px;
+    display: grid;
+    grid-template-columns: 280px 1fr;
+    gap: 60px;
+    max-width: none;
+  }
+  .rec-blurb {
+    font-family: var(--serif); font-style: italic;
+    font-size: clamp(16px, 1.2vw, 19px);
+    line-height: 1.55; color: var(--ink-2);
+    margin: 0 0 24px;
+  }
+  .rec-blurb.zh { font-family: var(--sc); font-style: normal; }
+  .rec-blurb em { color: var(--accent); }
+  .rec-tags {
+    display: flex; flex-wrap: wrap; gap: 6px;
+    margin-bottom: 20px;
+  }
+  .rec-tags span {
+    font-family: var(--mono); font-size: 10px;
+    text-transform: uppercase; letter-spacing: 0.14em;
+    color: var(--muted);
+    padding: 3px 10px; border: 1px solid var(--rule);
+    border-radius: 999px;
+  }
+  .rec-tags span.sc-tag { font-family: var(--sc); font-size: 11px; letter-spacing: 0; text-transform: none; }
+  .rec-sidebar {
+    border-top: 1px solid var(--rule);
+    padding-top: 16px;
+  }
+  .rec-sidebar dl {
+    margin: 0; display: grid;
+    grid-template-columns: 1fr 1fr; gap: 14px 20px;
+  }
+  .rec-sidebar dt {
+    font-family: var(--mono); font-size: 10px;
+    text-transform: uppercase; letter-spacing: 0.14em;
+    color: var(--muted);
+  }
+  .rec-sidebar dd {
+    margin: 0;
+    font-family: var(--serif); font-style: italic;
+    font-size: 17px;
+    color: var(--ink);
+  }
+  .rec-sidebar dd .zh { font-family: var(--sc); font-style: normal; }
+
+  .rec-col-head {
+    font-family: var(--mono); font-size: 11px;
+    text-transform: uppercase; letter-spacing: 0.18em;
+    color: var(--muted);
+    margin: 0 0 16px;
+  }
+  .rec-col-head + .rec-col-head { margin-top: 36px; }
+
+  .rec-ingredients, .rec-steps {
+    list-style: none; margin: 0; padding: 0;
+  }
+  .rec-ingredients li {
+    display: grid; grid-template-columns: 140px 1fr; gap: 20px;
+    padding: 10px 0;
+    border-bottom: 1px dotted var(--rule);
+    font-family: var(--serif);
+    font-size: 16px; line-height: 1.45;
+    color: var(--ink-2);
+    align-items: baseline;
+  }
+  .rec-ingredients li .amt {
+    font-family: var(--mono); font-size: 12px;
+    color: var(--muted);
+    letter-spacing: 0.04em;
+  }
+  .rec-ingredients li .name.zh,
+  .rec-ingredients li .amt.zh { font-family: var(--sc); letter-spacing: 0; }
+  .rec-ingredients li .name {
+    font-family: var(--serif);
+  }
+
+  .rec-steps {
+    display: flex; flex-direction: column; gap: 14px;
+    margin-top: 4px;
+  }
+  .rec-steps li {
+    display: grid; grid-template-columns: 40px 1fr; gap: 16px;
+    align-items: baseline;
+  }
+  .rec-steps li .n {
+    font-family: var(--serif); font-style: italic;
+    font-size: 22px; color: var(--accent); line-height: 1;
+    font-variation-settings: "opsz" 72;
+  }
+  .rec-steps li .t {
+    font-family: var(--serif);
+    font-size: 16px; line-height: 1.6;
+    color: var(--ink-2);
+  }
+  .rec-steps li .t.zh { font-family: var(--sc); }
+
+  .rec-tip {
+    margin-top: 28px;
+    padding: 16px 20px;
+    border-left: 1px solid var(--accent);
+    background: transparent;
+    font-family: var(--serif); font-style: italic;
+    font-size: 15px; line-height: 1.6; color: var(--muted);
+  }
+  .rec-tip.zh { font-family: var(--sc); font-style: normal; }
+  .rec-tip strong {
+    display: block;
+    font-style: normal; font-family: var(--mono);
+    font-size: 10px; text-transform: uppercase; letter-spacing: 0.16em;
+    color: var(--accent); margin-bottom: 6px;
+  }
+
+  .rec-closing {
+    padding: clamp(60px, 10vw, 140px) var(--pad-x) clamp(60px, 10vw, 140px);
+    text-align: center;
+    background: var(--bg-deep);
+  }
+  .rec-closing p {
+    margin: 0 auto;
+    font-family: var(--serif); font-style: italic;
+    font-size: clamp(20px, 2vw, 28px);
+    line-height: 1.5;
+    color: var(--ink-2);
+    max-width: 32ch;
+  }
+  .rec-closing p.zh { font-family: var(--sc); font-style: normal; }
+  .rec-closing p em { color: var(--accent); }
+
+  @media (max-width: 900px) {
+    .rec-top { grid-template-columns: auto auto; gap: 12px; }
+    .rec-top nav { display: none; }
+    .rec-cover .kicker {
+      position: static;
+      margin-top: auto;
+      padding: 0 0 20px;
+      max-width: none;
+    }
+    .rec-cover {
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding-bottom: 72px;
+    }
+    .rec-cover h1 { position: static; transform: none; margin-top: auto; padding-top: 120px; }
+    .rec-cover .rec-scroll {
+      left: 0; right: 0;
+      bottom: 20px;
+      align-items: center;
+      flex-direction: row;
+      justify-content: center;
+      gap: 10px;
+      text-align: center;
+    }
+    .rec-cover .rec-scroll .arrow { font-size: 20px; }
+    .rec-head { grid-template-columns: 48px 1fr 32px; gap: 14px; padding: 20px var(--pad-x); }
+    .rec-meta { grid-column: 1 / -1; flex-wrap: wrap; gap: 10px; }
+    .rec-toggle { grid-column: 3; grid-row: 1; }
+    .rec-body-inner { grid-template-columns: 1fr; gap: 28px; padding: 8px var(--pad-x) 32px; }
+    .rec-sidebar dl { grid-template-columns: 1fr 1fr; }
+    .rec-ingredients li { grid-template-columns: 110px 1fr; gap: 14px; }
+  }
+</style>
 </head>
-
 <body>
-    <a href="#main-content" class="skip-link">Skip to main content</a>
-    <nav class="navbar">
-        <div class="nav-container">
-            <div class="nav-logo">
-                <a href="index.html">Jiongan Mu</a>
-            </div>
-            <button class="nav-toggle" id="mobile-menu" aria-label="Toggle navigation" aria-expanded="false" aria-controls="nav-menu">
-                <span class="bar"></span>
-                <span class="bar"></span>
-                <span class="bar"></span>
-            </button>
-            <div class="nav-menu" id="nav-menu">
-                <div class="nav-item"><a href="index.html#home" class="nav-link">Home</a></div>
-                <div class="nav-item"><a href="index.html#about" class="nav-link">About</a></div>
-                <div class="nav-item"><a href="index.html#education" class="nav-link">Education</a></div>
-                <div class="nav-item"><a href="index.html#projects" class="nav-link">Projects</a></div>
-                <div class="nav-item"><a href="index.html#contact" class="nav-link">Contact</a></div>
-                <div class="nav-item"><a href="recipes.html" class="nav-link active">Recipes</a></div>
-            </div>
-            <div class="theme-switch-wrapper">
-                <div class="theme-switch">
-                    <input type="checkbox" id="theme-toggle" aria-label="Toggle dark mode" />
-                    <label for="theme-toggle" class="switch-label">
-                        <span class="sun-icon">
-                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <circle cx="12" cy="12" r="5" />
-                                <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" />
-                            </svg>
-                        </span>
-                        <span class="moon-icon">
-                            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
-                                <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
-                            </svg>
-                        </span>
-                        <div class="switch-button"></div>
-                    </label>
-                </div>
-            </div>
-        </div>
-    </nav>
 
-    <main id="main-content">
-        <section class="recipes-hero">
-            <div class="container">
-                <a href="index.html" class="back-link"><i class="fas fa-arrow-left"></i> Back</a>
-                <p class="eyebrow">Kitchen</p>
-                <h1>My Recipes</h1>
-                <p>A personal collection of home-cooked favourites — Chinese classics and a few Western staples.</p>
-                <div class="filter-bar">
-                    <button class="filter-btn active" data-filter="all">All</button>
-                    <button class="filter-btn" data-filter="川菜">川菜</button>
-                    <button class="filter-btn" data-filter="湘菜">湘菜</button>
-                    <button class="filter-btn" data-filter="东北菜">东北菜</button>
-                    <button class="filter-btn" data-filter="下饭">下饭</button>
-                    <button class="filter-btn" data-filter="万能">万能</button>
-                    <button class="filter-btn" data-filter="quick">Quick (&lt;20 min)</button>
-                </div>
-            </div>
-        </section>
+<div class="grain" aria-hidden="true"></div>
 
-        <section class="recipes-section">
-            <div class="container" style="max-width: 1100px;">
-                <div class="recipes-grid" id="recipes-grid">
+<header class="rec-top">
+  <a href="index.html" class="back"><em>&larr; jiongan mu</em></a>
+  <nav>
+    <a href="index.html#about"><em>about</em></a>
+    <a href="index.html#offhours"><em>off&#8209;hours</em></a>
+    <a href="index.html#education"><em>schooling</em></a>
+    <a href="index.html#notes"><em>notes</em></a>
+    <a href="index.html#contact"><em>contact</em></a>
+  </nav>
+  <div class="lang-toggle" role="group" aria-label="language">
+    <button type="button" data-lang="en" class="is-active">EN</button>
+    <button type="button" data-lang="zh">中文</button>
+  </div>
+</header>
 
-                    <!-- 1. 肉末茄子 -->
-                    <article class="recipe-card animate-on-scroll" tabindex="0" role="button" aria-label="肉末茄子 — 点击查看菜谱" data-tags="川菜,下饭" data-total="25" data-recipe="minced-eggplant" data-delay="0">
-                        <div class="recipe-card-header">
-                            <h3>肉末茄子</h3>
-                            <span class="recipe-open-btn"><i class="fas fa-arrow-right"></i></span>
-                        </div>
-                        <p class="recipe-desc">一道超级下饭的经典川菜家常菜，先蒸后炒，少油健康，茄子软嫩入味，肉末鲜香四溢。</p>
-                        <div class="recipe-meta">
-                            <div class="recipe-meta-item">
-                                <span class="recipe-meta-label">准备</span>
-                                <span class="recipe-meta-value">10 min</span>
-                            </div>
-                            <div class="recipe-meta-item">
-                                <span class="recipe-meta-label">烹饪</span>
-                                <span class="recipe-meta-value">15 min</span>
-                            </div>
-                            <div class="recipe-meta-item">
-                                <span class="recipe-meta-label">总计</span>
-                                <span class="recipe-meta-value">25 min</span>
-                            </div>
-                            <div class="recipe-meta-item">
-                                <span class="recipe-meta-label">份量</span>
-                                <span class="recipe-meta-value">2</span>
-                            </div>
-                        </div>
-                        <div class="recipe-tags">
-                            <span class="recipe-tag">川菜</span>
-                            <span class="recipe-tag">下饭菜</span>
-                            <span class="recipe-tag">家常菜</span>
-                            <span class="recipe-tag">少油健康</span>
-                        </div>
-                    </article>
+<main>
 
-                    <!-- 2. 麻婆豆腐 -->
-                    <article class="recipe-card animate-on-scroll" tabindex="0" role="button" aria-label="麻婆豆腐 — 点击查看菜谱" data-tags="川菜,下饭" data-total="25" data-recipe="mapo-tofu" data-delay="75">
-                        <div class="recipe-card-header">
-                            <h3>麻婆豆腐</h3>
-                            <span class="recipe-open-btn"><i class="fas fa-arrow-right"></i></span>
-                        </div>
-                        <p class="recipe-desc">四川经典名菜，麻辣鲜香，嫩滑入味，一道让人欲罢不能的下饭神菜。</p>
-                        <div class="recipe-meta">
-                            <div class="recipe-meta-item">
-                                <span class="recipe-meta-label">准备</span>
-                                <span class="recipe-meta-value">10 min</span>
-                            </div>
-                            <div class="recipe-meta-item">
-                                <span class="recipe-meta-label">烹饪</span>
-                                <span class="recipe-meta-value">15 min</span>
-                            </div>
-                            <div class="recipe-meta-item">
-                                <span class="recipe-meta-label">总计</span>
-                                <span class="recipe-meta-value">25 min</span>
-                            </div>
-                            <div class="recipe-meta-item">
-                                <span class="recipe-meta-label">份量</span>
-                                <span class="recipe-meta-value">2</span>
-                            </div>
-                        </div>
-                        <div class="recipe-tags">
-                            <span class="recipe-tag">川菜</span>
-                            <span class="recipe-tag">麻辣</span>
-                            <span class="recipe-tag">家常菜</span>
-                            <span class="recipe-tag">下饭</span>
-                        </div>
-                    </article>
+<section class="rec-cover">
+  <h1>
+    <em>recipes</em><span style="color:var(--ink)">.</span>
+    <span class="sub zh">厨房</span>
+    <span class="sub en">the kitchen</span>
+  </h1>
+  <p class="kicker zh">一个私人的小菜谱 &mdash; 川 &middot; 湘 &middot; 东北，还有一点西餐。</p>
+  <p class="kicker en">a personal catalogue of things i cook when nobody&rsquo;s watching &mdash; <em>sichuan, hunan, northeastern</em>, and a few western staples.</p>
+  <div class="rec-scroll" aria-hidden="true">
+    <span class="mono"><span class="zh">向下滑</span><span class="en">scroll</span></span>
+    <span class="arrow">&darr;</span>
+  </div>
+</section>
 
-                    <!-- 3. 辣椒炒肉 -->
-                    <article class="recipe-card animate-on-scroll" tabindex="0" role="button" aria-label="辣椒炒肉 — 点击查看菜谱" data-tags="湘菜,下饭" data-total="20" data-recipe="pork-pepper" data-delay="150">
-                        <div class="recipe-card-header">
-                            <h3>辣椒炒肉</h3>
-                            <span class="recipe-open-btn"><i class="fas fa-arrow-right"></i></span>
-                        </div>
-                        <p class="recipe-desc">经典湘菜家常菜，香辣下饭，肉嫩椒鲜，锅气十足。</p>
-                        <div class="recipe-meta">
-                            <div class="recipe-meta-item">
-                                <span class="recipe-meta-label">准备</span>
-                                <span class="recipe-meta-value">10 min</span>
-                            </div>
-                            <div class="recipe-meta-item">
-                                <span class="recipe-meta-label">烹饪</span>
-                                <span class="recipe-meta-value">10 min</span>
-                            </div>
-                            <div class="recipe-meta-item">
-                                <span class="recipe-meta-label">总计</span>
-                                <span class="recipe-meta-value">20 min</span>
-                            </div>
-                            <div class="recipe-meta-item">
-                                <span class="recipe-meta-label">份量</span>
-                                <span class="recipe-meta-value">2</span>
-                            </div>
-                        </div>
-                        <div class="recipe-tags">
-                            <span class="recipe-tag">湘菜</span>
-                            <span class="recipe-tag">香辣</span>
-                            <span class="recipe-tag">家常菜</span>
-                            <span class="recipe-tag">下饭</span>
-                        </div>
-                    </article>
+<section class="rec-filter">
+  <span class="fl-label"><span class="zh">筛选</span><span class="en">filter</span></span>
+  <button class="is-active" data-filter="all"><span class="zh sc">全部</span><span class="en"><em>all</em></span></button>
+  <button data-filter="川菜"><span class="zh sc">川菜</span><span class="en"><em>sichuan</em></span></button>
+  <button data-filter="湘菜"><span class="zh sc">湘菜</span><span class="en"><em>hunan</em></span></button>
+  <button data-filter="东北菜"><span class="zh sc">东北菜</span><span class="en"><em>northeastern</em></span></button>
+  <button data-filter="下饭"><span class="zh sc">下饭</span><span class="en"><em>rice&#8209;friendly</em></span></button>
+  <button data-filter="万能"><span class="zh sc">万能</span><span class="en"><em>all&#8209;purpose</em></span></button>
+  <button data-filter="quick"><span class="zh sc">快手</span><span class="en"><em>quick</em></span></button>
+  <span class="count" id="rec-count">14 recipes</span>
+</section>
 
-                    <!-- 4. 东北土豆炖茄子 -->
-                    <article class="recipe-card animate-on-scroll" tabindex="0" role="button" aria-label="东北土豆炖茄子 — 点击查看菜谱" data-tags="东北菜,下饭" data-total="30" data-recipe="potato-eggplant" data-delay="225">
-                        <div class="recipe-card-header">
-                            <h3>东北土豆炖茄子</h3>
-                            <span class="recipe-open-btn"><i class="fas fa-arrow-right"></i></span>
-                        </div>
-                        <p class="recipe-desc">东北经典家常炖菜，土豆绵软、茄子入味、汤汁浓稠，拌饭一绝. 俗话说：土豆炖茄子，撑死老爷子！</p>
-                        <div class="recipe-meta">
-                            <div class="recipe-meta-item">
-                                <span class="recipe-meta-label">准备</span>
-                                <span class="recipe-meta-value">10 min</span>
-                            </div>
-                            <div class="recipe-meta-item">
-                                <span class="recipe-meta-label">烹饪</span>
-                                <span class="recipe-meta-value">20 min</span>
-                            </div>
-                            <div class="recipe-meta-item">
-                                <span class="recipe-meta-label">总计</span>
-                                <span class="recipe-meta-value">30 min</span>
-                            </div>
-                            <div class="recipe-meta-item">
-                                <span class="recipe-meta-label">份量</span>
-                                <span class="recipe-meta-value">2</span>
-                            </div>
-                        </div>
-                        <div class="recipe-tags">
-                            <span class="recipe-tag">东北菜</span>
-                            <span class="recipe-tag">家常菜</span>
-                            <span class="recipe-tag">下饭菜</span>
-                        </div>
-                    </article>
+<ol class="rec-list" id="rec-list">
 
-                    <!-- 5. 可乐鸡翅 -->
-                    <article class="recipe-card animate-on-scroll" tabindex="0" role="button" aria-label="可乐鸡翅 — 点击查看菜谱" data-tags="下饭,万能" data-total="45" data-recipe="cola-wings" data-delay="300">
-                        <div class="recipe-card-header">
-                            <h3>可乐鸡翅</h3>
-                            <span class="recipe-open-btn"><i class="fas fa-arrow-right"></i></span>
-                        </div>
-                        <p class="recipe-desc">经典家常菜，甜咸适口，色泽红亮，肉质嫩滑，大人小孩都爱吃。</p>
-                        <div class="recipe-meta">
-                            <div class="recipe-meta-item">
-                                <span class="recipe-meta-label">准备</span>
-                                <span class="recipe-meta-value">20 min</span>
-                            </div>
-                            <div class="recipe-meta-item">
-                                <span class="recipe-meta-label">烹饪</span>
-                                <span class="recipe-meta-value">25 min</span>
-                            </div>
-                            <div class="recipe-meta-item">
-                                <span class="recipe-meta-label">总计</span>
-                                <span class="recipe-meta-value">45 min</span>
-                            </div>
-                            <div class="recipe-meta-item">
-                                <span class="recipe-meta-label">份量</span>
-                                <span class="recipe-meta-value">2</span>
-                            </div>
-                        </div>
-                        <div class="recipe-tags">
-                            <span class="recipe-tag">家常菜</span>
-                            <span class="recipe-tag">甜咸</span>
-                            <span class="recipe-tag">简单快手</span>
-                        </div>
-                    </article>
-
-                    <!-- 6. Crispy Skin Salmon -->
-                    <article class="recipe-card animate-on-scroll" tabindex="0" role="button" aria-label="Crispy Skin Salmon — click to view recipe" data-tags="quick" data-total="13" data-recipe="salmon" data-delay="375">
-                        <div class="recipe-card-header">
-                            <h3>Crispy Skin Salmon</h3>
-                            <span class="recipe-open-btn"><i class="fas fa-arrow-right"></i></span>
-                        </div>
-                        <p class="recipe-desc">Restaurant-quality salmon with shatteringly crispy skin and a buttery, flaky interior — ready in under 15 minutes.</p>
-                        <div class="recipe-meta">
-                            <div class="recipe-meta-item">
-                                <span class="recipe-meta-label">Prep</span>
-                                <span class="recipe-meta-value">5 min</span>
-                            </div>
-                            <div class="recipe-meta-item">
-                                <span class="recipe-meta-label">Cook</span>
-                                <span class="recipe-meta-value">8 min</span>
-                            </div>
-                            <div class="recipe-meta-item">
-                                <span class="recipe-meta-label">Total</span>
-                                <span class="recipe-meta-value">13 min</span>
-                            </div>
-                            <div class="recipe-meta-item">
-                                <span class="recipe-meta-label">Serves</span>
-                                <span class="recipe-meta-value">2</span>
-                            </div>
-                        </div>
-                        <div class="recipe-tags">
-                            <span class="recipe-tag">Quick</span>
-                            <span class="recipe-tag">High-Protein</span>
-                            <span class="recipe-tag">Gluten-Free</span>
-                            <span class="recipe-tag">Weeknight</span>
-                        </div>
-                    </article>
-
-                    <!-- 7. 万能牛肉馅 -->
-                    <article class="recipe-card animate-on-scroll" tabindex="0" role="button" aria-label="万能牛肉馅 — 点击查看菜谱" data-tags="万能,quick" data-total="20" data-recipe="beef-filling" data-delay="450">
-                        <div class="recipe-card-header">
-                            <h3>万能牛肉馅</h3>
-                            <span class="recipe-open-btn"><i class="fas fa-arrow-right"></i></span>
-                        </div>
-                        <p class="recipe-desc">鲜嫩多汁、汤汁饱满的牛肉馅，适用于饺子、包子、馅饼等各种面食。</p>
-                        <div class="recipe-meta">
-                            <div class="recipe-meta-item">
-                                <span class="recipe-meta-label">准备</span>
-                                <span class="recipe-meta-value">15 min</span>
-                            </div>
-                            <div class="recipe-meta-item">
-                                <span class="recipe-meta-label">烹饪</span>
-                                <span class="recipe-meta-value">5 min</span>
-                            </div>
-                            <div class="recipe-meta-item">
-                                <span class="recipe-meta-label">总计</span>
-                                <span class="recipe-meta-value">20 min</span>
-                            </div>
-                            <div class="recipe-meta-item">
-                                <span class="recipe-meta-label">份量</span>
-                                <span class="recipe-meta-value">2</span>
-                            </div>
-                        </div>
-                        <div class="recipe-tags">
-                            <span class="recipe-tag">万能馅料</span>
-                            <span class="recipe-tag">饺子</span>
-                            <span class="recipe-tag">包子</span>
-                            <span class="recipe-tag">馅饼</span>
-                        </div>
-                    </article>
-
-                    <!-- 8. 万能油泼辣子拌酱 -->
-                    <article class="recipe-card animate-on-scroll" tabindex="0" role="button" aria-label="万能油泼辣子拌酱 — 点击查看菜谱" data-tags="万能,quick" data-total="15" data-recipe="chili-sauce" data-delay="525">
-                        <div class="recipe-card-header">
-                            <h3>万能油泼辣子拌酱</h3>
-                            <span class="recipe-open-btn"><i class="fas fa-arrow-right"></i></span>
-                        </div>
-                        <p class="recipe-desc">一碗香气四溢的万能拌酱，泼油激香，拌面拌菜都绝了。</p>
-                        <div class="recipe-meta">
-                            <div class="recipe-meta-item">
-                                <span class="recipe-meta-label">准备</span>
-                                <span class="recipe-meta-value">10 min</span>
-                            </div>
-                            <div class="recipe-meta-item">
-                                <span class="recipe-meta-label">烹饪</span>
-                                <span class="recipe-meta-value">5 min</span>
-                            </div>
-                            <div class="recipe-meta-item">
-                                <span class="recipe-meta-label">总计</span>
-                                <span class="recipe-meta-value">15 min</span>
-                            </div>
-                            <div class="recipe-meta-item">
-                                <span class="recipe-meta-label">份量</span>
-                                <span class="recipe-meta-value">2</span>
-                            </div>
-                        </div>
-                        <div class="recipe-tags">
-                            <span class="recipe-tag">万能酱料</span>
-                            <span class="recipe-tag">拌面</span>
-                            <span class="recipe-tag">简单快手</span>
-                        </div>
-                    </article>
-
-                    <!-- 9. 青椒炒鸡蛋 -->
-                    <article class="recipe-card animate-on-scroll" tabindex="0" role="button" aria-label="青椒炒鸡蛋 — 点击查看菜谱" data-tags="家常菜,下饭,quick" data-total="10" data-recipe="pepper-eggs" data-delay="600">
-                        <div class="recipe-card-header">
-                            <h3>青椒炒鸡蛋</h3>
-                            <span class="recipe-open-btn"><i class="fas fa-arrow-right"></i></span>
-                        </div>
-                        <p class="recipe-desc">一道经典的中式家常菜，青椒的清香与鸡蛋的嫩滑完美结合，简单快手，非常下饭。</p>
-                        <div class="recipe-meta">
-                            <div class="recipe-meta-item">
-                                <span class="recipe-meta-label">准备</span>
-                                <span class="recipe-meta-value">5 min</span>
-                            </div>
-                            <div class="recipe-meta-item">
-                                <span class="recipe-meta-label">烹饪</span>
-                                <span class="recipe-meta-value">5 min</span>
-                            </div>
-                            <div class="recipe-meta-item">
-                                <span class="recipe-meta-label">总计</span>
-                                <span class="recipe-meta-value">10 min</span>
-                            </div>
-                            <div class="recipe-meta-item">
-                                <span class="recipe-meta-label">份量</span>
-                                <span class="recipe-meta-value">2</span>
-                            </div>
-                        </div>
-                        <div class="recipe-tags">
-                            <span class="recipe-tag">家常菜</span>
-                            <span class="recipe-tag">快手菜</span>
-                            <span class="recipe-tag">下饭菜</span>
-                        </div>
-                    </article>
-
-                    <!-- 10. 菠菜豆腐汤 -->
-                    <article class="recipe-card animate-on-scroll" tabindex="0" role="button" aria-label="菠菜豆腐汤 — 点击查看菜谱" data-tags="家常菜,清淡,素食,quick" data-total="15" data-recipe="spinach-tofu" data-delay="675">
-                        <div class="recipe-card-header">
-                            <h3>菠菜豆腐汤</h3>
-                            <span class="recipe-open-btn"><i class="fas fa-arrow-right"></i></span>
-                        </div>
-                        <p class="recipe-desc">清淡鲜美的家常汤，简单快手，营养丰富。菠菜焯水去草酸，与嫩豆腐相得益彰。</p>
-                        <div class="recipe-meta">
-                            <div class="recipe-meta-item">
-                                <span class="recipe-meta-label">准备</span>
-                                <span class="recipe-meta-value">5分钟</span>
-                            </div>
-                            <div class="recipe-meta-item">
-                                <span class="recipe-meta-label">烹饪</span>
-                                <span class="recipe-meta-value">10分钟</span>
-                            </div>
-                            <div class="recipe-meta-item">
-                                <span class="recipe-meta-label">总计</span>
-                                <span class="recipe-meta-value">15分钟</span>
-                            </div>
-                            <div class="recipe-meta-item">
-                                <span class="recipe-meta-label">份量</span>
-                                <span class="recipe-meta-value">2</span>
-                            </div>
-                        </div>
-                        <div class="recipe-tags">
-                            <span class="recipe-tag">家常菜</span>
-                            <span class="recipe-tag">清淡</span>
-                            <span class="recipe-tag">素食</span>
-                        </div>
-                    </article>
-
-                    <!-- 11. 番茄浓汤面 -->
-                    <article class="recipe-card animate-on-scroll" tabindex="0" role="button" aria-label="番茄浓汤面 — 点击查看菜谱" data-tags="家常面,番茄,快手菜" data-total="25" data-recipe="tomato-noodles" data-delay="750">
-                        <div class="recipe-card-header">
-                            <h3>番茄浓汤面</h3>
-                            <span class="recipe-open-btn"><i class="fas fa-arrow-right"></i></span>
-                        </div>
-                        <p class="recipe-desc">浓郁的茄汁裹满每根面条，酸甜鲜香，一碗暖胃又满足。</p>
-                        <div class="recipe-meta">
-                            <div class="recipe-meta-item">
-                                <span class="recipe-meta-label">准备</span>
-                                <span class="recipe-meta-value">10分钟</span>
-                            </div>
-                            <div class="recipe-meta-item">
-                                <span class="recipe-meta-label">烹饪</span>
-                                <span class="recipe-meta-value">15分钟</span>
-                            </div>
-                            <div class="recipe-meta-item">
-                                <span class="recipe-meta-label">总计</span>
-                                <span class="recipe-meta-value">25分钟</span>
-                            </div>
-                            <div class="recipe-meta-item">
-                                <span class="recipe-meta-label">份量</span>
-                                <span class="recipe-meta-value">1</span>
-                            </div>
-                        </div>
-                        <div class="recipe-tags">
-                            <span class="recipe-tag">家常面</span>
-                            <span class="recipe-tag">番茄</span>
-                            <span class="recipe-tag">快手菜</span>
-                        </div>
-                    </article>
-
-                    <!-- 13. 奥尔良烤翅 -->
-                    <article class="recipe-card animate-on-scroll" tabindex="0" role="button" aria-label="奥尔良烤翅 — 点击查看菜谱" data-tags="烤箱菜,鸡翅,聚会小吃" data-total="25" data-recipe="orleans-wings" data-delay="900">
-                        <div class="recipe-card-header">
-                            <h3>奥尔良烤翅</h3>
-                            <span class="recipe-open-btn"><i class="fas fa-arrow-right"></i></span>
-                        </div>
-                        <p class="recipe-desc">外焦里嫩的经典烤翅，浓郁的奥尔良风味，媲美KFC，在家用烤箱轻松搞定。</p>
-                        <div class="recipe-meta">
-                            <div class="recipe-meta-item">
-                                <span class="recipe-meta-label">准备</span>
-                                <span class="recipe-meta-value">15 min</span>
-                            </div>
-                            <div class="recipe-meta-item">
-                                <span class="recipe-meta-label">烹饪</span>
-                                <span class="recipe-meta-value">25 min</span>
-                            </div>
-                            <div class="recipe-meta-item">
-                                <span class="recipe-meta-label">总计</span>
-                                <span class="recipe-meta-value">约13小时</span>
-                            </div>
-                            <div class="recipe-meta-item">
-                                <span class="recipe-meta-label">份量</span>
-                                <span class="recipe-meta-value">2</span>
-                            </div>
-                        </div>
-                        <div class="recipe-tags">
-                            <span class="recipe-tag">烤箱菜</span>
-                            <span class="recipe-tag">鸡翅</span>
-                            <span class="recipe-tag">聚会小吃</span>
-                        </div>
-                    </article>
-                    <!-- 11. 小炒黄牛肉 -->
-                    <article class="recipe-card animate-on-scroll" tabindex="0" role="button" aria-label="小炒黄牛肉 — 点击查看菜谱" data-tags="湘菜,下饭" data-total="25" data-recipe="beef-stir-fry" data-delay="975">
-                        <div class="recipe-card-header">
-                            <h3>小炒黄牛肉</h3>
-                            <span class="recipe-open-btn"><i class="fas fa-arrow-right"></i></span>
-                        </div>
-                        <p class="recipe-desc">锅气十足、牛肉滑嫩、鲜辣下饭的经典湘菜，讲究一个大火快炒。</p>
-                        <div class="recipe-meta">
-                            <div class="recipe-meta-item">
-                                <span class="recipe-meta-label">准备</span>
-                                <span class="recipe-meta-value">15 min</span>
-                            </div>
-                            <div class="recipe-meta-item">
-                                <span class="recipe-meta-label">烹饪</span>
-                                <span class="recipe-meta-value">10 min</span>
-                            </div>
-                            <div class="recipe-meta-item">
-                                <span class="recipe-meta-label">总计</span>
-                                <span class="recipe-meta-value">25 min</span>
-                            </div>
-                            <div class="recipe-meta-item">
-                                <span class="recipe-meta-label">份量</span>
-                                <span class="recipe-meta-value">2</span>
-                            </div>
-                        </div>
-                        <div class="recipe-tags">
-                            <span class="recipe-tag">湘菜</span>
-                            <span class="recipe-tag">下饭</span>
-                            <span class="recipe-tag">快手菜</span>
-                        </div>
-                    </article>
-
-
-                    <!-- 12. Lemon Cream Sauce -->
-                    <article class="recipe-card animate-on-scroll" tabindex="0" role="button" aria-label="Lemon Cream Sauce — click to view recipe" data-tags="quick" data-total="13" data-recipe="lemon-sauce" data-delay="825">
-                        <div class="recipe-card-header">
-                            <h3>Lemon Cream Sauce</h3>
-                            <span class="recipe-open-btn"><i class="fas fa-arrow-right"></i></span>
-                        </div>
-                        <p class="recipe-desc">A quick shortcut sauce using store-bought Alfredo, brightened with fresh lemon and dill. Perfect over pasta, salmon, or chicken.</p>
-                        <div class="recipe-meta">
-                            <div class="recipe-meta-item">
-                                <span class="recipe-meta-label">Prep</span>
-                                <span class="recipe-meta-value">5 min</span>
-                            </div>
-                            <div class="recipe-meta-item">
-                                <span class="recipe-meta-label">Cook</span>
-                                <span class="recipe-meta-value">8 min</span>
-                            </div>
-                            <div class="recipe-meta-item">
-                                <span class="recipe-meta-label">Total</span>
-                                <span class="recipe-meta-value">13 min</span>
-                            </div>
-                            <div class="recipe-meta-item">
-                                <span class="recipe-meta-label">Serves</span>
-                                <span class="recipe-meta-value">4</span>
-                            </div>
-                        </div>
-                        <div class="recipe-tags">
-                            <span class="recipe-tag">Quick</span>
-                            <span class="recipe-tag">Creamy</span>
-                            <span class="recipe-tag">Pasta Sauce</span>
-                        </div>
-                    </article>
-
-                </div>
-            </div>
-        </section>
-    </main>
-
-    <!-- Screen-reader live region for filter status -->
-    <div class="sr-only" role="status" aria-live="polite" aria-atomic="true" id="filter-status"></div>
-
-    <!-- Modal -->
-    <div class="modal-overlay" id="modal-overlay" aria-hidden="true">
-        <div class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
-            <button class="modal-close" id="modal-close" aria-label="Close recipe"><i class="fas fa-times"></i></button>
-            <div id="modal-content"></div>
-        </div>
+  <!-- 001 肉末茄子 Minced Pork with Eggplant -->
+  <li class="rec-row" data-tags="川菜,下饭" id="rec-minced-eggplant">
+    <div class="rec-head">
+      <span class="rec-num">001</span>
+      <h3 class="rec-title"><span class="zh">肉末<em>茄子</em></span><span class="en">minced pork with <em>eggplant</em>.</span></h3>
+      <div class="rec-meta"><span>25 min</span><span class="sep">&middot;</span><span><span class="zh">2人份</span><span class="en">serves 2</span></span><span class="sep">&middot;</span><span><span class="zh">川</span><span class="en">sichuan</span></span></div>
+      <span class="rec-toggle">+</span>
     </div>
+    <div class="rec-body"><div class="rec-body-inner">
+      <aside>
+        <p class="rec-blurb zh">一道超级下饭的经典川菜家常菜，先蒸后炒，少油健康，茄子软嫩入味，肉末鲜香四溢。</p>
+        <p class="rec-blurb en">a classic sichuan home-style dish &mdash; <em>steamed first, then stir-fried</em>. lower oil, silky eggplant, fragrant minced pork.</p>
+        <div class="rec-tags">
+          <span class="sc-tag">川菜</span><span class="sc-tag">下饭菜</span><span class="sc-tag">家常菜</span><span class="sc-tag">少油健康</span>
+        </div>
+        <div class="rec-sidebar"><dl>
+          <dt><span class="zh">准备</span><span class="en">prep</span></dt><dd><span class="zh">10分钟</span><span class="en"><em>10 min</em></span></dd>
+          <dt><span class="zh">烹饪</span><span class="en">cook</span></dt><dd><span class="zh">15分钟</span><span class="en"><em>15 min</em></span></dd>
+          <dt><span class="zh">总计</span><span class="en">total</span></dt><dd><span class="zh">25分钟</span><span class="en"><em>25 min</em></span></dd>
+          <dt><span class="zh">份量</span><span class="en">serves</span></dt><dd><span class="zh">2人</span><span class="en"><em>2</em></span></dd>
+        </dl></div>
+      </aside>
+      <div>
+        <h4 class="rec-col-head"><span class="zh">食材 / ingredients</span><span class="en">ingredients</span></h4>
+        <ul class="rec-ingredients">
+          <li><span class="amt"><span class="zh">1个</span><span class="en">1 (medium)</span></span><span class="name"><span class="zh">茄子（中等大小），去皮切长条</span><span class="en">eggplant, peeled and cut into long strips</span></span></li>
+          <li><span class="amt"><span class="zh">100克</span><span class="en">100g</span></span><span class="name"><span class="zh">猪肉末</span><span class="en">minced pork</span></span></li>
+          <li><span class="amt"><span class="zh">2根</span><span class="en">2</span></span><span class="name"><span class="zh">小米辣（红绿各一），切小段</span><span class="en">thai chilies (one red, one green), cut into small segments</span></span></li>
+          <li><span class="amt"><span class="zh">3瓣</span><span class="en">3 cloves</span></span><span class="name"><span class="zh">蒜头，切碎</span><span class="en">garlic, minced</span></span></li>
+          <li><span class="amt"><span class="zh">2片</span><span class="en">2 slices</span></span><span class="name"><span class="zh">姜，切末</span><span class="en">ginger, minced</span></span></li>
+          <li><span class="amt"><span class="zh">1根</span><span class="en">1</span></span><span class="name"><span class="zh">葱，切葱花</span><span class="en">scallion, chopped</span></span></li>
+          <li><span class="amt"><span class="zh">1勺</span><span class="en">1 tbsp</span></span><span class="name"><span class="zh">生抽</span><span class="en">light soy sauce</span></span></li>
+          <li><span class="amt"><span class="zh">半勺</span><span class="en">1/2 tbsp</span></span><span class="name"><span class="zh">老抽</span><span class="en">dark soy sauce</span></span></li>
+          <li><span class="amt"><span class="zh">半勺</span><span class="en">1/2 tbsp</span></span><span class="name"><span class="zh">陈醋</span><span class="en">black vinegar</span></span></li>
+          <li><span class="amt"><span class="zh">1勺</span><span class="en">1 tbsp</span></span><span class="name"><span class="zh">白糖</span><span class="en">sugar</span></span></li>
+          <li><span class="amt"><span class="zh">1勺</span><span class="en">1 tbsp</span></span><span class="name"><span class="zh">淀粉</span><span class="en">cornstarch</span></span></li>
+          <li><span class="amt"><span class="zh">适量</span><span class="en">to taste</span></span><span class="name"><span class="zh">盐</span><span class="en">salt</span></span></li>
+          <li><span class="amt"><span class="zh">小半碗</span><span class="en">~1/2 cup</span></span><span class="name"><span class="zh">清水（调酱汁用）</span><span class="en">water (for the sauce)</span></span></li>
+          <li><span class="amt"><span class="zh">少许</span><span class="en">a little</span></span><span class="name"><span class="zh">食用油</span><span class="en">cooking oil</span></span></li>
+        </ul>
+        <h4 class="rec-col-head"><span class="zh">做法 / method</span><span class="en">method</span></h4>
+        <ol class="rec-steps">
+          <li><span class="n">i.</span><span class="t"><span class="zh">茄子洗净去皮，切成粗细均匀的长条，泡在清水中防止氧化变黑。</span><span class="en">wash the eggplant, peel, and cut into evenly sized long strips. soak in cold water to prevent oxidation and browning.</span></span></li>
+          <li><span class="n">ii.</span><span class="t"><span class="zh">锅中烧开水，水开后将茄子隔水蒸5分钟，蒸好后倒掉多余水分备用。注意不要蒸过头，茄子稍软即可。</span><span class="en">bring water to a boil and steam the eggplant for 5 minutes. drain excess water and set aside. don&rsquo;t overdo it &mdash; it should be just tender.</span></span></li>
+          <li><span class="n">iii.</span><span class="t"><span class="zh">调酱汁：碗中加入生抽1勺、老抽半勺、陈醋半勺、盐适量、白糖1勺、淀粉1勺、清水小半碗，搅拌均匀备用。</span><span class="en">make the sauce: in a bowl, combine 1 tbsp light soy, 1/2 tbsp dark soy, 1/2 tbsp black vinegar, salt to taste, 1 tbsp sugar, 1 tbsp cornstarch, and about half a cup of water. stir until smooth.</span></span></li>
+          <li><span class="n">iv.</span><span class="t"><span class="zh">锅内放少许食用油，小火放入姜末、蒜末、小米辣和葱白爆香，再加入肉末，保持小火翻炒至肉末变色散开。</span><span class="en">add a little oil to the wok. over low heat, sizzle the ginger, garlic, chilies, and white parts of the scallion. add the pork and keep on low heat, stirring until it&rsquo;s broken up and no longer pink.</span></span></li>
+          <li><span class="n">v.</span><span class="t"><span class="zh">将蒸好的茄子放入锅中，与肉末一起翻炒均匀。</span><span class="en">add the steamed eggplant and fold it in with the pork.</span></span></li>
+          <li><span class="n">vi.</span><span class="t"><span class="zh">倒入调好的酱汁，大火快速翻炒均匀，待酱汁收浓即可出锅，撒上葱花装盘。</span><span class="en">pour in the sauce, crank the heat, toss until it thickens and glosses the eggplant. plate and top with scallion greens.</span></span></li>
+        </ol>
+        <p class="rec-tip zh"><strong>小贴士</strong>先蒸后炒是这道菜的关键，蒸过的茄子不再大量吸油，更加健康。茄子切好后要尽快蒸或泡水，避免氧化发黑。炒肉末时保持小火，才能炒散不结团。</p>
+        <p class="rec-tip en"><strong>tip</strong> steaming first is the whole trick &mdash; pre-cooked eggplant doesn&rsquo;t drink oil the way raw eggplant does. once cut, steam or soak right away so it doesn&rsquo;t oxidize. keep the heat low while browning the pork so it breaks into loose grains instead of clumping.</p>
+      </div>
+    </div></div>
+  </li>
 
-    <script src="script.js"></script>
-    <script>
-        // ── Recipe data ──
-        const recipes = [
-            {
-                id: 'minced-eggplant',
-                title: '肉末茄子',
-                subtitle: '一道超级下饭的经典川菜家常菜，先蒸后炒，少油健康，茄子软嫩入味，肉末鲜香四溢。',
-                cuisine: '川菜',
-                prep: '10分钟', cook: '15分钟', total: '25分钟', servings: '2',
-                tags: ['川菜', '下饭菜', '家常菜', '少油健康'],
-                ingredients: [
-                    ['1个', '茄子（中等大小），去皮切长条'],
-                    ['100克', '猪肉末'],
-                    ['2根', '小米辣（红绿各一），切小段'],
-                    ['3瓣', '蒜头，切碎'],
-                    ['2片', '姜，切末'],
-                    ['1根', '葱，切葱花'],
-                    ['1勺', '生抽'],
-                    ['半勺', '老抽'],
-                    ['半勺', '陈醋'],
-                    ['1勺', '白糖'],
-                    ['1勺', '淀粉'],
-                    ['适量', '盐'],
-                    ['小半碗', '清水（调酱汁用）'],
-                    ['少许', '食用油'],
-                ],
-                steps: [
-                    '茄子洗净去皮，切成粗细均匀的长条，泡在清水中防止氧化变黑。',
-                    '锅中烧开水，水开后将茄子隔水蒸5分钟，蒸好后倒掉多余水分备用。注意不要蒸过头，茄子稍软即可。',
-                    '调酱汁：碗中加入生抽1勺、老抽半勺、陈醋半勺、盐适量、白糖1勺、淀粉1勺、清水小半碗，搅拌均匀备用。',
-                    '锅内放少许食用油，小火放入姜末、蒜末、小米辣和葱白爆香，再加入肉末，保持小火翻炒至肉末变色散开。',
-                    '将蒸好的茄子放入锅中，与肉末一起翻炒均匀。',
-                    '倒入调好的酱汁，大火快速翻炒均匀，待酱汁收浓即可出锅，撒上葱花装盘。',
-                ],
-                tip: '先蒸后炒是这道菜的关键，蒸过的茄子不再大量吸油，更加健康。茄子切好后要尽快蒸或泡水，避免氧化发黑。炒肉末时保持小火，才能炒散不结团。',
-            },
-            {
-                id: 'mapo-tofu',
-                title: '麻婆豆腐',
-                subtitle: '四川经典名菜，麻辣鲜香，嫩滑入味，一道让人欲罢不能的下饭神菜。',
-                cuisine: '川菜',
-                prep: '10分钟', cook: '15分钟', total: '25分钟', servings: '2',
-                tags: ['川菜', '麻辣', '家常菜', '下饭'],
-                ingredients: [
-                    ['1块 (200克)', '嫩豆腐，切2厘米方块'],
-                    ['50克', '牛肉末（或猪肉末）'],
-                    ['1大勺', '郫县红油豆瓣酱'],
-                    ['1小勺', '豆豉，切碎'],
-                    ['1大勺', '食用油'],
-                    ['2瓣', '大蒜，切末'],
-                    ['1小块', '生姜，切末'],
-                    ['2根', '小葱，切葱花'],
-                    ['2颗', '干辣椒，切段去籽'],
-                    ['1小勺', '花椒粒（或花椒粉）'],
-                    ['150毫升', '高汤或清水'],
-                    ['1小勺', '生抽'],
-                    ['1小勺', '料酒'],
-                    ['少许', '白糖'],
-                    ['适量', '水淀粉（淀粉兑水）'],
-                ],
-                steps: [
-                    '豆腐切成约2厘米的方块，放入加了少许盐的沸水中焯烫2分钟，捞出沥干备用。这一步可以去除豆腥味，同时让豆腐更嫩滑不易碎。',
-                    '牛肉末加入少许料酒拌匀，腌制5分钟备用。',
-                    '锅中倒入食用油，中火烧热，放入花椒粒小火炒出香味后捞出丢弃（如用花椒粉则最后撒入）。',
-                    '锅中放入牛肉末，大火翻炒至变色微焦，约2分钟，盛出备用。',
-                    '锅中留底油，转中小火，放入郫县豆瓣酱和豆豉，炒出红油和香味，约1分钟。再加入姜末、蒜末和干辣椒段翻炒均匀。',
-                    '倒入高汤，加入生抽和少许白糖调味，大火烧开后轻轻放入豆腐块，转中小火焖煮约5分钟，让豆腐充分入味。',
-                    '放回炒好的牛肉末，轻轻翻匀。淋入水淀粉勾芡，边倒边轻轻推动豆腐，使汤汁变得浓稠包裹住豆腐。',
-                    '出锅装盘，撒上花椒粉和葱花即可。趁热配白米饭享用。',
-                ],
-                tip: '素食版可用香菇碎代替肉末，用蔬菜高汤代替鸡汤。豆腐建议选用嫩豆腐或南豆腐，口感最佳。郫县豆瓣酱本身有咸味，无需额外加盐。',
-            },
-            {
-                id: 'pork-pepper',
-                title: '辣椒炒肉',
-                subtitle: '经典湘菜家常菜，香辣下饭，肉嫩椒鲜，锅气十足。',
-                cuisine: '湘菜',
-                prep: '10分钟', cook: '10分钟', total: '20分钟', servings: '2',
-                tags: ['湘菜', '香辣', '家常菜', '下饭'],
-                ingredients: [
-                    ['150克', '五花肉（肥瘦相间），切薄片'],
-                    ['200克', '螺丝椒或尖椒，斜切段'],
-                    ['4-5瓣', '大蒜，拍扁'],
-                    ['1小块', '生姜，切片'],
-                    ['1小勺', '豆豉'],
-                    ['1大勺', '生抽'],
-                    ['1小勺', '老抽'],
-                    ['适量', '盐'],
-                    ['少许', '白糖'],
-                    ['适量', '食用油'],
-                ],
-                steps: [
-                    '五花肉切成薄片，肥肉和瘦肉分开。瘦肉用少许生抽和老抽抓拌均匀，腌制5分钟。辣椒洗净去蒂，斜切成段。大蒜拍扁，生姜切片备用。',
-                    '锅烧热不放油，倒入辣椒段，中小火干煸至辣椒表皮起虎皮焦斑、变软出香，盛出备用。这一步是辣椒炒肉好吃的关键。',
-                    '锅中不放油，先下入肥肉片，小火慢煸至出油、边缘微焦金黄。这样用猪油炒菜更香。',
-                    '将腌好的瘦肉片倒入锅中，转大火快速翻炒至变色，约1分钟。',
-                    '把肉拨到一边，下入蒜瓣、姜片和豆豉，炒出香味。',
-                    '倒入之前煸好的辣椒，大火快速翻炒，加入适量盐和少许白糖调味，翻炒均匀即可出锅。',
-                ],
-                tip: '辣椒首选螺丝椒，皮薄辣度适中，炒出来最香。肉片要逆纹切薄，口感更嫩。全程大火快炒，保持锅气。',
-            },
-            {
-                id: 'potato-eggplant',
-                title: '东北土豆炖茄子',
-                subtitle: '东北经典家常炖菜，土豆绵软、茄子入味、汤汁浓稠，拌饭一绝。俗话说：土豆炖茄子，撑死老爷子！',
-                cuisine: '东北菜',
-                prep: '10分钟', cook: '20分钟', total: '30分钟', servings: '2',
-                tags: ['东北菜', '家常菜', '下饭菜'],
-                ingredients: [
-                    ['1根', '紫皮长茄子，手掰成滚刀块'],
-                    ['1个(中等)', '黄心土豆，去皮切滚刀块'],
-                    ['1根', '青尖椒，切段（可选）'],
-                    ['3瓣', '大蒜，切末'],
-                    ['1段', '大葱，切葱花'],
-                    ['2片', '生姜'],
-                    ['1.5大勺', '东北大酱（或黄豆酱）'],
-                    ['1大勺', '生抽'],
-                    ['1/2小勺', '十三香'],
-                    ['适量', '食盐'],
-                    ['2大勺', '食用油'],
-                    ['约300毫升', '清水（刚没过食材）'],
-                ],
-                steps: [
-                    '茄子洗净用手掰成块（手掰比刀切口感更好，更容易入味），撒一小勺盐拌匀腌制5-10分钟，杀出水分，炒时更省油。土豆去皮切滚刀块，大小与茄子相近。',
-                    '锅中倒入食用油，中火烧热。先倒入土豆块翻炒2-3分钟，炒至表面微微变透明发软。',
-                    '将腌好的茄子挤掉多余水分，倒入锅中与土豆一起翻炒，炒至茄子变软变色，约3分钟。',
-                    '加入东北大酱翻炒均匀，让酱香裹满食材。再加入生抽、十三香调味翻炒片刻。',
-                    '倒入清水，水量刚没过食材即可。大火烧开后转中小火，盖锅盖炖煮约10分钟，至土豆绵软、茄子软烂。',
-                    '开盖大火收汁，用锅铲将部分土豆和茄子铲碎（不用全碎，半碎半块口感最佳），让淀粉融入汤汁使其浓稠。',
-                    '汤汁收至浓稠时关火，撒上蒜末和葱花拌匀，即可出锅装盘。',
-                ],
-                tip: '茄子一定选紫色茄子把的，口感更好。大酱是灵魂调料，不可省略。喜欢吃辣可加青尖椒段一起炖，尖椒能调和茄子土豆的味道，使汤汁更鲜美。多留些汤汁拌米饭，极其下饭。',
-            },
-            {
-                id: 'cola-wings',
-                title: '可乐鸡翅',
-                subtitle: '经典家常菜，甜咸适口，色泽红亮，肉质嫩滑，大人小孩都爱吃。',
-                cuisine: '家常菜',
-                prep: '20分钟', cook: '25分钟', total: '45分钟', servings: '2',
-                tags: ['家常菜', '甜咸', '简单快手'],
-                ingredients: [
-                    ['6个', '鸡中翅'],
-                    ['200毫升', '可口可乐'],
-                    ['1大勺', '生抽'],
-                    ['1小勺', '老抽（上色用）'],
-                    ['1大勺', '料酒'],
-                    ['3片', '生姜'],
-                    ['1段', '葱（切段）'],
-                    ['1个', '八角'],
-                    ['少许', '食用油'],
-                    ['适量', '盐（根据口味调整）'],
-                ],
-                steps: [
-                    '鸡翅洗净，在背面划两刀方便入味。放入碗中加姜片、料酒腌制15分钟。',
-                    '锅中加冷水和葱姜片，放入鸡翅，大火煮开后撇去浮沫，焯水约2分钟，捞出用温水冲洗干净，沥干备用。',
-                    '锅中倒入少许油，中火烧热后放入鸡翅，煎至两面金黄，约每面2分钟。',
-                    '放入八角和姜丝，翻炒出香味，倒入可乐和生抽、老抽，可乐基本没过鸡翅即可。',
-                    '大火煮开后转小火，盖上锅盖炖煮约15分钟，中途翻面一次使鸡翅均匀上色。',
-                    '开盖转大火收汁，不断翻动鸡翅防止粘锅，直至汤汁浓稠裹满鸡翅即可出锅。',
-                ],
-                tip: '喜欢甜口用可口可乐，偏淡甜用百事可乐。收汁时要看着锅，汤汁浓稠后很容易糊底。也可挤几滴柠檬汁中和甜味，口感更清爽。',
-            },
-            {
-                id: 'salmon',
-                title: 'Crispy Skin Pan-Seared Salmon',
-                subtitle: 'Restaurant-quality salmon with shatteringly crispy skin and a buttery, flaky interior — ready in under 15 minutes.',
-                cuisine: 'Western',
-                prep: '5 min', cook: '8 min', total: '13 min', servings: '2',
-                tags: ['Quick', 'High-Protein', 'Gluten-Free', 'Weeknight'],
-                ingredients: [
-                    ['2 (6 oz each)', 'skin-on salmon fillets, pin-boned'],
-                    ['1 tbsp', 'avocado or vegetable oil'],
-                    ['1 tsp', 'kosher salt'],
-                    ['1/2 tsp', 'freshly ground black pepper'],
-                    ['2 tbsp', 'unsalted butter'],
-                    ['2 cloves', 'garlic, smashed'],
-                    ['3 sprigs', 'fresh thyme'],
-                    ['2 wedges', 'lemon, for serving'],
-                ],
-                steps: [
-                    'Pat the salmon fillets very dry on all sides with paper towels — this is the single most important step for crispy skin. Season both sides generously with kosher salt and black pepper.',
-                    'Let the seasoned fillets rest uncovered on a plate for 10 minutes to bring them closer to room temperature and further dry the skin.',
-                    'Heat the oil in a stainless steel or cast iron skillet over medium-high heat until it shimmers. Do not use nonstick — you need direct heat contact for truly crispy skin.',
-                    'Place salmon skin-side down in the hot pan. Immediately press each fillet gently with a spatula for about 10 seconds to prevent the skin from curling. Reduce heat to medium.',
-                    'Cook without moving for 4 to 5 minutes until the skin is deep golden and releases easily from the pan. You should see the flesh lighten in color about three-quarters of the way up.',
-                    'Flip the fillets. Add the butter, garlic, and thyme to the pan. Tilt the pan and baste the salmon with the foaming brown butter for 1 to 2 minutes until just cooked through (slightly translucent in the very center for medium doneness, about 125°F / 52°C).',
-                    'Transfer to plates skin-side up so the crispy skin stays intact. Spoon the browned garlic-thyme butter over the top and serve immediately with lemon wedges.',
-                ],
-                tip: 'The key to crispy skin is removing moisture — pat aggressively dry and don\'t skip the resting step. Serve skin-side up so it stays crispy. A fish spatula makes flipping much easier. Target an internal temperature of 125°F (52°C) for medium, or 130°F (54°C) for medium-well.',
-            },
-            {
-                id: 'beef-filling',
-                title: '万能牛肉馅',
-                subtitle: '鲜嫩多汁、汤汁饱满的牛肉馅，适用于饺子、包子、馅饼等各种面食。掌握打水、调味、搅拌三大要点，轻松做出鲜香不柴的完美牛肉馅。',
-                cuisine: '万能馅料',
-                prep: '15分钟', cook: '5分钟', total: '20分钟', servings: '2',
-                tags: ['万能馅料', '饺子', '包子', '馅饼'],
-                ingredients: [
-                    ['250克', '牛肉（肥瘦相间），剁成馅'],
-                    ['半个', '洋葱，切碎末'],
-                    ['1个', '鸡蛋'],
-                    ['2片', '姜，切极细末'],
-                    ['3大勺', '花椒水（花椒煮3分钟泡半小时）'],
-                    ['1小勺', '生抽'],
-                    ['半小勺', '老抽'],
-                    ['1大勺', '花椒油'],
-                    ['适量', '盐'],
-                    ['适量', '黑胡椒粉'],
-                ],
-                steps: [
-                    '牛肉馅中打入鸡蛋，沿同一方向搅拌均匀。鸡蛋能让肉馅更加嫩滑。',
-                    '花椒水分2-3次加入肉馅中，每次都沿同一方向用力搅打至完全吸收。花椒水能去腥提鲜，使馅料汤汁饱满。',
-                    '加入盐，继续同方向搅拌上劲，锁住肉馅和汤汁的鲜味。再加入生抽和老抽，搅拌均匀，提鲜上色。',
-                    '加入洋葱碎和姜末，撒入黑胡椒粉，搅拌均匀。洋葱与牛肉是绝配，姜末要足够细碎以去腥提鲜。',
-                    '花椒油加热后趁热浇在洋葱上，激发出香味，然后同方向搅拌均匀。成品应呈现油润粘稠状态。',
-                    '馅料拌好后放冰箱冷藏30分钟再使用，口感更佳。可用于包饺子、蒸包子或煎馅饼。',
-                ],
-                tip: '关键要点：1）始终沿同一方向搅拌，使肉馅上劲有嚼头；2）花椒水分次加入，不要一次倒入；3）洋葱是牛肉馅的灵魂搭档，切勿省略。',
-            },
-            {
-                id: 'chili-sauce',
-                title: '万能油泼辣子拌酱',
-                subtitle: '一碗香气四溢的万能拌酱，泼油激香，拌面拌菜都绝了。',
-                cuisine: '万能酱料',
-                prep: '10分钟', cook: '5分钟', total: '15分钟', servings: '2',
-                tags: ['万能酱料', '拌面', '简单快手'],
-                ingredients: [
-                    ['3瓣', '蒜，切末'],
-                    ['2根', '小葱，切葱花'],
-                    ['1小勺', '白芝麻'],
-                    ['1小勺', '孜然粉'],
-                    ['2大勺', '辣椒面'],
-                    ['适量', '热油（烧至冒烟）'],
-                    ['适量', '盐'],
-                    ['2大勺', '生抽'],
-                    ['1大勺', '香醋'],
-                    ['1小勺', '蚝油'],
-                    ['3大勺', '雪碧'],
-                    ['1大勺', '芝麻酱（提前用温水泄开）'],
-                ],
-                steps: [
-                    '碗中放入蒜末、葱花、白芝麻、孜然粉和辣椒面，混合均匀。',
-                    '锅中烧油至冒烟（约七八成热），将热油浇在碗中的调料上，激发出香味，搅拌均匀。',
-                    '依次加入盐、生抽、香醋和蚝油，搅拌混合。',
-                    '倒入雪碧，搅拌均匀（雪碧可以增加回甜和气泡口感）。',
-                    '最后加入提前用温水泄开的芝麻酱，充分搅拌至酱汁顺滑均匀即可。',
-                ],
-                tip: '芝麻酱提前用少量温水搅开至流动状态，避免结块。此酱可拌面、拌凉菜、蘸饺子，用途广泛。辣椒面和雪碧的量可根据个人口味调整。',
-            },
-            {
-                id: 'pepper-eggs',
-                title: '青椒炒鸡蛋',
-                subtitle: '一道经典的中式家常菜，青椒的清香与鸡蛋的嫩滑完美结合，简单快手，非常下饭。',
-                cuisine: '家常菜',
-                prep: '5分钟', cook: '5分钟', total: '10分钟', servings: '2',
-                tags: ['家常菜', '快手菜', '下饭菜'],
-                ingredients: [
-                    ['3个', '鸡蛋'],
-                    ['2个', '青椒，去籽切丝或切块'],
-                    ['2瓣', '蒜，切末'],
-                    ['1段', '葱白，切碎'],
-                    ['适量', '食用油'],
-                    ['适量', '盐'],
-                    ['1小勺', '生抽'],
-                    ['少许', '料酒'],
-                ],
-                steps: [
-                    '青椒洗净去籽，切成细丝或小块备用。蒜切末，葱白切碎。',
-                    '鸡蛋打入碗中，加少许盐和料酒，用筷子充分搅打均匀。',
-                    '锅中倒入适量油，大火烧热，倒入蛋液，用筷子快速搅散，蛋液刚凝固即盛出备用，不要炒太老。',
-                    '锅中留少许底油，放入蒜末和葱白爆香，随后倒入青椒丝，大火快速翻炒至青椒变色微软。',
-                    '将炒好的鸡蛋倒回锅中，加入生抽，翻炒均匀即可出锅。',
-                ],
-                tip: '炒鸡蛋时油要多一些且油温要高，鸡蛋才会蓬松鲜嫩。青椒不宜炒太久，保持脆嫩口感最佳。喜辣可加少许干辣椒段一起爆香。',
-            },
-            {
-                id: 'spinach-tofu',
-                title: '菠菜豆腐汤',
-                subtitle: '清淡鲜美的家常汤，简单快手，营养丰富。菠菜焯水去草酸，与嫩豆腐相得益彰。',
-                cuisine: '家常菜',
-                prep: '5分钟', cook: '10分钟', total: '15分钟', servings: '2',
-                tags: ['家常菜', '清淡', '素食'],
-                ingredients: [
-                    ['200克', '菠菜，洗净切段'],
-                    ['300克', '嫩豆腐（内酯豆腐或软豆腐），切块'],
-                    ['600毫升', '清水或鸡汤'],
-                    ['3瓣', '蒜，切末'],
-                    ['2片', '生姜，切片'],
-                    ['1茶匙', '盐'],
-                    ['少许', '白胡椒粉'],
-                    ['1茶匙', '香油'],
-                    ['1汤匙', '食用油'],
-                ],
-                steps: [
-                    '菠菜洗净切成约5厘米段；豆腐轻轻切成1.5厘米方块；蒜切末，姜切片备用。',
-                    '烧一小锅开水，菠菜下锅焯约30秒捞出，过冷水，挤去多余水分。此步骤可去除草酸，口感更佳。',
-                    '锅中加食用油，中火爆香姜片和一半蒜末，约30秒出香味。',
-                    '加入清水或鸡汤，大火烧开后轻轻下入豆腐块，转中小火炖3分钟，汤色略带乳白。',
-                    '下入焯好的菠菜，加盐和白胡椒粉，轻轻搅匀，煮1分钟。',
-                    '关火，淋上香油，撒上剩余蒜末，盛碗上桌。',
-                ],
-                tip: '变化版：下菠菜前淋入打散的蛋液，边淋边搅，做成蛋花汤；或加入虾皮一起爆香，无需额外提鲜。',
-            },
-            {
-                id: 'tomato-noodles',
-                title: '番茄浓汤面',
-                subtitle: '浓郁的茄汁裹满每根面条，酸甜鲜香，一碗暖胃又满足。',
-                cuisine: '家常面',
-                prep: '10分钟', cook: '15分钟', total: '25分钟', servings: '1',
-                tags: ['家常面', '番茄', '快手菜'],
-                ingredients: [
-                    ['3个', '西红柿，切小块'],
-                    ['2个', '鸡蛋'],
-                    ['1人份', '面条（挂面或鲜面均可）'],
-                    ['适量', '青菜（生菜、小白菜等）'],
-                    ['适量', '葱末'],
-                    ['适量', '蒜末'],
-                    ['1大勺', '剁椒酱'],
-                    ['2大勺', '番茄酱'],
-                    ['2勺', '生抽'],
-                    ['1勺', '蚝油'],
-                    ['半勺', '老抽（上色）'],
-                    ['少许', '盐'],
-                    ['少许', '白糖'],
-                    ['少许', '胡椒粉'],
-                    ['适量', '水淀粉'],
-                    ['几滴', '香油'],
-                    ['适量', '葱花（装饰）'],
-                ],
-                steps: [
-                    '热锅倒入适量油，打入鸡蛋煎至两面金黄，盛出备用。',
-                    '锅中留底油，小火放入葱末、蒜末和剁椒酱，煸炒出香味。',
-                    '倒入西红柿丁，中火翻炒至出汁变软。',
-                    '加入2大勺番茄酱，翻炒均匀让颜色更红亮。',
-                    '加入约两碗开水，大火煮沸。',
-                    '调入料汁：2勺生抽、1勺蚝油、半勺老抽、少许盐、白糖和胡椒粉，搅匀。',
-                    '汤底沸腾后下入面条，中火煮约5分钟至面条熟透。',
-                    '放入煎蛋和青菜，继续煮1分钟。',
-                    '淋入水淀粉勾芡使汤汁浓稠，滴几滴香油，撒上葱花即可出锅。',
-                ],
-                tip: '西红柿尽量选熟透的沙瓤番茄，炒出的汁水更浓郁。面条可用挂面、手擀面或宽面，按个人喜好选择。',
-            },
-            {
-                id: 'lemon-sauce',
-                title: 'Lemon Cream Sauce',
-                subtitle: 'A quick shortcut sauce using store-bought Alfredo, brightened with fresh lemon and dill. Perfect over pasta, salmon, or chicken.',
-                cuisine: 'Western',
-                prep: '5 min', cook: '8 min', total: '13 min', servings: '4',
-                tags: ['Quick', 'Creamy', 'Pasta Sauce'],
-                ingredients: [
-                    ['2 cups', 'store-bought Alfredo sauce'],
-                    ['1/2 cup', 'chicken broth'],
-                    ['2-3 tbsp', 'fresh lemon juice'],
-                    ['2 cloves', 'garlic, minced'],
-                    ['2 tbsp', 'butter'],
-                    ['2 tbsp', 'fresh dill, chopped'],
-                    ['to taste', 'salt and pepper'],
-                    ['pinch', 'red pepper flakes (optional)'],
-                ],
-                steps: [
-                    'Melt butter in a saucepan over medium heat. Add minced garlic and cook for about 30 seconds until fragrant. Don\'t let it brown.',
-                    'Pour in the Alfredo sauce and stir to combine with the garlic butter until smooth.',
-                    'Add the chicken broth and stir. Let it warm through for 2-3 minutes, stirring occasionally, until smooth and heated.',
-                    'Reduce heat to low. Stir in the lemon juice, starting with 2 tbsp. Taste and add more if you want a brighter flavor.',
-                    'Season with salt, pepper, and red pepper flakes if using. Go easy on salt — Alfredo is already well-seasoned.',
-                    'Remove from heat and stir in the fresh dill. Serve immediately over pasta, fish, or chicken.',
-                ],
-                tip: 'Start with less lemon juice and add to taste — you can always add more but can\'t take it away. This sauce pairs beautifully with fettuccine, penne, or as a topping for pan-seared salmon.',
-            },
+  <!-- 002 麻婆豆腐 Mapo Tofu -->
+  <li class="rec-row" data-tags="川菜,下饭" id="rec-mapo-tofu">
+    <div class="rec-head">
+      <span class="rec-num">002</span>
+      <h3 class="rec-title"><span class="zh">麻婆<em>豆腐</em></span><span class="en">mapo <em>tofu</em>.</span></h3>
+      <div class="rec-meta"><span>25 min</span><span class="sep">&middot;</span><span><span class="zh">2人份</span><span class="en">serves 2</span></span><span class="sep">&middot;</span><span><span class="zh">川</span><span class="en">sichuan</span></span></div>
+      <span class="rec-toggle">+</span>
+    </div>
+    <div class="rec-body"><div class="rec-body-inner">
+      <aside>
+        <p class="rec-blurb zh">四川经典名菜，麻辣鲜香，嫩滑入味，一道让人欲罢不能的下饭神菜。</p>
+        <p class="rec-blurb en">the one dish i will get up to make at midnight. <em>má</em>, <em>là</em>, silky, savoury &mdash; the classic sichuan headliner.</p>
+        <div class="rec-tags">
+          <span class="sc-tag">川菜</span><span class="sc-tag">麻辣</span><span class="sc-tag">家常菜</span><span class="sc-tag">下饭</span>
+        </div>
+        <div class="rec-sidebar"><dl>
+          <dt><span class="zh">准备</span><span class="en">prep</span></dt><dd><span class="zh">10分钟</span><span class="en"><em>10 min</em></span></dd>
+          <dt><span class="zh">烹饪</span><span class="en">cook</span></dt><dd><span class="zh">15分钟</span><span class="en"><em>15 min</em></span></dd>
+          <dt><span class="zh">总计</span><span class="en">total</span></dt><dd><span class="zh">25分钟</span><span class="en"><em>25 min</em></span></dd>
+          <dt><span class="zh">份量</span><span class="en">serves</span></dt><dd><span class="zh">2人</span><span class="en"><em>2</em></span></dd>
+        </dl></div>
+      </aside>
+      <div>
+        <h4 class="rec-col-head"><span class="zh">食材 / ingredients</span><span class="en">ingredients</span></h4>
+        <ul class="rec-ingredients">
+          <li><span class="amt"><span class="zh">1块 (200克)</span><span class="en">1 block (200g)</span></span><span class="name"><span class="zh">嫩豆腐，切2厘米方块</span><span class="en">soft tofu, cut into 2cm cubes</span></span></li>
+          <li><span class="amt"><span class="zh">50克</span><span class="en">50g</span></span><span class="name"><span class="zh">牛肉末（或猪肉末）</span><span class="en">minced beef (or pork)</span></span></li>
+          <li><span class="amt"><span class="zh">1大勺</span><span class="en">1 tbsp</span></span><span class="name"><span class="zh">郫县红油豆瓣酱</span><span class="en">pixian red-oil doubanjiang</span></span></li>
+          <li><span class="amt"><span class="zh">1小勺</span><span class="en">1 tsp</span></span><span class="name"><span class="zh">豆豉，切碎</span><span class="en">fermented black beans, chopped</span></span></li>
+          <li><span class="amt"><span class="zh">1大勺</span><span class="en">1 tbsp</span></span><span class="name"><span class="zh">食用油</span><span class="en">cooking oil</span></span></li>
+          <li><span class="amt"><span class="zh">2瓣</span><span class="en">2 cloves</span></span><span class="name"><span class="zh">大蒜，切末</span><span class="en">garlic, minced</span></span></li>
+          <li><span class="amt"><span class="zh">1小块</span><span class="en">1 small knob</span></span><span class="name"><span class="zh">生姜，切末</span><span class="en">ginger, minced</span></span></li>
+          <li><span class="amt"><span class="zh">2根</span><span class="en">2</span></span><span class="name"><span class="zh">小葱，切葱花</span><span class="en">scallions, chopped</span></span></li>
+          <li><span class="amt"><span class="zh">2颗</span><span class="en">2</span></span><span class="name"><span class="zh">干辣椒，切段去籽</span><span class="en">dried chilies, segmented &amp; deseeded</span></span></li>
+          <li><span class="amt"><span class="zh">1小勺</span><span class="en">1 tsp</span></span><span class="name"><span class="zh">花椒粒（或花椒粉）</span><span class="en">sichuan peppercorns (or ground)</span></span></li>
+          <li><span class="amt"><span class="zh">150毫升</span><span class="en">150ml</span></span><span class="name"><span class="zh">高汤或清水</span><span class="en">stock or water</span></span></li>
+          <li><span class="amt"><span class="zh">1小勺</span><span class="en">1 tsp</span></span><span class="name"><span class="zh">生抽</span><span class="en">light soy sauce</span></span></li>
+          <li><span class="amt"><span class="zh">1小勺</span><span class="en">1 tsp</span></span><span class="name"><span class="zh">料酒</span><span class="en">shaoxing wine</span></span></li>
+          <li><span class="amt"><span class="zh">少许</span><span class="en">a pinch</span></span><span class="name"><span class="zh">白糖</span><span class="en">sugar</span></span></li>
+          <li><span class="amt"><span class="zh">适量</span><span class="en">as needed</span></span><span class="name"><span class="zh">水淀粉（淀粉兑水）</span><span class="en">cornstarch slurry</span></span></li>
+        </ul>
+        <h4 class="rec-col-head"><span class="zh">做法 / method</span><span class="en">method</span></h4>
+        <ol class="rec-steps">
+          <li><span class="n">i.</span><span class="t"><span class="zh">豆腐切成约2厘米的方块，放入加了少许盐的沸水中焯烫2分钟，捞出沥干备用。这一步可以去除豆腥味，同时让豆腐更嫩滑不易碎。</span><span class="en">cut the tofu into roughly 2cm cubes and blanch in lightly salted boiling water for 2 minutes. drain. this removes any beany note and sets the tofu so it holds together.</span></span></li>
+          <li><span class="n">ii.</span><span class="t"><span class="zh">牛肉末加入少许料酒拌匀，腌制5分钟备用。</span><span class="en">mix the minced beef with a splash of shaoxing and let it rest for 5 minutes.</span></span></li>
+          <li><span class="n">iii.</span><span class="t"><span class="zh">锅中倒入食用油，中火烧热，放入花椒粒小火炒出香味后捞出丢弃（如用花椒粉则最后撒入）。</span><span class="en">heat oil over medium. toast the whole peppercorns on low until fragrant, then fish them out and discard. if using ground, reserve it for the end.</span></span></li>
+          <li><span class="n">iv.</span><span class="t"><span class="zh">锅中放入牛肉末，大火翻炒至变色微焦，约2分钟，盛出备用。</span><span class="en">crank the heat, add the beef, and stir-fry for about 2 minutes until browned and slightly crisp at the edges. remove and set aside.</span></span></li>
+          <li><span class="n">v.</span><span class="t"><span class="zh">锅中留底油，转中小火，放入郫县豆瓣酱和豆豉，炒出红油和香味，约1分钟。再加入姜末、蒜末和干辣椒段翻炒均匀。</span><span class="en">leave the oil in the pan, drop the heat to medium-low. cook the doubanjiang and douchi for about a minute until the oil runs red and fragrant. add the ginger, garlic, and dried chilies.</span></span></li>
+          <li><span class="n">vi.</span><span class="t"><span class="zh">倒入高汤，加入生抽和少许白糖调味，大火烧开后轻轻放入豆腐块，转中小火焖煮约5分钟，让豆腐充分入味。</span><span class="en">pour in the stock, add soy and a pinch of sugar, bring to a boil. slide the tofu in gently, drop to medium-low, and simmer about 5 minutes so it takes on the sauce.</span></span></li>
+          <li><span class="n">vii.</span><span class="t"><span class="zh">放回炒好的牛肉末，轻轻翻匀。淋入水淀粉勾芡，边倒边轻轻推动豆腐，使汤汁变得浓稠包裹住豆腐。</span><span class="en">return the beef and fold in. drizzle in the cornstarch slurry in stages, pushing the tofu around gently until the sauce clings and coats each cube.</span></span></li>
+          <li><span class="n">viii.</span><span class="t"><span class="zh">出锅装盘，撒上花椒粉和葱花即可。趁热配白米饭享用。</span><span class="en">plate, shower with ground sichuan pepper and scallion. serve over hot rice, immediately.</span></span></li>
+        </ol>
+        <p class="rec-tip zh"><strong>小贴士</strong>素食版可用香菇碎代替肉末，用蔬菜高汤代替鸡汤。豆腐建议选用嫩豆腐或南豆腐，口感最佳。郫县豆瓣酱本身有咸味，无需额外加盐。</p>
+        <p class="rec-tip en"><strong>tip</strong> for a vegetarian version, swap minced shiitake for the beef and vegetable stock for chicken. soft or silken tofu gives the best mouthfeel. doubanjiang is salty on its own &mdash; no extra salt needed.</p>
+      </div>
+    </div></div>
+  </li>
 
-            {
-                id: 'beef-stir-fry',
-                title: '小炒黄牛肉',
-                subtitle: '锅气十足、牛肉滑嫩、鲜辣下饭的经典湘菜，讲究一个大火快炒。',
-                cuisine: '湘菜',
-                prep: '15分钟', cook: '10分钟', total: '25分钟', servings: '2',
-                tags: ['湘菜', '下饭', '快手菜'],
-                ingredients: [
-                    ['250克', '牛里脊或黄瓜条（筋膜少的瘦肉）'],
-                    ['适量', '小米辣（切圈）'],
-                    ['适量', '泡椒（切碎）'],
-                    ['适量', '大蒜（切末）'],
-                    ['适量', '姜（切丝）'],
-                    ['适量', '香菜（切段）'],
-                    ['适量', '芹菜（可选，切段）'],
-                    ['1勺', '生抽'],
-                    ['半勺', '老抽（上色）'],
-                    ['1勺', '料酒'],
-                    ['少许', '胡椒粉'],
-                    ['1小勺', '淀粉'],
-                    ['1勺', '食用油'],
-                    ['1勺', '蚝油'],
-                    ['少许', '盐'],
-                ],
-                steps: [
-                    '逆纹切片：观察牛肉的纹理，横着纹理切（断丝切），这样炒出来的肉才不会老。尽量切得薄一些。',
-                    '腌制：牛肉放入碗中，加入1勺生抽、半勺老抽、少许胡椒粉、1勺料酒，用手抓匀直到水分被吸收。',
-                    '加入1小勺淀粉再次抓匀，锁住水分。最后淋入1勺食用油拌匀，防止下锅后粘连。腌制15分钟。',
-                    '滑炒牛肉：锅内多倒一点油，油热后（微微冒烟）倒入牛肉，迅速用铲子划散。牛肉变色即刻盛出（约7-8成熟），不要久炒。',
-                    '炒香配料：锅留底油，下姜丝、蒜末、小米辣和泡椒，中小火炒出香味和辣味。',
-                    '大火合炒：转大火，倒回牛肉，加入1勺蚝油、少许盐（泡椒有咸味，盐要少放）。',
-                    '收尾：放入香菜段（和芹菜段），快速翻炒几下，让香味融合。',
-                    '出锅：整个大火快炒过程控制在30秒内，关火装盘。',
-                ],
-                tip: '全程尽量保持高火力，尤其是最后合炒阶段，动作要快。如果没有泡椒，可以多放大蒜。香菜是这道菜的灵魂，不建议省略。炒这道菜千万不要加水，一旦加水，牛肉质地会立刻变老。',
-            },
+  <!-- 003 辣椒炒肉 Pork & Green Pepper Stir-Fry -->
+  <li class="rec-row" data-tags="湘菜,下饭" id="rec-pork-pepper">
+    <div class="rec-head">
+      <span class="rec-num">003</span>
+      <h3 class="rec-title"><span class="zh"><em>辣椒</em>炒肉</span><span class="en">pork &amp; green <em>pepper</em> stir-fry.</span></h3>
+      <div class="rec-meta"><span>20 min</span><span class="sep">&middot;</span><span><span class="zh">2人份</span><span class="en">serves 2</span></span><span class="sep">&middot;</span><span><span class="zh">湘</span><span class="en">hunan</span></span></div>
+      <span class="rec-toggle">+</span>
+    </div>
+    <div class="rec-body"><div class="rec-body-inner">
+      <aside>
+        <p class="rec-blurb zh">经典湘菜家常菜，香辣下饭，肉嫩椒鲜，锅气十足。</p>
+        <p class="rec-blurb en">the definition of <em>锅气</em> &mdash; wok breath. hot pan, thin pork belly, blistered green chilies. hunan home cooking at its loudest.</p>
+        <div class="rec-tags">
+          <span class="sc-tag">湘菜</span><span class="sc-tag">香辣</span><span class="sc-tag">家常菜</span><span class="sc-tag">下饭</span>
+        </div>
+        <div class="rec-sidebar"><dl>
+          <dt><span class="zh">准备</span><span class="en">prep</span></dt><dd><span class="zh">10分钟</span><span class="en"><em>10 min</em></span></dd>
+          <dt><span class="zh">烹饪</span><span class="en">cook</span></dt><dd><span class="zh">10分钟</span><span class="en"><em>10 min</em></span></dd>
+          <dt><span class="zh">总计</span><span class="en">total</span></dt><dd><span class="zh">20分钟</span><span class="en"><em>20 min</em></span></dd>
+          <dt><span class="zh">份量</span><span class="en">serves</span></dt><dd><span class="zh">2人</span><span class="en"><em>2</em></span></dd>
+        </dl></div>
+      </aside>
+      <div>
+        <h4 class="rec-col-head"><span class="zh">食材 / ingredients</span><span class="en">ingredients</span></h4>
+        <ul class="rec-ingredients">
+          <li><span class="amt"><span class="zh">150克</span><span class="en">150g</span></span><span class="name"><span class="zh">五花肉（肥瘦相间），切薄片</span><span class="en">pork belly (fat &amp; lean), thinly sliced</span></span></li>
+          <li><span class="amt"><span class="zh">200克</span><span class="en">200g</span></span><span class="name"><span class="zh">螺丝椒或尖椒，斜切段</span><span class="en">spiral or long green chilies, sliced on the bias</span></span></li>
+          <li><span class="amt"><span class="zh">4-5瓣</span><span class="en">4-5 cloves</span></span><span class="name"><span class="zh">大蒜，拍扁</span><span class="en">garlic, smashed</span></span></li>
+          <li><span class="amt"><span class="zh">1小块</span><span class="en">1 small knob</span></span><span class="name"><span class="zh">生姜，切片</span><span class="en">ginger, sliced</span></span></li>
+          <li><span class="amt"><span class="zh">1小勺</span><span class="en">1 tsp</span></span><span class="name"><span class="zh">豆豉</span><span class="en">fermented black beans</span></span></li>
+          <li><span class="amt"><span class="zh">1大勺</span><span class="en">1 tbsp</span></span><span class="name"><span class="zh">生抽</span><span class="en">light soy sauce</span></span></li>
+          <li><span class="amt"><span class="zh">1小勺</span><span class="en">1 tsp</span></span><span class="name"><span class="zh">老抽</span><span class="en">dark soy sauce</span></span></li>
+          <li><span class="amt"><span class="zh">适量</span><span class="en">to taste</span></span><span class="name"><span class="zh">盐</span><span class="en">salt</span></span></li>
+          <li><span class="amt"><span class="zh">少许</span><span class="en">a pinch</span></span><span class="name"><span class="zh">白糖</span><span class="en">sugar</span></span></li>
+          <li><span class="amt"><span class="zh">适量</span><span class="en">as needed</span></span><span class="name"><span class="zh">食用油</span><span class="en">cooking oil</span></span></li>
+        </ul>
+        <h4 class="rec-col-head"><span class="zh">做法 / method</span><span class="en">method</span></h4>
+        <ol class="rec-steps">
+          <li><span class="n">i.</span><span class="t"><span class="zh">五花肉切成薄片，肥肉和瘦肉分开。瘦肉用少许生抽和老抽抓拌均匀，腌制5分钟。辣椒洗净去蒂，斜切成段。大蒜拍扁，生姜切片备用。</span><span class="en">slice the pork belly thin, separating lean from fatty pieces. marinate the lean with a splash of light and dark soy for 5 minutes. wash the chilies, top them, and slice on the bias. smash the garlic, slice the ginger.</span></span></li>
+          <li><span class="n">ii.</span><span class="t"><span class="zh">锅烧热不放油，倒入辣椒段，中小火干煸至辣椒表皮起虎皮焦斑、变软出香，盛出备用。这一步是辣椒炒肉好吃的关键。</span><span class="en">heat a dry wok. dry-fry the chilies over medium-low until they blister into tiger-skin patches, soften, and smell sweet-hot. set aside. this is the single step that makes the dish.</span></span></li>
+          <li><span class="n">iii.</span><span class="t"><span class="zh">锅中不放油，先下入肥肉片，小火慢煸至出油、边缘微焦金黄。这样用猪油炒菜更香。</span><span class="en">still with no oil, render the fatty pork slices on low until they release their lard and the edges turn golden. cooking in pork fat is the whole point.</span></span></li>
+          <li><span class="n">iv.</span><span class="t"><span class="zh">将腌好的瘦肉片倒入锅中，转大火快速翻炒至变色，约1分钟。</span><span class="en">crank to high, drop in the marinated lean pork, and stir-fry until it changes colour &mdash; about 1 minute.</span></span></li>
+          <li><span class="n">v.</span><span class="t"><span class="zh">把肉拨到一边，下入蒜瓣、姜片和豆豉，炒出香味。</span><span class="en">push the pork aside, tip in the garlic, ginger, and douchi, stir until aromatic.</span></span></li>
+          <li><span class="n">vi.</span><span class="t"><span class="zh">倒入之前煸好的辣椒，大火快速翻炒，加入适量盐和少许白糖调味，翻炒均匀即可出锅。</span><span class="en">return the charred chilies, crank the heat, season with salt and a pinch of sugar, toss once, and plate.</span></span></li>
+        </ol>
+        <p class="rec-tip zh"><strong>小贴士</strong>辣椒首选螺丝椒，皮薄辣度适中，炒出来最香。肉片要逆纹切薄，口感更嫩。全程大火快炒，保持锅气。</p>
+        <p class="rec-tip en"><strong>tip</strong> use spiral green chilies if you can find them &mdash; thin skin, medium heat, best aroma. slice the pork across the grain and thin for a tender bite. stay high and fast the whole time &mdash; <em>锅气</em> dies the second you linger.</p>
+      </div>
+    </div></div>
+  </li>
 
-            {
-                id: 'orleans-wings',
-                title: '奥尔良烤翅',
-                subtitle: '外焦里嫩的经典烤翅，浓郁的奥尔良风味，媲美KFC，在家用烤箱轻松搞定。',
-                cuisine: '烤箱菜',
-                prep: '15分钟 + 腌制12小时', cook: '25分钟', total: '约13小时', servings: '2',
-                tags: ['烤箱菜', '鸡翅', '聚会小吃'],
-                ingredients: [
-                    ['6只', '鸡翅中'],
-                    ['25克', '新奥尔良烤翅腌料'],
-                    ['25克', '冰水'],
-                    ['1小勺', '料酒'],
-                    ['1小勺', '生抽'],
-                    ['少许', '食用油'],
-                    ['适量', '蜂蜜水（蜂蜜:水 = 2:1）'],
-                    ['1张', '锡纸（垫烤盘用）'],
-                ],
-                steps: [
-                    '鸡翅洗净沥干，用厨房纸吸去多余水分。在鸡翅正反两面各划两刀，方便入味。',
-                    '将奥尔良腌料与冰水混合搅匀，加入料酒和生抽，倒入鸡翅中，戴手套抓拌均匀，确保每只鸡翅都裹满腌料。',
-                    '盖上保鲜膜（或装入密封袋），放入冰箱冷藏腌制至少12小时。腌制期间可翻动1-2次帮助入味。',
-                    '烤箱上下火200°C预热10分钟。烤盘铺锡纸，将鸡翅放在烤架上，烤架置于烤盘上方。',
-                    '先用230°C大火烤5分钟，让鸡翅表面定型出油。',
-                    '取出鸡翅，刷一层腌料汁，翻面后再刷一层，继续230°C烤5分钟。',
-                    '将温度调至180°C，移至烤箱中层，继续烤15分钟至鸡翅表皮金黄微焦。',
-                    '出炉前2分钟取出鸡翅，两面刷上蜂蜜水，放回烤箱烤至表面光亮即可。',
-                ],
-                tip: '先大火后小火是外焦里嫩的关键。鸡翅放烤架上烤（下面接烤盘）比直接放烤盘效果好，避免鸡翅泡在油里。腌制时间越长越入味，建议前一天晚上腌好。',
-            },
-        ];
+  <!-- 004 东北土豆炖茄子 Northeast Potato & Eggplant Braise -->
+  <li class="rec-row" data-tags="东北菜,下饭" id="rec-potato-eggplant">
+    <div class="rec-head">
+      <span class="rec-num">004</span>
+      <h3 class="rec-title"><span class="zh">东北<em>土豆</em>炖茄子</span><span class="en">northeast <em>potato</em> &amp; eggplant braise.</span></h3>
+      <div class="rec-meta"><span>30 min</span><span class="sep">&middot;</span><span><span class="zh">2人份</span><span class="en">serves 2</span></span><span class="sep">&middot;</span><span><span class="zh">东北</span><span class="en">northeast</span></span></div>
+      <span class="rec-toggle">+</span>
+    </div>
+    <div class="rec-body"><div class="rec-body-inner">
+      <aside>
+        <p class="rec-blurb zh">东北经典家常炖菜，土豆绵软、茄子入味、汤汁浓稠，拌饭一绝。俗话说：土豆炖茄子，撑死老爷子！</p>
+        <p class="rec-blurb en">the classic northeastern braise &mdash; soft potato, soaked eggplant, thick saucy gravy. as the old saying goes: <em>&ldquo;potato and eggplant stew &mdash; it&rsquo;ll stuff the old man silly.&rdquo;</em></p>
+        <div class="rec-tags">
+          <span class="sc-tag">东北菜</span><span class="sc-tag">家常菜</span><span class="sc-tag">下饭菜</span>
+        </div>
+        <div class="rec-sidebar"><dl>
+          <dt><span class="zh">准备</span><span class="en">prep</span></dt><dd><span class="zh">10分钟</span><span class="en"><em>10 min</em></span></dd>
+          <dt><span class="zh">烹饪</span><span class="en">cook</span></dt><dd><span class="zh">20分钟</span><span class="en"><em>20 min</em></span></dd>
+          <dt><span class="zh">总计</span><span class="en">total</span></dt><dd><span class="zh">30分钟</span><span class="en"><em>30 min</em></span></dd>
+          <dt><span class="zh">份量</span><span class="en">serves</span></dt><dd><span class="zh">2人</span><span class="en"><em>2</em></span></dd>
+        </dl></div>
+      </aside>
+      <div>
+        <h4 class="rec-col-head"><span class="zh">食材 / ingredients</span><span class="en">ingredients</span></h4>
+        <ul class="rec-ingredients">
+          <li><span class="amt"><span class="zh">1根</span><span class="en">1</span></span><span class="name"><span class="zh">紫皮长茄子，手掰成滚刀块</span><span class="en">long purple eggplant, torn by hand into rough chunks</span></span></li>
+          <li><span class="amt"><span class="zh">1个(中等)</span><span class="en">1 (medium)</span></span><span class="name"><span class="zh">黄心土豆，去皮切滚刀块</span><span class="en">yellow potato, peeled and roll-cut</span></span></li>
+          <li><span class="amt"><span class="zh">1根</span><span class="en">1 (optional)</span></span><span class="name"><span class="zh">青尖椒，切段（可选）</span><span class="en">green chili, segmented</span></span></li>
+          <li><span class="amt"><span class="zh">3瓣</span><span class="en">3 cloves</span></span><span class="name"><span class="zh">大蒜，切末</span><span class="en">garlic, minced</span></span></li>
+          <li><span class="amt"><span class="zh">1段</span><span class="en">1 length</span></span><span class="name"><span class="zh">大葱，切葱花</span><span class="en">scallion (white part), chopped</span></span></li>
+          <li><span class="amt"><span class="zh">2片</span><span class="en">2 slices</span></span><span class="name"><span class="zh">生姜</span><span class="en">ginger</span></span></li>
+          <li><span class="amt"><span class="zh">1.5大勺</span><span class="en">1.5 tbsp</span></span><span class="name"><span class="zh">东北大酱（或黄豆酱）</span><span class="en">northeastern soybean paste (or yellow bean paste)</span></span></li>
+          <li><span class="amt"><span class="zh">1大勺</span><span class="en">1 tbsp</span></span><span class="name"><span class="zh">生抽</span><span class="en">light soy sauce</span></span></li>
+          <li><span class="amt"><span class="zh">1/2小勺</span><span class="en">1/2 tsp</span></span><span class="name"><span class="zh">十三香</span><span class="en">thirteen-spice powder</span></span></li>
+          <li><span class="amt"><span class="zh">适量</span><span class="en">to taste</span></span><span class="name"><span class="zh">食盐</span><span class="en">salt</span></span></li>
+          <li><span class="amt"><span class="zh">2大勺</span><span class="en">2 tbsp</span></span><span class="name"><span class="zh">食用油</span><span class="en">cooking oil</span></span></li>
+          <li><span class="amt"><span class="zh">约300毫升</span><span class="en">~300ml</span></span><span class="name"><span class="zh">清水（刚没过食材）</span><span class="en">water (just to cover)</span></span></li>
+        </ul>
+        <h4 class="rec-col-head"><span class="zh">做法 / method</span><span class="en">method</span></h4>
+        <ol class="rec-steps">
+          <li><span class="n">i.</span><span class="t"><span class="zh">茄子洗净用手掰成块（手掰比刀切口感更好，更容易入味），撒一小勺盐拌匀腌制5-10分钟，杀出水分，炒时更省油。土豆去皮切滚刀块，大小与茄子相近。</span><span class="en">tear the eggplant by hand into chunks &mdash; rougher edges drink up more sauce than knife cuts. toss with a little salt and let it sit for 5 to 10 minutes to draw out water; this saves a lot of oil later. peel and roll-cut the potato to roughly the same size.</span></span></li>
+          <li><span class="n">ii.</span><span class="t"><span class="zh">锅中倒入食用油，中火烧热。先倒入土豆块翻炒2-3分钟，炒至表面微微变透明发软。</span><span class="en">heat oil over medium. stir-fry the potato for 2-3 minutes until the edges just start to go translucent.</span></span></li>
+          <li><span class="n">iii.</span><span class="t"><span class="zh">将腌好的茄子挤掉多余水分，倒入锅中与土豆一起翻炒，炒至茄子变软变色，约3分钟。</span><span class="en">squeeze the eggplant to drain excess water, add it in and stir-fry alongside the potato for about 3 minutes until softened and colour-changed.</span></span></li>
+          <li><span class="n">iv.</span><span class="t"><span class="zh">加入东北大酱翻炒均匀，让酱香裹满食材。再加入生抽、十三香调味翻炒片刻。</span><span class="en">stir in the soybean paste until it coats everything. add light soy and thirteen-spice and toss briefly.</span></span></li>
+          <li><span class="n">v.</span><span class="t"><span class="zh">倒入清水，水量刚没过食材即可。大火烧开后转中小火，盖锅盖炖煮约10分钟，至土豆绵软、茄子软烂。</span><span class="en">pour in water just to cover. bring to a boil, drop to medium-low, cover, and braise for about 10 minutes until the potato is tender and the eggplant collapses.</span></span></li>
+          <li><span class="n">vi.</span><span class="t"><span class="zh">开盖大火收汁，用锅铲将部分土豆和茄子铲碎（不用全碎，半碎半块口感最佳），让淀粉融入汤汁使其浓稠。</span><span class="en">uncover, crank the heat to reduce. break up some &mdash; not all &mdash; of the potato and eggplant with the back of the spatula so the starch thickens the gravy.</span></span></li>
+          <li><span class="n">vii.</span><span class="t"><span class="zh">汤汁收至浓稠时关火，撒上蒜末和葱花拌匀，即可出锅装盘。</span><span class="en">once the sauce is glossy and thick, kill the heat, stir in the raw garlic and scallion, and plate.</span></span></li>
+        </ol>
+        <p class="rec-tip zh"><strong>小贴士</strong>茄子一定选紫色茄子把的，口感更好。大酱是灵魂调料，不可省略。喜欢吃辣可加青尖椒段一起炖，尖椒能调和茄子土豆的味道，使汤汁更鲜美。多留些汤汁拌米饭，极其下饭。</p>
+        <p class="rec-tip en"><strong>tip</strong> purple-stemmed eggplants have the better texture. the soybean paste is non-negotiable &mdash; it&rsquo;s the soul of the dish. add green chili segments if you like heat: they brighten the muddy sweetness of potato and eggplant. leave plenty of sauce &mdash; it&rsquo;s made for rice.</p>
+      </div>
+    </div></div>
+  </li>
 
-        // ── Build modal content ──
-        function buildModal(r) {
-            return `
-                <span class="modal-eyebrow">${r.cuisine}</span>
-                <h2 id="modal-title">${r.title}</h2>
-                <p class="modal-subtitle">${r.subtitle}</p>
-                <div class="modal-timing">
-                    <div class="modal-timing-item">
-                        <span class="modal-timing-label">准备 / Prep</span>
-                        <span class="modal-timing-value">${r.prep}</span>
-                    </div>
-                    <div class="modal-timing-item">
-                        <span class="modal-timing-label">烹饪 / Cook</span>
-                        <span class="modal-timing-value">${r.cook}</span>
-                    </div>
-                    <div class="modal-timing-item">
-                        <span class="modal-timing-label">总计 / Total</span>
-                        <span class="modal-timing-value">${r.total}</span>
-                    </div>
-                    <div class="modal-timing-item">
-                        <span class="modal-timing-label">份量 / Serves</span>
-                        <span class="modal-timing-value">${r.servings}</span>
-                    </div>
-                </div>
-                <div class="modal-tags">
-                    ${r.tags.map(t => `<span class="modal-tag">${t}</span>`).join('')}
-                </div>
-                <div class="modal-body">
-                    <div class="modal-ingredients">
-                        <h3 class="modal-section-title">食材 / Ingredients</h3>
-                        <ul class="ingredients-list">
-                            ${r.ingredients.map(([amt, name]) => `
-                                <li>
-                                    <span class="ingredient-amount">${amt}</span>
-                                    <span>${name}</span>
-                                </li>
-                            `).join('')}
-                        </ul>
-                    </div>
-                    <div class="modal-steps">
-                        <h3 class="modal-section-title">做法 / Instructions</h3>
-                        <ol class="steps-list">
-                            ${r.steps.map((s, i) => `
-                                <li>
-                                    <span class="step-number">${i + 1}</span>
-                                    <span class="step-text">${s}</span>
-                                </li>
-                            `).join('')}
-                        </ol>
-                        <div class="modal-tip">
-                            <span class="modal-tip-label">小贴士 / Tip</span>
-                            <p>${r.tip}</p>
-                        </div>
-                    </div>
-                </div>
-            `;
-        }
+  <!-- 005 可乐鸡翅 Cola-Braised Chicken Wings -->
+  <li class="rec-row" data-tags="下饭" id="rec-cola-wings">
+    <div class="rec-head">
+      <span class="rec-num">005</span>
+      <h3 class="rec-title"><span class="zh"><em>可乐</em>鸡翅</span><span class="en">cola-braised chicken <em>wings</em>.</span></h3>
+      <div class="rec-meta"><span>45 min</span><span class="sep">&middot;</span><span><span class="zh">2人份</span><span class="en">serves 2</span></span><span class="sep">&middot;</span><span><span class="zh">家常</span><span class="en">home-style</span></span></div>
+      <span class="rec-toggle">+</span>
+    </div>
+    <div class="rec-body"><div class="rec-body-inner">
+      <aside>
+        <p class="rec-blurb zh">经典家常菜，甜咸适口，色泽红亮，肉质嫩滑，大人小孩都爱吃。</p>
+        <p class="rec-blurb en">chicken wings braised in cola. sounds like a gimmick, tastes like <em>childhood</em>. lacquered, sticky, addictive.</p>
+        <div class="rec-tags">
+          <span class="sc-tag">家常菜</span><span class="sc-tag">甜咸</span><span class="sc-tag">简单快手</span>
+        </div>
+        <div class="rec-sidebar"><dl>
+          <dt><span class="zh">准备</span><span class="en">prep</span></dt><dd><span class="zh">20分钟</span><span class="en"><em>20 min</em></span></dd>
+          <dt><span class="zh">烹饪</span><span class="en">cook</span></dt><dd><span class="zh">25分钟</span><span class="en"><em>25 min</em></span></dd>
+          <dt><span class="zh">总计</span><span class="en">total</span></dt><dd><span class="zh">45分钟</span><span class="en"><em>45 min</em></span></dd>
+          <dt><span class="zh">份量</span><span class="en">serves</span></dt><dd><span class="zh">2人</span><span class="en"><em>2</em></span></dd>
+        </dl></div>
+      </aside>
+      <div>
+        <h4 class="rec-col-head"><span class="zh">食材 / ingredients</span><span class="en">ingredients</span></h4>
+        <ul class="rec-ingredients">
+          <li><span class="amt"><span class="zh">6个</span><span class="en">6</span></span><span class="name"><span class="zh">鸡中翅</span><span class="en">chicken midwings</span></span></li>
+          <li><span class="amt"><span class="zh">200毫升</span><span class="en">200ml</span></span><span class="name"><span class="zh">可口可乐</span><span class="en">coca-cola</span></span></li>
+          <li><span class="amt"><span class="zh">1大勺</span><span class="en">1 tbsp</span></span><span class="name"><span class="zh">生抽</span><span class="en">light soy sauce</span></span></li>
+          <li><span class="amt"><span class="zh">1小勺</span><span class="en">1 tsp</span></span><span class="name"><span class="zh">老抽（上色用）</span><span class="en">dark soy sauce (for colour)</span></span></li>
+          <li><span class="amt"><span class="zh">1大勺</span><span class="en">1 tbsp</span></span><span class="name"><span class="zh">料酒</span><span class="en">shaoxing wine</span></span></li>
+          <li><span class="amt"><span class="zh">3片</span><span class="en">3 slices</span></span><span class="name"><span class="zh">生姜</span><span class="en">ginger</span></span></li>
+          <li><span class="amt"><span class="zh">1段</span><span class="en">1 length</span></span><span class="name"><span class="zh">葱（切段）</span><span class="en">scallion, segmented</span></span></li>
+          <li><span class="amt"><span class="zh">1个</span><span class="en">1</span></span><span class="name"><span class="zh">八角</span><span class="en">star anise</span></span></li>
+          <li><span class="amt"><span class="zh">少许</span><span class="en">a little</span></span><span class="name"><span class="zh">食用油</span><span class="en">cooking oil</span></span></li>
+          <li><span class="amt"><span class="zh">适量</span><span class="en">to taste</span></span><span class="name"><span class="zh">盐（根据口味调整）</span><span class="en">salt (adjust to taste)</span></span></li>
+        </ul>
+        <h4 class="rec-col-head"><span class="zh">做法 / method</span><span class="en">method</span></h4>
+        <ol class="rec-steps">
+          <li><span class="n">i.</span><span class="t"><span class="zh">鸡翅洗净，在背面划两刀方便入味。放入碗中加姜片、料酒腌制15分钟。</span><span class="en">rinse the wings, score each on the back with two cuts so they take on flavour. marinate with ginger and shaoxing for 15 minutes.</span></span></li>
+          <li><span class="n">ii.</span><span class="t"><span class="zh">锅中加冷水和葱姜片，放入鸡翅，大火煮开后撇去浮沫，焯水约2分钟，捞出用温水冲洗干净，沥干备用。</span><span class="en">into a pot of cold water with ginger and scallion, drop the wings. bring to a boil, skim the scum, blanch for about 2 minutes, then lift out, rinse with warm water, and drain.</span></span></li>
+          <li><span class="n">iii.</span><span class="t"><span class="zh">锅中倒入少许油，中火烧热后放入鸡翅，煎至两面金黄，约每面2分钟。</span><span class="en">heat a little oil on medium. sear the wings until both sides are golden &mdash; about 2 minutes per side.</span></span></li>
+          <li><span class="n">iv.</span><span class="t"><span class="zh">放入八角和姜丝，翻炒出香味，倒入可乐和生抽、老抽，可乐基本没过鸡翅即可。</span><span class="en">add star anise and sliced ginger, toss until fragrant, then pour in the cola, light soy, and dark soy. the cola should more or less cover the wings.</span></span></li>
+          <li><span class="n">v.</span><span class="t"><span class="zh">大火煮开后转小火，盖上锅盖炖煮约15分钟，中途翻面一次使鸡翅均匀上色。</span><span class="en">bring to a boil, drop to low, cover, and simmer for about 15 minutes. flip the wings once partway through so they colour evenly.</span></span></li>
+          <li><span class="n">vi.</span><span class="t"><span class="zh">开盖转大火收汁，不断翻动鸡翅防止粘锅，直至汤汁浓稠裹满鸡翅即可出锅。</span><span class="en">uncover, crank the heat, and reduce &mdash; keep the wings moving so they don&rsquo;t stick &mdash; until the sauce is syrupy and coats every wing.</span></span></li>
+        </ol>
+        <p class="rec-tip zh"><strong>小贴士</strong>喜欢甜口用可口可乐，偏淡甜用百事可乐。收汁时要看着锅，汤汁浓稠后很容易糊底。也可挤几滴柠檬汁中和甜味，口感更清爽。</p>
+        <p class="rec-tip en"><strong>tip</strong> coca-cola gives a fuller sweetness; pepsi reads lighter. the reduction goes from perfect to burnt in seconds &mdash; don&rsquo;t walk away. a squeeze of lemon at the end cuts the sweetness and makes it taste fresher.</p>
+      </div>
+    </div></div>
+  </li>
 
-        // ── Modal open/close ──
-        const overlay = document.getElementById('modal-overlay');
-        const modalEl = document.getElementById('modal');
-        const modalContent = document.getElementById('modal-content');
-        const closeBtn = document.getElementById('modal-close');
-        const mainEl = document.getElementById('main-content');
-        let lastFocusedCard = null;
+  <!-- 006 Crispy-Skin Salmon -->
+  <li class="rec-row" data-tags="quick" id="rec-salmon">
+    <div class="rec-head">
+      <span class="rec-num">006</span>
+      <h3 class="rec-title"><span class="zh">香煎<em>三文鱼</em></span><span class="en">crispy-skin <em>salmon</em>.</span></h3>
+      <div class="rec-meta"><span>13 min</span><span class="sep">&middot;</span><span><span class="zh">2人份</span><span class="en">serves 2</span></span><span class="sep">&middot;</span><span>quick</span></div>
+      <span class="rec-toggle">+</span>
+    </div>
+    <div class="rec-body"><div class="rec-body-inner">
+      <aside>
+        <p class="rec-blurb zh">餐厅级的香煎三文鱼 &mdash; 鱼皮酥脆如薄冰，鱼肉黄油般嫩滑片层分明，15分钟以内上桌。</p>
+        <p class="rec-blurb en">restaurant-quality salmon with <em>shatteringly crispy skin</em> and a buttery, flaky interior &mdash; ready in under 15 minutes.</p>
+        <div class="rec-tags">
+          <span>quick</span><span>high-protein</span><span>gluten-free</span><span>weeknight</span>
+        </div>
+        <div class="rec-sidebar"><dl>
+          <dt><span class="zh">准备</span><span class="en">prep</span></dt><dd><span class="zh">5分钟</span><span class="en"><em>5 min</em></span></dd>
+          <dt><span class="zh">烹饪</span><span class="en">cook</span></dt><dd><span class="zh">8分钟</span><span class="en"><em>8 min</em></span></dd>
+          <dt><span class="zh">总计</span><span class="en">total</span></dt><dd><span class="zh">13分钟</span><span class="en"><em>13 min</em></span></dd>
+          <dt><span class="zh">份量</span><span class="en">serves</span></dt><dd><span class="zh">2人</span><span class="en"><em>2</em></span></dd>
+        </dl></div>
+      </aside>
+      <div>
+        <h4 class="rec-col-head"><span class="zh">食材 / ingredients</span><span class="en">ingredients</span></h4>
+        <ul class="rec-ingredients">
+          <li><span class="amt"><span class="zh">2块 (每块约170克)</span><span class="en">2 (6 oz each)</span></span><span class="name"><span class="zh">带皮三文鱼柳，去刺</span><span class="en">skin-on salmon fillets, pin-boned</span></span></li>
+          <li><span class="amt"><span class="zh">1大勺</span><span class="en">1 tbsp</span></span><span class="name"><span class="zh">牛油果油或植物油</span><span class="en">avocado or vegetable oil</span></span></li>
+          <li><span class="amt"><span class="zh">1小勺</span><span class="en">1 tsp</span></span><span class="name"><span class="zh">粗盐</span><span class="en">kosher salt</span></span></li>
+          <li><span class="amt"><span class="zh">1/2小勺</span><span class="en">1/2 tsp</span></span><span class="name"><span class="zh">现磨黑胡椒</span><span class="en">freshly ground black pepper</span></span></li>
+          <li><span class="amt"><span class="zh">2大勺</span><span class="en">2 tbsp</span></span><span class="name"><span class="zh">无盐黄油</span><span class="en">unsalted butter</span></span></li>
+          <li><span class="amt"><span class="zh">2瓣</span><span class="en">2 cloves</span></span><span class="name"><span class="zh">蒜，拍扁</span><span class="en">garlic, smashed</span></span></li>
+          <li><span class="amt"><span class="zh">3枝</span><span class="en">3 sprigs</span></span><span class="name"><span class="zh">新鲜百里香</span><span class="en">fresh thyme</span></span></li>
+          <li><span class="amt"><span class="zh">2角</span><span class="en">2 wedges</span></span><span class="name"><span class="zh">柠檬，上桌用</span><span class="en">lemon, for serving</span></span></li>
+        </ul>
+        <h4 class="rec-col-head"><span class="zh">做法 / method</span><span class="en">method</span></h4>
+        <ol class="rec-steps">
+          <li><span class="n">i.</span><span class="t"><span class="zh">用厨房纸将三文鱼各面彻底拍干 &mdash; 这是鱼皮酥脆的最关键一步。两面均匀撒上粗盐和黑胡椒调味。</span><span class="en">pat the salmon fillets very dry on all sides with paper towels &mdash; this is the single most important step for crispy skin. season both sides generously with kosher salt and black pepper.</span></span></li>
+          <li><span class="n">ii.</span><span class="t"><span class="zh">把调好味的鱼柳敞口放在盘中静置10分钟，让温度接近室温，同时进一步干燥鱼皮。</span><span class="en">let the seasoned fillets rest uncovered on a plate for 10 minutes to bring them closer to room temperature and further dry the skin.</span></span></li>
+          <li><span class="n">iii.</span><span class="t"><span class="zh">不锈钢锅或铸铁锅中倒油，中高火烧至油面微微晃动。不要用不粘锅 &mdash; 鱼皮要真正酥脆，需要直接的高热传导。</span><span class="en">heat the oil in a stainless steel or cast iron skillet over medium-high heat until it shimmers. do not use nonstick &mdash; you need direct heat contact for truly crispy skin.</span></span></li>
+          <li><span class="n">iv.</span><span class="t"><span class="zh">三文鱼皮朝下放入热锅，立即用锅铲轻压每块约10秒，防止鱼皮卷曲。转中火。</span><span class="en">place salmon skin-side down in the hot pan. immediately press each fillet gently with a spatula for about 10 seconds to prevent the skin from curling. reduce heat to medium.</span></span></li>
+          <li><span class="n">v.</span><span class="t"><span class="zh">不翻不动煎4-5分钟，直到鱼皮深金酥脆、能自然脱离锅底。这时你会看到鱼肉从底部往上变白约四分之三。</span><span class="en">cook without moving for 4 to 5 minutes until the skin is deep golden and releases easily from the pan. you should see the flesh lighten in color about three-quarters of the way up.</span></span></li>
+          <li><span class="n">vi.</span><span class="t"><span class="zh">翻面。加入黄油、大蒜和百里香，倾斜锅，用起泡的褐色黄油反复淋在鱼身上1-2分钟，中心微微半透明即达到五成熟 (约125°F / 52°C)。</span><span class="en">flip the fillets. add the butter, garlic, and thyme to the pan. tilt the pan and baste the salmon with the foaming brown butter for 1 to 2 minutes until just cooked through (slightly translucent in the very center for medium doneness, about 125°F / 52°C).</span></span></li>
+          <li><span class="n">vii.</span><span class="t"><span class="zh">皮朝上装盘以保持酥脆。将锅中的焦化蒜香黄油淋在鱼上，立即搭配柠檬角上桌。</span><span class="en">transfer to plates skin-side up so the crispy skin stays intact. spoon the browned garlic-thyme butter over the top and serve immediately with lemon wedges.</span></span></li>
+        </ol>
+        <p class="rec-tip zh"><strong>小贴士</strong>酥皮的秘诀就是去除水分 &mdash; 要大胆地拍干，不要省略静置那一步。装盘皮朝上以保持酥脆。一把鱼铲能让翻面容易得多。中心温度目标：五成熟 125°F (52°C)，中间偏熟 130°F (54°C)。</p>
+        <p class="rec-tip en"><strong>tip</strong> the key to crispy skin is removing moisture &mdash; pat aggressively dry and don&rsquo;t skip the resting step. serve skin-side up so it stays crispy. a fish spatula makes flipping much easier. target an internal temperature of 125°F (52°C) for medium, or 130°F (54°C) for medium-well.</p>
+      </div>
+    </div></div>
+  </li>
 
-        function getFocusable() {
-            return Array.from(modalEl.querySelectorAll(
-                'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
-            )).filter(el => !el.disabled);
-        }
+  <!-- 007 万能牛肉馅 All-Purpose Beef Filling -->
+  <li class="rec-row" data-tags="万能" id="rec-beef-filling">
+    <div class="rec-head">
+      <span class="rec-num">007</span>
+      <h3 class="rec-title"><span class="zh">万能<em>牛肉馅</em></span><span class="en">all-purpose <em>beef</em> filling.</span></h3>
+      <div class="rec-meta"><span>20 min</span><span class="sep">&middot;</span><span><span class="zh">约30个饺子</span><span class="en">~30 dumplings</span></span><span class="sep">&middot;</span><span><span class="zh">万能</span><span class="en">base</span></span></div>
+      <span class="rec-toggle">+</span>
+    </div>
+    <div class="rec-body"><div class="rec-body-inner">
+      <aside>
+        <p class="rec-blurb zh">鲜嫩多汁、汤汁饱满的牛肉馅，适用于饺子、包子、馅饼等各种面食。掌握打水、调味、搅拌三大要点，轻松做出鲜香不柴的完美牛肉馅。</p>
+        <p class="rec-blurb en">my <em>all-purpose beef filling</em> &mdash; juicy, tender, with a proper soup inside each pocket. works for dumplings, buns, and hand pies alike. nail the three basics &mdash; hydration, seasoning, one-direction stirring &mdash; and the filling comes out right every time.</p>
+        <div class="rec-tags">
+          <span class="sc-tag">万能馅料</span><span class="sc-tag">饺子</span><span class="sc-tag">包子</span><span class="sc-tag">馅饼</span>
+        </div>
+        <div class="rec-sidebar"><dl>
+          <dt><span class="zh">准备</span><span class="en">prep</span></dt><dd><span class="zh">15分钟</span><span class="en"><em>15 min</em></span></dd>
+          <dt><span class="zh">烹饪</span><span class="en">cook</span></dt><dd><span class="zh">5分钟</span><span class="en"><em>5 min</em></span></dd>
+          <dt><span class="zh">总计</span><span class="en">total</span></dt><dd><span class="zh">20分钟</span><span class="en"><em>20 min</em></span></dd>
+          <dt><span class="zh">份量</span><span class="en">yield</span></dt><dd><span class="zh">约30个饺子</span><span class="en"><em>~30 dumplings</em></span></dd>
+        </dl></div>
+      </aside>
+      <div>
+        <h4 class="rec-col-head"><span class="zh">食材 / ingredients</span><span class="en">ingredients</span></h4>
+        <ul class="rec-ingredients">
+          <li><span class="amt"><span class="zh">250克</span><span class="en">250g</span></span><span class="name"><span class="zh">牛肉（肥瘦相间），剁成馅</span><span class="en">beef (fat &amp; lean), minced</span></span></li>
+          <li><span class="amt"><span class="zh">半个</span><span class="en">1/2</span></span><span class="name"><span class="zh">洋葱，切碎末</span><span class="en">onion, finely chopped</span></span></li>
+          <li><span class="amt"><span class="zh">1个</span><span class="en">1</span></span><span class="name"><span class="zh">鸡蛋</span><span class="en">egg</span></span></li>
+          <li><span class="amt"><span class="zh">2片</span><span class="en">2 slices</span></span><span class="name"><span class="zh">姜，切极细末</span><span class="en">ginger, very finely minced</span></span></li>
+          <li><span class="amt"><span class="zh">3大勺</span><span class="en">3 tbsp</span></span><span class="name"><span class="zh">花椒水（花椒煮3分钟泡半小时）</span><span class="en">sichuan-pepper water (boil peppercorns 3 min, steep 30 min)</span></span></li>
+          <li><span class="amt"><span class="zh">1小勺</span><span class="en">1 tsp</span></span><span class="name"><span class="zh">生抽</span><span class="en">light soy sauce</span></span></li>
+          <li><span class="amt"><span class="zh">半小勺</span><span class="en">1/2 tsp</span></span><span class="name"><span class="zh">老抽</span><span class="en">dark soy sauce</span></span></li>
+          <li><span class="amt"><span class="zh">1大勺</span><span class="en">1 tbsp</span></span><span class="name"><span class="zh">花椒油</span><span class="en">sichuan-pepper oil</span></span></li>
+          <li><span class="amt"><span class="zh">适量</span><span class="en">to taste</span></span><span class="name"><span class="zh">盐</span><span class="en">salt</span></span></li>
+          <li><span class="amt"><span class="zh">适量</span><span class="en">to taste</span></span><span class="name"><span class="zh">黑胡椒粉</span><span class="en">black pepper</span></span></li>
+        </ul>
+        <h4 class="rec-col-head"><span class="zh">做法 / method</span><span class="en">method</span></h4>
+        <ol class="rec-steps">
+          <li><span class="n">i.</span><span class="t"><span class="zh">牛肉馅中打入鸡蛋，沿同一方向搅拌均匀。鸡蛋能让肉馅更加嫩滑。</span><span class="en">crack the egg into the beef and stir in one direction until combined. the egg keeps the filling tender and silky.</span></span></li>
+          <li><span class="n">ii.</span><span class="t"><span class="zh">花椒水分2-3次加入肉馅中，每次都沿同一方向用力搅打至完全吸收。花椒水能去腥提鲜，使馅料汤汁饱满。</span><span class="en">add the sichuan-pepper water in 2 to 3 passes, each time stirring vigorously in the same direction until the meat fully drinks it in. this kills any gaminess and loads the filling with soup.</span></span></li>
+          <li><span class="n">iii.</span><span class="t"><span class="zh">加入盐，继续同方向搅拌上劲，锁住肉馅和汤汁的鲜味。再加入生抽和老抽，搅拌均匀，提鲜上色。</span><span class="en">add salt and keep stirring the same way until the filling tightens and goes springy &mdash; this locks in the meat&rsquo;s juice. follow with light and dark soy for flavour and colour.</span></span></li>
+          <li><span class="n">iv.</span><span class="t"><span class="zh">加入洋葱碎和姜末，撒入黑胡椒粉，搅拌均匀。洋葱与牛肉是绝配，姜末要足够细碎以去腥提鲜。</span><span class="en">fold in the onion, minced ginger, and black pepper. onion is beef&rsquo;s perfect companion; make sure the ginger is properly fine so it disappears into the meat.</span></span></li>
+          <li><span class="n">v.</span><span class="t"><span class="zh">花椒油加热后趁热浇在洋葱上，激发出香味，然后同方向搅拌均匀。成品应呈现油润粘稠状态。</span><span class="en">heat the sichuan-pepper oil until it shimmers, pour it over the onion to bloom it, then stir in one direction. the filling should look glossy and thick.</span></span></li>
+          <li><span class="n">vi.</span><span class="t"><span class="zh">馅料拌好后放冰箱冷藏30分钟再使用，口感更佳。可用于包饺子、蒸包子或煎馅饼。</span><span class="en">chill for 30 minutes before wrapping &mdash; the filling sets and handles better. use it for boiled dumplings, steamed buns, or pan-fried hand pies.</span></span></li>
+        </ol>
+        <p class="rec-tip zh"><strong>小贴士</strong>关键要点：1) 始终沿同一方向搅拌，使肉馅上劲有嚼头；2) 花椒水分次加入，不要一次倒入；3) 洋葱是牛肉馅的灵魂搭档，切勿省略。</p>
+        <p class="rec-tip en"><strong>tip</strong> three rules: (1) always stir in one direction so the protein strands align and the filling goes bouncy; (2) add the pepper water in stages, never all at once; (3) onion is non-negotiable for a beef filling &mdash; don&rsquo;t skip it.</p>
+      </div>
+    </div></div>
+  </li>
 
-        function openModal(id, triggerEl) {
-            lastFocusedCard = triggerEl || null;
-            const recipe = recipes.find(r => r.id === id);
-            if (!recipe) return;
-            modalContent.innerHTML = buildModal(recipe);
-            overlay.classList.add('open');
-            overlay.removeAttribute('aria-hidden');
-            document.body.style.overflow = 'hidden';
-            modalEl.scrollTop = 0;
-            if (mainEl) mainEl.inert = true;
-            // Focus the close button after transition starts
-            requestAnimationFrame(() => closeBtn.focus());
-        }
+  <!-- 008 万能油泼辣子拌酱 All-Purpose Oil-Seared Chili Sauce -->
+  <li class="rec-row" data-tags="万能" id="rec-chili-sauce">
+    <div class="rec-head">
+      <span class="rec-num">008</span>
+      <h3 class="rec-title"><span class="zh">万能油泼<em>辣子</em>拌酱</span><span class="en">all-purpose oil-seared <em>chili</em> sauce.</span></h3>
+      <div class="rec-meta"><span>15 min</span><span class="sep">&middot;</span><span><span class="zh">一罐</span><span class="en">makes 1 jar</span></span><span class="sep">&middot;</span><span><span class="zh">万能</span><span class="en">base</span></span></div>
+      <span class="rec-toggle">+</span>
+    </div>
+    <div class="rec-body"><div class="rec-body-inner">
+      <aside>
+        <p class="rec-blurb zh">一碗香气四溢的万能拌酱，泼油激香，拌面拌菜都绝了。</p>
+        <p class="rec-blurb en">a jar of <em>油泼辣子</em> in the fridge is an unfair advantage. put it on noodles, dumplings, cold veg, anything that stands still.</p>
+        <div class="rec-tags">
+          <span class="sc-tag">万能酱料</span><span class="sc-tag">拌面</span><span class="sc-tag">简单快手</span>
+        </div>
+        <div class="rec-sidebar"><dl>
+          <dt><span class="zh">准备</span><span class="en">prep</span></dt><dd><span class="zh">10分钟</span><span class="en"><em>10 min</em></span></dd>
+          <dt><span class="zh">烹饪</span><span class="en">cook</span></dt><dd><span class="zh">5分钟</span><span class="en"><em>5 min</em></span></dd>
+          <dt><span class="zh">总计</span><span class="en">total</span></dt><dd><span class="zh">15分钟</span><span class="en"><em>15 min</em></span></dd>
+          <dt><span class="zh">保存</span><span class="en">keeps</span></dt><dd><span class="zh">2周</span><span class="en"><em>2 weeks</em></span></dd>
+        </dl></div>
+      </aside>
+      <div>
+        <h4 class="rec-col-head"><span class="zh">食材 / ingredients</span><span class="en">ingredients</span></h4>
+        <ul class="rec-ingredients">
+          <li><span class="amt"><span class="zh">3瓣</span><span class="en">3 cloves</span></span><span class="name"><span class="zh">蒜，切末</span><span class="en">garlic, minced</span></span></li>
+          <li><span class="amt"><span class="zh">2根</span><span class="en">2</span></span><span class="name"><span class="zh">小葱，切葱花</span><span class="en">scallions, chopped</span></span></li>
+          <li><span class="amt"><span class="zh">1小勺</span><span class="en">1 tsp</span></span><span class="name"><span class="zh">白芝麻</span><span class="en">white sesame seeds</span></span></li>
+          <li><span class="amt"><span class="zh">1小勺</span><span class="en">1 tsp</span></span><span class="name"><span class="zh">孜然粉</span><span class="en">ground cumin</span></span></li>
+          <li><span class="amt"><span class="zh">2大勺</span><span class="en">2 tbsp</span></span><span class="name"><span class="zh">辣椒面</span><span class="en">coarse chili flakes</span></span></li>
+          <li><span class="amt"><span class="zh">适量</span><span class="en">as needed</span></span><span class="name"><span class="zh">热油（烧至冒烟）</span><span class="en">hot oil (heated until smoking)</span></span></li>
+          <li><span class="amt"><span class="zh">适量</span><span class="en">to taste</span></span><span class="name"><span class="zh">盐</span><span class="en">salt</span></span></li>
+          <li><span class="amt"><span class="zh">2大勺</span><span class="en">2 tbsp</span></span><span class="name"><span class="zh">生抽</span><span class="en">light soy sauce</span></span></li>
+          <li><span class="amt"><span class="zh">1大勺</span><span class="en">1 tbsp</span></span><span class="name"><span class="zh">香醋</span><span class="en">black vinegar</span></span></li>
+          <li><span class="amt"><span class="zh">1小勺</span><span class="en">1 tsp</span></span><span class="name"><span class="zh">蚝油</span><span class="en">oyster sauce</span></span></li>
+          <li><span class="amt"><span class="zh">3大勺</span><span class="en">3 tbsp</span></span><span class="name"><span class="zh">雪碧</span><span class="en">sprite</span></span></li>
+          <li><span class="amt"><span class="zh">1大勺</span><span class="en">1 tbsp</span></span><span class="name"><span class="zh">芝麻酱（提前用温水泄开）</span><span class="en">sesame paste (loosened with warm water)</span></span></li>
+        </ul>
+        <h4 class="rec-col-head"><span class="zh">做法 / method</span><span class="en">method</span></h4>
+        <ol class="rec-steps">
+          <li><span class="n">i.</span><span class="t"><span class="zh">碗中放入蒜末、葱花、白芝麻、孜然粉和辣椒面，混合均匀。</span><span class="en">in a heatproof bowl combine the minced garlic, scallion, sesame seeds, cumin, and chili flakes.</span></span></li>
+          <li><span class="n">ii.</span><span class="t"><span class="zh">锅中烧油至冒烟（约七八成热），将热油浇在碗中的调料上，激发出香味，搅拌均匀。</span><span class="en">heat oil until it smokes (about 70-80% hot), then pour it over the aromatics &mdash; the sizzle should sound joyful. stir.</span></span></li>
+          <li><span class="n">iii.</span><span class="t"><span class="zh">依次加入盐、生抽、香醋和蚝油，搅拌混合。</span><span class="en">stir in salt, light soy, black vinegar, and oyster sauce, one after the other.</span></span></li>
+          <li><span class="n">iv.</span><span class="t"><span class="zh">倒入雪碧，搅拌均匀（雪碧可以增加回甜和气泡口感）。</span><span class="en">pour in the sprite and stir &mdash; it lends a bright sweetness and a little lift.</span></span></li>
+          <li><span class="n">v.</span><span class="t"><span class="zh">最后加入提前用温水泄开的芝麻酱，充分搅拌至酱汁顺滑均匀即可。</span><span class="en">finally, swirl in the loosened sesame paste and stir until the sauce is smooth.</span></span></li>
+        </ol>
+        <p class="rec-tip zh"><strong>小贴士</strong>芝麻酱提前用少量温水搅开至流动状态，避免结块。此酱可拌面、拌凉菜、蘸饺子，用途广泛。辣椒面和雪碧的量可根据个人口味调整。</p>
+        <p class="rec-tip en"><strong>tip</strong> always loosen the sesame paste with warm water first so it doesn&rsquo;t clump. this sauce is a weekly workhorse &mdash; noodles, cold vegetables, dumpling dip. scale chili and sprite to your own palate.</p>
+      </div>
+    </div></div>
+  </li>
 
-        function closeModal() {
-            overlay.classList.remove('open');
-            overlay.setAttribute('aria-hidden', 'true');
-            document.body.style.overflow = '';
-            if (mainEl) mainEl.inert = false;
-            if (lastFocusedCard) lastFocusedCard.focus();
-        }
+  <!-- 009 青椒炒鸡蛋 Green Pepper & Egg Stir-Fry -->
+  <li class="rec-row" data-tags="quick,下饭" id="rec-pepper-eggs">
+    <div class="rec-head">
+      <span class="rec-num">009</span>
+      <h3 class="rec-title"><span class="zh">青椒炒<em>鸡蛋</em></span><span class="en">green pepper &amp; <em>egg</em> stir-fry.</span></h3>
+      <div class="rec-meta"><span>10 min</span><span class="sep">&middot;</span><span><span class="zh">2人份</span><span class="en">serves 2</span></span><span class="sep">&middot;</span><span><span class="zh">家常</span><span class="en">home-style</span></span></div>
+      <span class="rec-toggle">+</span>
+    </div>
+    <div class="rec-body"><div class="rec-body-inner">
+      <aside>
+        <p class="rec-blurb zh">一道经典的中式家常菜，青椒的清香与鸡蛋的嫩滑完美结合，简单快手，非常下饭。</p>
+        <p class="rec-blurb en">the <em>10-minute dinner</em> i make more than any other. grassy green pepper, soft scrambled egg, a dash of soy &mdash; done.</p>
+        <div class="rec-tags">
+          <span class="sc-tag">家常菜</span><span class="sc-tag">快手菜</span><span class="sc-tag">下饭菜</span>
+        </div>
+        <div class="rec-sidebar"><dl>
+          <dt><span class="zh">准备</span><span class="en">prep</span></dt><dd><span class="zh">5分钟</span><span class="en"><em>5 min</em></span></dd>
+          <dt><span class="zh">烹饪</span><span class="en">cook</span></dt><dd><span class="zh">5分钟</span><span class="en"><em>5 min</em></span></dd>
+          <dt><span class="zh">总计</span><span class="en">total</span></dt><dd><span class="zh">10分钟</span><span class="en"><em>10 min</em></span></dd>
+          <dt><span class="zh">份量</span><span class="en">serves</span></dt><dd><span class="zh">2人</span><span class="en"><em>2</em></span></dd>
+        </dl></div>
+      </aside>
+      <div>
+        <h4 class="rec-col-head"><span class="zh">食材 / ingredients</span><span class="en">ingredients</span></h4>
+        <ul class="rec-ingredients">
+          <li><span class="amt"><span class="zh">3个</span><span class="en">3</span></span><span class="name"><span class="zh">鸡蛋</span><span class="en">eggs</span></span></li>
+          <li><span class="amt"><span class="zh">2个</span><span class="en">2</span></span><span class="name"><span class="zh">青椒，去籽切丝或切块</span><span class="en">green peppers, deseeded and julienned or cubed</span></span></li>
+          <li><span class="amt"><span class="zh">2瓣</span><span class="en">2 cloves</span></span><span class="name"><span class="zh">蒜，切末</span><span class="en">garlic, minced</span></span></li>
+          <li><span class="amt"><span class="zh">1段</span><span class="en">1 length</span></span><span class="name"><span class="zh">葱白，切碎</span><span class="en">scallion white, chopped</span></span></li>
+          <li><span class="amt"><span class="zh">适量</span><span class="en">as needed</span></span><span class="name"><span class="zh">食用油</span><span class="en">cooking oil</span></span></li>
+          <li><span class="amt"><span class="zh">适量</span><span class="en">to taste</span></span><span class="name"><span class="zh">盐</span><span class="en">salt</span></span></li>
+          <li><span class="amt"><span class="zh">1小勺</span><span class="en">1 tsp</span></span><span class="name"><span class="zh">生抽</span><span class="en">light soy sauce</span></span></li>
+          <li><span class="amt"><span class="zh">少许</span><span class="en">a splash</span></span><span class="name"><span class="zh">料酒</span><span class="en">shaoxing wine</span></span></li>
+        </ul>
+        <h4 class="rec-col-head"><span class="zh">做法 / method</span><span class="en">method</span></h4>
+        <ol class="rec-steps">
+          <li><span class="n">i.</span><span class="t"><span class="zh">青椒洗净去籽，切成细丝或小块备用。蒜切末，葱白切碎。</span><span class="en">wash and deseed the peppers, slice into fine strips or small pieces. mince the garlic, chop the scallion white.</span></span></li>
+          <li><span class="n">ii.</span><span class="t"><span class="zh">鸡蛋打入碗中，加少许盐和料酒，用筷子充分搅打均匀。</span><span class="en">crack the eggs, add a pinch of salt and a splash of shaoxing, and beat thoroughly with chopsticks.</span></span></li>
+          <li><span class="n">iii.</span><span class="t"><span class="zh">锅中倒入适量油，大火烧热，倒入蛋液，用筷子快速搅散，蛋液刚凝固即盛出备用，不要炒太老。</span><span class="en">heat oil on high. pour in the egg and scramble quickly with chopsticks &mdash; lift them out the moment they&rsquo;re just set. do not overcook.</span></span></li>
+          <li><span class="n">iv.</span><span class="t"><span class="zh">锅中留少许底油，放入蒜末和葱白爆香，随后倒入青椒丝，大火快速翻炒至青椒变色微软。</span><span class="en">leave a little oil in the pan, sizzle the garlic and scallion white, then crank the heat and stir-fry the peppers until they&rsquo;re just wilted and bright.</span></span></li>
+          <li><span class="n">v.</span><span class="t"><span class="zh">将炒好的鸡蛋倒回锅中，加入生抽，翻炒均匀即可出锅。</span><span class="en">return the egg, splash in the soy, toss once, and plate.</span></span></li>
+        </ol>
+        <p class="rec-tip zh"><strong>小贴士</strong>炒鸡蛋时油要多一些且油温要高，鸡蛋才会蓬松鲜嫩。青椒不宜炒太久，保持脆嫩口感最佳。喜辣可加少许干辣椒段一起爆香。</p>
+        <p class="rec-tip en"><strong>tip</strong> use more oil and higher heat than you think for the eggs &mdash; that&rsquo;s what makes them pillowy. don&rsquo;t cook the peppers too long; crisp is the goal. add a few dried chili segments with the aromatics if you want heat.</p>
+      </div>
+    </div></div>
+  </li>
 
-        // Focus trap inside modal
-        modalEl.addEventListener('keydown', e => {
-            if (e.key !== 'Tab') return;
-            const focusable = getFocusable();
-            if (focusable.length === 0) return;
-            const first = focusable[0];
-            const last = focusable[focusable.length - 1];
-            if (e.shiftKey) {
-                if (document.activeElement === first) { e.preventDefault(); last.focus(); }
-            } else {
-                if (document.activeElement === last) { e.preventDefault(); first.focus(); }
-            }
-        });
+  <!-- 010 菠菜豆腐汤 Spinach & Tofu Soup -->
+  <li class="rec-row" data-tags="quick" id="rec-spinach-tofu">
+    <div class="rec-head">
+      <span class="rec-num">010</span>
+      <h3 class="rec-title"><span class="zh"><em>菠菜</em>豆腐汤</span><span class="en"><em>spinach</em> &amp; tofu soup.</span></h3>
+      <div class="rec-meta"><span>15 min</span><span class="sep">&middot;</span><span><span class="zh">2人份</span><span class="en">serves 2</span></span><span class="sep">&middot;</span><span><span class="zh">清淡</span><span class="en">gentle</span></span></div>
+      <span class="rec-toggle">+</span>
+    </div>
+    <div class="rec-body"><div class="rec-body-inner">
+      <aside>
+        <p class="rec-blurb zh">清淡鲜美的家常汤，简单快手，营养丰富。菠菜焯水去草酸，与嫩豆腐相得益彰。</p>
+        <p class="rec-blurb en">a clear, quiet soup. spinach, soft tofu, a whisper of sesame oil. <em>清淡</em> &mdash; for when the week was loud.</p>
+        <div class="rec-tags">
+          <span class="sc-tag">家常菜</span><span class="sc-tag">清淡</span><span class="sc-tag">素食</span>
+        </div>
+        <div class="rec-sidebar"><dl>
+          <dt><span class="zh">准备</span><span class="en">prep</span></dt><dd><span class="zh">5分钟</span><span class="en"><em>5 min</em></span></dd>
+          <dt><span class="zh">烹饪</span><span class="en">cook</span></dt><dd><span class="zh">10分钟</span><span class="en"><em>10 min</em></span></dd>
+          <dt><span class="zh">总计</span><span class="en">total</span></dt><dd><span class="zh">15分钟</span><span class="en"><em>15 min</em></span></dd>
+          <dt><span class="zh">份量</span><span class="en">serves</span></dt><dd><span class="zh">2人</span><span class="en"><em>2</em></span></dd>
+        </dl></div>
+      </aside>
+      <div>
+        <h4 class="rec-col-head"><span class="zh">食材 / ingredients</span><span class="en">ingredients</span></h4>
+        <ul class="rec-ingredients">
+          <li><span class="amt"><span class="zh">200克</span><span class="en">200g</span></span><span class="name"><span class="zh">菠菜，洗净切段</span><span class="en">spinach, washed and segmented</span></span></li>
+          <li><span class="amt"><span class="zh">300克</span><span class="en">300g</span></span><span class="name"><span class="zh">嫩豆腐（内酯豆腐或软豆腐），切块</span><span class="en">silken or soft tofu, cubed</span></span></li>
+          <li><span class="amt"><span class="zh">600毫升</span><span class="en">600ml</span></span><span class="name"><span class="zh">清水或鸡汤</span><span class="en">water or chicken stock</span></span></li>
+          <li><span class="amt"><span class="zh">3瓣</span><span class="en">3 cloves</span></span><span class="name"><span class="zh">蒜，切末</span><span class="en">garlic, minced</span></span></li>
+          <li><span class="amt"><span class="zh">2片</span><span class="en">2 slices</span></span><span class="name"><span class="zh">生姜，切片</span><span class="en">ginger, sliced</span></span></li>
+          <li><span class="amt"><span class="zh">1茶匙</span><span class="en">1 tsp</span></span><span class="name"><span class="zh">盐</span><span class="en">salt</span></span></li>
+          <li><span class="amt"><span class="zh">少许</span><span class="en">a pinch</span></span><span class="name"><span class="zh">白胡椒粉</span><span class="en">white pepper</span></span></li>
+          <li><span class="amt"><span class="zh">1茶匙</span><span class="en">1 tsp</span></span><span class="name"><span class="zh">香油</span><span class="en">sesame oil</span></span></li>
+          <li><span class="amt"><span class="zh">1汤匙</span><span class="en">1 tbsp</span></span><span class="name"><span class="zh">食用油</span><span class="en">cooking oil</span></span></li>
+        </ul>
+        <h4 class="rec-col-head"><span class="zh">做法 / method</span><span class="en">method</span></h4>
+        <ol class="rec-steps">
+          <li><span class="n">i.</span><span class="t"><span class="zh">菠菜洗净切成约5厘米段；豆腐轻轻切成1.5厘米方块；蒜切末，姜切片备用。</span><span class="en">wash the spinach and cut into roughly 5cm lengths. gently cube the tofu at 1.5cm. mince garlic, slice ginger.</span></span></li>
+          <li><span class="n">ii.</span><span class="t"><span class="zh">烧一小锅开水，菠菜下锅焯约30秒捞出，过冷水，挤去多余水分。此步骤可去除草酸，口感更佳。</span><span class="en">bring a small pot of water to a boil, blanch the spinach for 30 seconds, shock in cold water, and squeeze dry. this removes the oxalic acid and improves the texture.</span></span></li>
+          <li><span class="n">iii.</span><span class="t"><span class="zh">锅中加食用油，中火爆香姜片和一半蒜末，约30秒出香味。</span><span class="en">heat oil over medium. sizzle the ginger and half of the garlic for about 30 seconds until fragrant.</span></span></li>
+          <li><span class="n">iv.</span><span class="t"><span class="zh">加入清水或鸡汤，大火烧开后轻轻下入豆腐块，转中小火炖3分钟，汤色略带乳白。</span><span class="en">pour in the water or stock, bring to a boil, slide in the tofu, drop to medium-low, and simmer for 3 minutes until the broth turns faintly milky.</span></span></li>
+          <li><span class="n">v.</span><span class="t"><span class="zh">下入焯好的菠菜，加盐和白胡椒粉，轻轻搅匀，煮1分钟。</span><span class="en">add the blanched spinach, salt, and white pepper. stir gently and cook for 1 minute.</span></span></li>
+          <li><span class="n">vi.</span><span class="t"><span class="zh">关火，淋上香油，撒上剩余蒜末，盛碗上桌。</span><span class="en">kill the heat, drizzle sesame oil, scatter the remaining raw garlic, and serve.</span></span></li>
+        </ol>
+        <p class="rec-tip zh"><strong>小贴士</strong>变化版：下菠菜前淋入打散的蛋液，边淋边搅，做成蛋花汤；或加入虾皮一起爆香，无需额外提鲜。</p>
+        <p class="rec-tip en"><strong>tip</strong> variations: swirl in beaten egg just before the spinach goes in for an egg-ribbon soup; or sizzle dried shrimp with the aromatics &mdash; no extra seasoning needed after that.</p>
+      </div>
+    </div></div>
+  </li>
 
-        document.querySelectorAll('.recipe-card').forEach(card => {
-            card.addEventListener('click', () => openModal(card.dataset.recipe, card));
-            card.addEventListener('keydown', e => {
-                if (e.key === 'Enter' || e.key === ' ') {
-                    e.preventDefault();
-                    openModal(card.dataset.recipe, card);
-                }
-            });
-        });
+  <!-- 011 番茄浓汤面 Tomato Soup Noodles -->
+  <li class="rec-row" data-tags="quick" id="rec-tomato-noodles">
+    <div class="rec-head">
+      <span class="rec-num">011</span>
+      <h3 class="rec-title"><span class="zh"><em>番茄</em>浓汤面</span><span class="en"><em>tomato</em> soup noodles.</span></h3>
+      <div class="rec-meta"><span>25 min</span><span class="sep">&middot;</span><span><span class="zh">1人份</span><span class="en">serves 1</span></span><span class="sep">&middot;</span><span><span class="zh">面</span><span class="en">noodle</span></span></div>
+      <span class="rec-toggle">+</span>
+    </div>
+    <div class="rec-body"><div class="rec-body-inner">
+      <aside>
+        <p class="rec-blurb zh">浓郁的茄汁裹满每根面条，酸甜鲜香，一碗暖胃又满足。</p>
+        <p class="rec-blurb en">tomato soup noodles the way my grandmother made them &mdash; <em>酸甜鲜香</em>, comfort in a bowl, broth clinging to every strand.</p>
+        <div class="rec-tags">
+          <span class="sc-tag">家常面</span><span class="sc-tag">番茄</span><span class="sc-tag">快手菜</span>
+        </div>
+        <div class="rec-sidebar"><dl>
+          <dt><span class="zh">准备</span><span class="en">prep</span></dt><dd><span class="zh">10分钟</span><span class="en"><em>10 min</em></span></dd>
+          <dt><span class="zh">烹饪</span><span class="en">cook</span></dt><dd><span class="zh">15分钟</span><span class="en"><em>15 min</em></span></dd>
+          <dt><span class="zh">总计</span><span class="en">total</span></dt><dd><span class="zh">25分钟</span><span class="en"><em>25 min</em></span></dd>
+          <dt><span class="zh">份量</span><span class="en">serves</span></dt><dd><span class="zh">1人</span><span class="en"><em>1</em></span></dd>
+        </dl></div>
+      </aside>
+      <div>
+        <h4 class="rec-col-head"><span class="zh">食材 / ingredients</span><span class="en">ingredients</span></h4>
+        <ul class="rec-ingredients">
+          <li><span class="amt"><span class="zh">3个</span><span class="en">3</span></span><span class="name"><span class="zh">西红柿，切小块</span><span class="en">tomatoes, cubed</span></span></li>
+          <li><span class="amt"><span class="zh">2个</span><span class="en">2</span></span><span class="name"><span class="zh">鸡蛋</span><span class="en">eggs</span></span></li>
+          <li><span class="amt"><span class="zh">1人份</span><span class="en">1 portion</span></span><span class="name"><span class="zh">面条（挂面或鲜面均可）</span><span class="en">noodles (dried or fresh)</span></span></li>
+          <li><span class="amt"><span class="zh">适量</span><span class="en">as needed</span></span><span class="name"><span class="zh">青菜（生菜、小白菜等）</span><span class="en">leafy greens (lettuce, baby bok choy, etc.)</span></span></li>
+          <li><span class="amt"><span class="zh">适量</span><span class="en">as needed</span></span><span class="name"><span class="zh">葱末</span><span class="en">scallion, minced</span></span></li>
+          <li><span class="amt"><span class="zh">适量</span><span class="en">as needed</span></span><span class="name"><span class="zh">蒜末</span><span class="en">garlic, minced</span></span></li>
+          <li><span class="amt"><span class="zh">1大勺</span><span class="en">1 tbsp</span></span><span class="name"><span class="zh">剁椒酱</span><span class="en">chopped chili sauce (duojiao)</span></span></li>
+          <li><span class="amt"><span class="zh">2大勺</span><span class="en">2 tbsp</span></span><span class="name"><span class="zh">番茄酱</span><span class="en">tomato paste</span></span></li>
+          <li><span class="amt"><span class="zh">2勺</span><span class="en">2 tbsp</span></span><span class="name"><span class="zh">生抽</span><span class="en">light soy sauce</span></span></li>
+          <li><span class="amt"><span class="zh">1勺</span><span class="en">1 tbsp</span></span><span class="name"><span class="zh">蚝油</span><span class="en">oyster sauce</span></span></li>
+          <li><span class="amt"><span class="zh">半勺</span><span class="en">1/2 tbsp</span></span><span class="name"><span class="zh">老抽（上色）</span><span class="en">dark soy sauce (for colour)</span></span></li>
+          <li><span class="amt"><span class="zh">少许</span><span class="en">a pinch</span></span><span class="name"><span class="zh">盐</span><span class="en">salt</span></span></li>
+          <li><span class="amt"><span class="zh">少许</span><span class="en">a pinch</span></span><span class="name"><span class="zh">白糖</span><span class="en">sugar</span></span></li>
+          <li><span class="amt"><span class="zh">少许</span><span class="en">a pinch</span></span><span class="name"><span class="zh">胡椒粉</span><span class="en">white pepper</span></span></li>
+          <li><span class="amt"><span class="zh">适量</span><span class="en">as needed</span></span><span class="name"><span class="zh">水淀粉</span><span class="en">cornstarch slurry</span></span></li>
+          <li><span class="amt"><span class="zh">几滴</span><span class="en">a few drops</span></span><span class="name"><span class="zh">香油</span><span class="en">sesame oil</span></span></li>
+          <li><span class="amt"><span class="zh">适量</span><span class="en">to garnish</span></span><span class="name"><span class="zh">葱花（装饰）</span><span class="en">scallion greens</span></span></li>
+        </ul>
+        <h4 class="rec-col-head"><span class="zh">做法 / method</span><span class="en">method</span></h4>
+        <ol class="rec-steps">
+          <li><span class="n">i.</span><span class="t"><span class="zh">热锅倒入适量油，打入鸡蛋煎至两面金黄，盛出备用。</span><span class="en">heat oil in a pan, crack in the eggs, and fry until both sides are golden. set aside.</span></span></li>
+          <li><span class="n">ii.</span><span class="t"><span class="zh">锅中留底油，小火放入葱末、蒜末和剁椒酱，煸炒出香味。</span><span class="en">leave a little oil in the pan. on low heat, sizzle the minced scallion, garlic, and chopped-chili sauce until fragrant.</span></span></li>
+          <li><span class="n">iii.</span><span class="t"><span class="zh">倒入西红柿丁，中火翻炒至出汁变软。</span><span class="en">add the diced tomato and stir-fry over medium until softened and releasing juice.</span></span></li>
+          <li><span class="n">iv.</span><span class="t"><span class="zh">加入2大勺番茄酱，翻炒均匀让颜色更红亮。</span><span class="en">stir in 2 tablespoons of tomato paste for a deeper, brighter red.</span></span></li>
+          <li><span class="n">v.</span><span class="t"><span class="zh">加入约两碗开水，大火煮沸。</span><span class="en">pour in about two bowls of boiling water and bring it up on high heat.</span></span></li>
+          <li><span class="n">vi.</span><span class="t"><span class="zh">调入料汁：2勺生抽、1勺蚝油、半勺老抽、少许盐、白糖和胡椒粉，搅匀。</span><span class="en">season the broth: 2 tbsp light soy, 1 tbsp oyster sauce, 1/2 tbsp dark soy, a pinch each of salt, sugar, and white pepper. stir.</span></span></li>
+          <li><span class="n">vii.</span><span class="t"><span class="zh">汤底沸腾后下入面条，中火煮约5分钟至面条熟透。</span><span class="en">once boiling, drop in the noodles and cook on medium for about 5 minutes, until tender.</span></span></li>
+          <li><span class="n">viii.</span><span class="t"><span class="zh">放入煎蛋和青菜，继续煮1分钟。</span><span class="en">slide in the fried eggs and the greens, and simmer another minute.</span></span></li>
+          <li><span class="n">ix.</span><span class="t"><span class="zh">淋入水淀粉勾芡使汤汁浓稠，滴几滴香油，撒上葱花即可出锅。</span><span class="en">drizzle in the cornstarch slurry to thicken, finish with a few drops of sesame oil, scatter scallion greens, and serve.</span></span></li>
+        </ol>
+        <p class="rec-tip zh"><strong>小贴士</strong>西红柿尽量选熟透的沙瓤番茄，炒出的汁水更浓郁。面条可用挂面、手擀面或宽面，按个人喜好选择。</p>
+        <p class="rec-tip en"><strong>tip</strong> use fully ripe, mealy tomatoes if you can &mdash; they give off much more juice. any noodle works: thin dried, hand-pulled, or wide flat &mdash; pick what you&rsquo;re in the mood for.</p>
+      </div>
+    </div></div>
+  </li>
 
-        closeBtn.addEventListener('click', closeModal);
+  <!-- 012 Lemon Cream Sauce -->
+  <li class="rec-row" data-tags="quick" id="rec-lemon-sauce">
+    <div class="rec-head">
+      <span class="rec-num">012</span>
+      <h3 class="rec-title"><span class="zh"><em>柠檬</em>奶油酱</span><span class="en">lemon cream <em>sauce</em>.</span></h3>
+      <div class="rec-meta"><span>13 min</span><span class="sep">&middot;</span><span><span class="zh">4人份</span><span class="en">serves 4</span></span><span class="sep">&middot;</span><span>quick</span></div>
+      <span class="rec-toggle">+</span>
+    </div>
+    <div class="rec-body"><div class="rec-body-inner">
+      <aside>
+        <p class="rec-blurb zh">用现成的 Alfredo 酱做底，加入新鲜柠檬和莳萝提亮的快手奶油酱。淋在意面、三文鱼或鸡肉上都很合拍。</p>
+        <p class="rec-blurb en">a quick shortcut sauce using store-bought alfredo, <em>brightened with fresh lemon and dill</em>. perfect over pasta, salmon, or chicken.</p>
+        <div class="rec-tags">
+          <span>quick</span><span>creamy</span><span>pasta sauce</span>
+        </div>
+        <div class="rec-sidebar"><dl>
+          <dt><span class="zh">准备</span><span class="en">prep</span></dt><dd><span class="zh">5分钟</span><span class="en"><em>5 min</em></span></dd>
+          <dt><span class="zh">烹饪</span><span class="en">cook</span></dt><dd><span class="zh">8分钟</span><span class="en"><em>8 min</em></span></dd>
+          <dt><span class="zh">总计</span><span class="en">total</span></dt><dd><span class="zh">13分钟</span><span class="en"><em>13 min</em></span></dd>
+          <dt><span class="zh">份量</span><span class="en">serves</span></dt><dd><span class="zh">4人</span><span class="en"><em>4</em></span></dd>
+        </dl></div>
+      </aside>
+      <div>
+        <h4 class="rec-col-head"><span class="zh">食材 / ingredients</span><span class="en">ingredients</span></h4>
+        <ul class="rec-ingredients">
+          <li><span class="amt"><span class="zh">2杯</span><span class="en">2 cups</span></span><span class="name"><span class="zh">市售 Alfredo 酱</span><span class="en">store-bought alfredo sauce</span></span></li>
+          <li><span class="amt"><span class="zh">1/2杯</span><span class="en">1/2 cup</span></span><span class="name"><span class="zh">鸡汤</span><span class="en">chicken broth</span></span></li>
+          <li><span class="amt"><span class="zh">2-3大勺</span><span class="en">2-3 tbsp</span></span><span class="name"><span class="zh">新鲜柠檬汁</span><span class="en">fresh lemon juice</span></span></li>
+          <li><span class="amt"><span class="zh">2瓣</span><span class="en">2 cloves</span></span><span class="name"><span class="zh">蒜，切末</span><span class="en">garlic, minced</span></span></li>
+          <li><span class="amt"><span class="zh">2大勺</span><span class="en">2 tbsp</span></span><span class="name"><span class="zh">黄油</span><span class="en">butter</span></span></li>
+          <li><span class="amt"><span class="zh">2大勺</span><span class="en">2 tbsp</span></span><span class="name"><span class="zh">新鲜莳萝，切碎</span><span class="en">fresh dill, chopped</span></span></li>
+          <li><span class="amt"><span class="zh">适量</span><span class="en">to taste</span></span><span class="name"><span class="zh">盐和黑胡椒</span><span class="en">salt and pepper</span></span></li>
+          <li><span class="amt"><span class="zh">一小撮</span><span class="en">pinch</span></span><span class="name"><span class="zh">红椒片（可选）</span><span class="en">red pepper flakes (optional)</span></span></li>
+        </ul>
+        <h4 class="rec-col-head"><span class="zh">做法 / method</span><span class="en">method</span></h4>
+        <ol class="rec-steps">
+          <li><span class="n">i.</span><span class="t"><span class="zh">小锅中中火融化黄油，加入蒜末，炒约30秒至出香味，注意不要焦糊。</span><span class="en">melt butter in a saucepan over medium heat. add minced garlic and cook for about 30 seconds until fragrant. don&rsquo;t let it brown.</span></span></li>
+          <li><span class="n">ii.</span><span class="t"><span class="zh">倒入 Alfredo 酱，与蒜香黄油搅拌均匀至顺滑。</span><span class="en">pour in the alfredo sauce and stir to combine with the garlic butter until smooth.</span></span></li>
+          <li><span class="n">iii.</span><span class="t"><span class="zh">加入鸡汤搅匀，小火加热2-3分钟，不时搅动，直至顺滑温热。</span><span class="en">add the chicken broth and stir. let it warm through for 2-3 minutes, stirring occasionally, until smooth and heated.</span></span></li>
+          <li><span class="n">iv.</span><span class="t"><span class="zh">转小火，先加入2大勺柠檬汁拌匀，尝味；若想更明亮，再加更多。</span><span class="en">reduce heat to low. stir in the lemon juice, starting with 2 tbsp. taste and add more if you want a brighter flavor.</span></span></li>
+          <li><span class="n">v.</span><span class="t"><span class="zh">用盐、黑胡椒和（如用）红椒片调味。盐要少放 &mdash; Alfredo 本身已经很咸。</span><span class="en">season with salt, pepper, and red pepper flakes if using. go easy on salt &mdash; alfredo is already well-seasoned.</span></span></li>
+          <li><span class="n">vi.</span><span class="t"><span class="zh">关火，拌入切碎的新鲜莳萝。立刻淋在意面、鱼或鸡肉上。</span><span class="en">remove from heat and stir in the fresh dill. serve immediately over pasta, fish, or chicken.</span></span></li>
+        </ol>
+        <p class="rec-tip zh"><strong>小贴士</strong>先少放柠檬汁，再根据口味加 &mdash; 可以加，但加多了拿不回来。这酱与 fettuccine、penne 或香煎三文鱼都是绝配。</p>
+        <p class="rec-tip en"><strong>tip</strong> start with less lemon juice and add to taste &mdash; you can always add more but can&rsquo;t take it away. this sauce pairs beautifully with fettuccine, penne, or as a topping for pan-seared salmon.</p>
+      </div>
+    </div></div>
+  </li>
 
-        overlay.addEventListener('click', e => {
-            if (e.target === overlay) closeModal();
-        });
+  <!-- 013 奥尔良烤翅 Orleans-Style Oven Wings -->
+  <li class="rec-row" data-tags="" id="rec-orleans-wings">
+    <div class="rec-head">
+      <span class="rec-num">013</span>
+      <h3 class="rec-title"><span class="zh"><em>奥尔良</em>烤翅</span><span class="en"><em>orleans</em>-style oven wings.</span></h3>
+      <div class="rec-meta"><span>25 min + <span class="zh">腌制</span><span class="en">marinade</span></span><span class="sep">&middot;</span><span><span class="zh">2人份</span><span class="en">serves 2</span></span><span class="sep">&middot;</span><span><span class="zh">烤箱</span><span class="en">oven</span></span></div>
+      <span class="rec-toggle">+</span>
+    </div>
+    <div class="rec-body"><div class="rec-body-inner">
+      <aside>
+        <p class="rec-blurb zh">外焦里嫩的经典烤翅，浓郁的奥尔良风味，媲美 KFC，在家用烤箱轻松搞定。</p>
+        <p class="rec-blurb en">oven-baked wings marinated in <em>new orleans spice</em> &mdash; a chinese take on a made-up chinese take on american food. loops of diaspora, crisp outside, tender within.</p>
+        <div class="rec-tags">
+          <span class="sc-tag">烤箱菜</span><span class="sc-tag">鸡翅</span><span class="sc-tag">聚会小吃</span>
+        </div>
+        <div class="rec-sidebar"><dl>
+          <dt><span class="zh">准备</span><span class="en">prep</span></dt><dd><span class="zh">15分钟 + 腌制12小时</span><span class="en"><em>15 min + 12 hr marinade</em></span></dd>
+          <dt><span class="zh">烹饪</span><span class="en">cook</span></dt><dd><span class="zh">25分钟</span><span class="en"><em>25 min</em></span></dd>
+          <dt><span class="zh">总计</span><span class="en">total</span></dt><dd><span class="zh">约13小时</span><span class="en"><em>~13 hr</em></span></dd>
+          <dt><span class="zh">份量</span><span class="en">serves</span></dt><dd><span class="zh">2人</span><span class="en"><em>2</em></span></dd>
+        </dl></div>
+      </aside>
+      <div>
+        <h4 class="rec-col-head"><span class="zh">食材 / ingredients</span><span class="en">ingredients</span></h4>
+        <ul class="rec-ingredients">
+          <li><span class="amt"><span class="zh">6只</span><span class="en">6</span></span><span class="name"><span class="zh">鸡翅中</span><span class="en">chicken midwings</span></span></li>
+          <li><span class="amt"><span class="zh">25克</span><span class="en">25g</span></span><span class="name"><span class="zh">新奥尔良烤翅腌料</span><span class="en">new orleans wing marinade powder</span></span></li>
+          <li><span class="amt"><span class="zh">25克</span><span class="en">25g</span></span><span class="name"><span class="zh">冰水</span><span class="en">ice water</span></span></li>
+          <li><span class="amt"><span class="zh">1小勺</span><span class="en">1 tsp</span></span><span class="name"><span class="zh">料酒</span><span class="en">shaoxing wine</span></span></li>
+          <li><span class="amt"><span class="zh">1小勺</span><span class="en">1 tsp</span></span><span class="name"><span class="zh">生抽</span><span class="en">light soy sauce</span></span></li>
+          <li><span class="amt"><span class="zh">少许</span><span class="en">a little</span></span><span class="name"><span class="zh">食用油</span><span class="en">cooking oil</span></span></li>
+          <li><span class="amt"><span class="zh">适量</span><span class="en">as needed</span></span><span class="name"><span class="zh">蜂蜜水（蜂蜜:水 = 2:1）</span><span class="en">honey water (honey : water = 2:1)</span></span></li>
+          <li><span class="amt"><span class="zh">1张</span><span class="en">1 sheet</span></span><span class="name"><span class="zh">锡纸（垫烤盘用）</span><span class="en">foil (for the tray)</span></span></li>
+        </ul>
+        <h4 class="rec-col-head"><span class="zh">做法 / method</span><span class="en">method</span></h4>
+        <ol class="rec-steps">
+          <li><span class="n">i.</span><span class="t"><span class="zh">鸡翅洗净沥干，用厨房纸吸去多余水分。在鸡翅正反两面各划两刀，方便入味。</span><span class="en">rinse and drain the wings, pat dry with paper towel. score each wing with two cuts on both sides so the marinade reaches the meat.</span></span></li>
+          <li><span class="n">ii.</span><span class="t"><span class="zh">将奥尔良腌料与冰水混合搅匀，加入料酒和生抽，倒入鸡翅中，戴手套抓拌均匀，确保每只鸡翅都裹满腌料。</span><span class="en">mix the orleans powder with ice water until smooth, add shaoxing and light soy, pour over the wings, and massage (gloves help) until every wing is thoroughly coated.</span></span></li>
+          <li><span class="n">iii.</span><span class="t"><span class="zh">盖上保鲜膜（或装入密封袋），放入冰箱冷藏腌制至少12小时。腌制期间可翻动1-2次帮助入味。</span><span class="en">cover (or seal in a ziplock) and refrigerate for at least 12 hours. turn once or twice so the marinade distributes evenly.</span></span></li>
+          <li><span class="n">iv.</span><span class="t"><span class="zh">烤箱上下火200°C预热10分钟。烤盘铺锡纸，将鸡翅放在烤架上，烤架置于烤盘上方。</span><span class="en">preheat the oven to 200°C (top &amp; bottom heat) for 10 minutes. line a tray with foil and set a rack above it; the wings go on the rack.</span></span></li>
+          <li><span class="n">v.</span><span class="t"><span class="zh">先用230°C大火烤5分钟，让鸡翅表面定型出油。</span><span class="en">roast at 230°C for 5 minutes to set the skin and start the fat rendering.</span></span></li>
+          <li><span class="n">vi.</span><span class="t"><span class="zh">取出鸡翅，刷一层腌料汁，翻面后再刷一层，继续230°C烤5分钟。</span><span class="en">pull the wings out, brush with leftover marinade, flip, brush again, and roast another 5 minutes at 230°C.</span></span></li>
+          <li><span class="n">vii.</span><span class="t"><span class="zh">将温度调至180°C，移至烤箱中层，继续烤15分钟至鸡翅表皮金黄微焦。</span><span class="en">drop the temperature to 180°C, shift the rack to the middle, and roast for another 15 minutes until the skin is deeply golden with a few charred spots.</span></span></li>
+          <li><span class="n">viii.</span><span class="t"><span class="zh">出炉前2分钟取出鸡翅，两面刷上蜂蜜水，放回烤箱烤至表面光亮即可。</span><span class="en">two minutes before they&rsquo;re done, pull the wings, brush both sides with honey water, and return to the oven until the surface turns glossy.</span></span></li>
+        </ol>
+        <p class="rec-tip zh"><strong>小贴士</strong>先大火后小火是外焦里嫩的关键。鸡翅放烤架上烤（下面接烤盘）比直接放烤盘效果好，避免鸡翅泡在油里。腌制时间越长越入味，建议前一天晚上腌好。</p>
+        <p class="rec-tip en"><strong>tip</strong> high-heat first, then moderate is the whole shortcut to crisp-outside / tender-inside. roasting on a rack over the tray beats sitting the wings directly on the tray &mdash; they don&rsquo;t stew in their own fat. marinate overnight if you can; longer is better.</p>
+      </div>
+    </div></div>
+  </li>
 
-        document.addEventListener('keydown', e => {
-            if (e.key === 'Escape' && overlay.classList.contains('open')) closeModal();
-        });
+  <!-- 014 小炒黄牛肉 Hunan Quick-Fried Beef -->
+  <li class="rec-row" data-tags="湘菜,下饭,quick" id="rec-beef-stir-fry">
+    <div class="rec-head">
+      <span class="rec-num">014</span>
+      <h3 class="rec-title"><span class="zh">小炒<em>黄牛肉</em></span><span class="en">hunan quick-fried <em>beef</em>.</span></h3>
+      <div class="rec-meta"><span>25 min</span><span class="sep">&middot;</span><span><span class="zh">2人份</span><span class="en">serves 2</span></span><span class="sep">&middot;</span><span><span class="zh">湘</span><span class="en">hunan</span></span></div>
+      <span class="rec-toggle">+</span>
+    </div>
+    <div class="rec-body"><div class="rec-body-inner">
+      <aside>
+        <p class="rec-blurb zh">锅气十足、牛肉滑嫩、鲜辣下饭的经典湘菜，讲究一个大火快炒。</p>
+        <p class="rec-blurb en">hunan stir-fried beef &mdash; high heat, pickled chili, the faintest breath of <em>smoke</em> from the wok. the whole dish lives and dies on speed.</p>
+        <div class="rec-tags">
+          <span class="sc-tag">湘菜</span><span class="sc-tag">下饭</span><span class="sc-tag">快手菜</span>
+        </div>
+        <div class="rec-sidebar"><dl>
+          <dt><span class="zh">准备</span><span class="en">prep</span></dt><dd><span class="zh">15分钟</span><span class="en"><em>15 min</em></span></dd>
+          <dt><span class="zh">烹饪</span><span class="en">cook</span></dt><dd><span class="zh">10分钟</span><span class="en"><em>10 min</em></span></dd>
+          <dt><span class="zh">总计</span><span class="en">total</span></dt><dd><span class="zh">25分钟</span><span class="en"><em>25 min</em></span></dd>
+          <dt><span class="zh">份量</span><span class="en">serves</span></dt><dd><span class="zh">2人</span><span class="en"><em>2</em></span></dd>
+        </dl></div>
+      </aside>
+      <div>
+        <h4 class="rec-col-head"><span class="zh">食材 / ingredients</span><span class="en">ingredients</span></h4>
+        <ul class="rec-ingredients">
+          <li><span class="amt"><span class="zh">250克</span><span class="en">250g</span></span><span class="name"><span class="zh">牛里脊或黄瓜条（筋膜少的瘦肉）</span><span class="en">beef tenderloin or eye of round (lean cut, little connective tissue)</span></span></li>
+          <li><span class="amt"><span class="zh">适量</span><span class="en">to taste</span></span><span class="name"><span class="zh">小米辣（切圈）</span><span class="en">thai chilies, sliced into rings</span></span></li>
+          <li><span class="amt"><span class="zh">适量</span><span class="en">to taste</span></span><span class="name"><span class="zh">泡椒（切碎）</span><span class="en">pickled chilies, chopped</span></span></li>
+          <li><span class="amt"><span class="zh">适量</span><span class="en">as needed</span></span><span class="name"><span class="zh">大蒜（切末）</span><span class="en">garlic, minced</span></span></li>
+          <li><span class="amt"><span class="zh">适量</span><span class="en">as needed</span></span><span class="name"><span class="zh">姜（切丝）</span><span class="en">ginger, julienned</span></span></li>
+          <li><span class="amt"><span class="zh">适量</span><span class="en">as needed</span></span><span class="name"><span class="zh">香菜（切段）</span><span class="en">cilantro, segmented</span></span></li>
+          <li><span class="amt"><span class="zh">适量</span><span class="en">optional</span></span><span class="name"><span class="zh">芹菜（可选，切段）</span><span class="en">celery, segmented</span></span></li>
+          <li><span class="amt"><span class="zh">1勺</span><span class="en">1 tbsp</span></span><span class="name"><span class="zh">生抽</span><span class="en">light soy sauce</span></span></li>
+          <li><span class="amt"><span class="zh">半勺</span><span class="en">1/2 tbsp</span></span><span class="name"><span class="zh">老抽（上色）</span><span class="en">dark soy sauce (for colour)</span></span></li>
+          <li><span class="amt"><span class="zh">1勺</span><span class="en">1 tbsp</span></span><span class="name"><span class="zh">料酒</span><span class="en">shaoxing wine</span></span></li>
+          <li><span class="amt"><span class="zh">少许</span><span class="en">a pinch</span></span><span class="name"><span class="zh">胡椒粉</span><span class="en">white pepper</span></span></li>
+          <li><span class="amt"><span class="zh">1小勺</span><span class="en">1 tsp</span></span><span class="name"><span class="zh">淀粉</span><span class="en">cornstarch</span></span></li>
+          <li><span class="amt"><span class="zh">1勺</span><span class="en">1 tbsp</span></span><span class="name"><span class="zh">食用油</span><span class="en">cooking oil</span></span></li>
+          <li><span class="amt"><span class="zh">1勺</span><span class="en">1 tbsp</span></span><span class="name"><span class="zh">蚝油</span><span class="en">oyster sauce</span></span></li>
+          <li><span class="amt"><span class="zh">少许</span><span class="en">a pinch</span></span><span class="name"><span class="zh">盐</span><span class="en">salt</span></span></li>
+        </ul>
+        <h4 class="rec-col-head"><span class="zh">做法 / method</span><span class="en">method</span></h4>
+        <ol class="rec-steps">
+          <li><span class="n">i.</span><span class="t"><span class="zh">逆纹切片：观察牛肉的纹理，横着纹理切（断丝切），这样炒出来的肉才不会老。尽量切得薄一些。</span><span class="en">slice across the grain: look at the lines in the beef and cut perpendicular to them, as thin as you can. that&rsquo;s what keeps the meat tender when it hits the heat.</span></span></li>
+          <li><span class="n">ii.</span><span class="t"><span class="zh">腌制：牛肉放入碗中，加入1勺生抽、半勺老抽、少许胡椒粉、1勺料酒，用手抓匀直到水分被吸收。</span><span class="en">marinate: in a bowl, work 1 tbsp light soy, 1/2 tbsp dark soy, a pinch of pepper, and 1 tbsp shaoxing into the beef with your hands until the liquid is absorbed.</span></span></li>
+          <li><span class="n">iii.</span><span class="t"><span class="zh">加入1小勺淀粉再次抓匀，锁住水分。最后淋入1勺食用油拌匀，防止下锅后粘连。腌制15分钟。</span><span class="en">add 1 tsp cornstarch and work it in to seal the moisture. finally mix in 1 tbsp oil so the slices don&rsquo;t stick together in the wok. rest 15 minutes.</span></span></li>
+          <li><span class="n">iv.</span><span class="t"><span class="zh">滑炒牛肉：锅内多倒一点油，油热后（微微冒烟）倒入牛肉，迅速用铲子划散。牛肉变色即刻盛出（约7-8成熟），不要久炒。</span><span class="en">velvet the beef: heat a generous pour of oil until it just smokes, drop in the beef, and break it apart with the spatula fast. as soon as it changes colour (70-80% done) lift it out &mdash; do not keep frying.</span></span></li>
+          <li><span class="n">v.</span><span class="t"><span class="zh">炒香配料：锅留底油，下姜丝、蒜末、小米辣和泡椒，中小火炒出香味和辣味。</span><span class="en">aromatics: leave some oil in the wok. on medium-low, sizzle the ginger, garlic, thai chilies, and pickled chilies until fragrant and spicy.</span></span></li>
+          <li><span class="n">vi.</span><span class="t"><span class="zh">大火合炒：转大火，倒回牛肉，加入1勺蚝油、少许盐（泡椒有咸味，盐要少放）。</span><span class="en">bring it together: crank to high, return the beef, add 1 tbsp oyster sauce and a little salt &mdash; the pickled chili is already salty, go easy.</span></span></li>
+          <li><span class="n">vii.</span><span class="t"><span class="zh">收尾：放入香菜段（和芹菜段），快速翻炒几下，让香味融合。</span><span class="en">finish: add the cilantro (and celery), toss a few times to bring the flavours together.</span></span></li>
+          <li><span class="n">viii.</span><span class="t"><span class="zh">出锅：整个大火快炒过程控制在30秒内，关火装盘。</span><span class="en">plate: the entire high-heat stage should take 30 seconds, no more. kill the heat and serve.</span></span></li>
+        </ol>
+        <p class="rec-tip zh"><strong>小贴士</strong>全程尽量保持高火力，尤其是最后合炒阶段，动作要快。如果没有泡椒，可以多放大蒜。香菜是这道菜的灵魂，不建议省略。炒这道菜千万不要加水，一旦加水，牛肉质地会立刻变老。</p>
+        <p class="rec-tip en"><strong>tip</strong> keep the heat high the whole way &mdash; especially during the final toss, and move fast. no pickled chili on hand? compensate with extra garlic. cilantro is the soul of this dish; don&rsquo;t skip it. and never add water &mdash; the moment you do, the beef turns tough.</p>
+      </div>
+    </div></div>
+  </li>
 
-        // ── Filter ──
-        const filterStatus = document.getElementById('filter-status');
+</ol>
 
-        document.querySelectorAll('.filter-btn').forEach(btn => {
-            btn.addEventListener('click', () => {
-                document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-                btn.classList.add('active');
+</main>
 
-                const filter = btn.dataset.filter;
-                let visible = 0;
-                document.querySelectorAll('.recipe-card').forEach(card => {
-                    let show;
-                    if (filter === 'all') {
-                        show = true;
-                    } else if (filter === 'quick') {
-                        show = +card.dataset.total <= 20;
-                    } else {
-                        show = card.dataset.tags.split(',').includes(filter);
-                    }
-                    card.classList.toggle('hidden', !show);
-                    if (show) visible++;
-                });
+<footer class="foot">
+  <div class="mono tiny">&copy; 2026 jiongan mu</div>
+  <div class="mono tiny"><a href="index.html"><span class="zh">&larr; 返回主页</span><span class="en">&larr; back to home</span></a></div>
+  <div class="mono tiny">designed in vancouver</div>
+</footer>
 
-                // Announce result to screen readers
-                if (filterStatus) {
-                    filterStatus.textContent = `Showing ${visible} recipe${visible !== 1 ? 's' : ''}`;
-                }
-            });
-        });
-    </script>
+<script>
+(() => {
+  /* ── language toggle ── */
+  const LANG_KEY = 'recipes-lang';
+  const htmlEl = document.documentElement;
+  const langButtons = document.querySelectorAll('.lang-toggle button');
+
+  function applyLang(lang) {
+    htmlEl.setAttribute('data-lang', lang);
+    htmlEl.setAttribute('lang', lang === 'zh' ? 'zh' : 'en');
+    langButtons.forEach(b => b.classList.toggle('is-active', b.dataset.lang === lang));
+    updateCount();
+    try { localStorage.setItem(LANG_KEY, lang); } catch(e) {}
+  }
+
+  langButtons.forEach(btn => {
+    btn.addEventListener('click', () => applyLang(btn.dataset.lang));
+  });
+
+  /* ── expand-in-place ── */
+  document.querySelectorAll('.rec-head').forEach(head => {
+    head.addEventListener('click', () => {
+      const row = head.closest('.rec-row');
+      row.classList.toggle('is-open');
+    });
+  });
+
+  /* ── filter ── */
+  const rows = [...document.querySelectorAll('.rec-row')];
+  const countEl = document.getElementById('rec-count');
+  let currentFilter = 'all';
+
+  function updateCount() {
+    const lang = htmlEl.getAttribute('data-lang') || 'en';
+    let shown = 0;
+    rows.forEach(r => { if (!r.hidden) shown++; });
+    if (lang === 'zh') {
+      countEl.textContent = shown + ' 道菜';
+    } else {
+      countEl.textContent = shown + ' recipe' + (shown === 1 ? '' : 's');
+    }
+  }
+
+  function applyFilter(f) {
+    currentFilter = f;
+    document.querySelectorAll('.rec-filter button').forEach(b => {
+      b.classList.toggle('is-active', b.dataset.filter === f);
+    });
+    rows.forEach(r => {
+      const tags = (r.dataset.tags || '').split(',').map(t => t.trim()).filter(Boolean);
+      const show = f === 'all' || tags.includes(f);
+      r.hidden = !show;
+    });
+    updateCount();
+  }
+
+  document.querySelectorAll('.rec-filter button').forEach(btn => {
+    btn.addEventListener('click', () => applyFilter(btn.dataset.filter));
+  });
+
+  /* ── init ── */
+  let savedLang = 'en';
+  try { savedLang = localStorage.getItem(LANG_KEY) || 'en'; } catch(e) {}
+  if (savedLang !== 'zh' && savedLang !== 'en') savedLang = 'en';
+  applyLang(savedLang);
+  applyFilter('all');
+})();
+</script>
 </body>
-
 </html>

@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Why I Use Emdash — Jiongan Mu</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,300;1,9..144,400;1,9..144,500&family=JetBrains+Mono:wght@300;400;500&display=swap">
+<link rel="stylesheet" href="../site.css?v=14">
+<style>
+  /* =========================================================
+     POST PAGE — medium note, narrow column, sticky ToC left
+  ========================================================== */
+  body { background: var(--bg); }
+
+  /* top reading progress bar */
+  .read-progress {
+    position: fixed; top: 0; left: 0; right: 0; height: 2px; z-index: 60;
+    background: transparent;
+  }
+  .read-progress span {
+    display: block; height: 100%; width: 0%;
+    background: var(--accent);
+    transition: width 80ms linear;
+  }
+
+  /* top bar — minimal, matches index but always visible */
+  .post-top {
+    position: sticky; top: 0;
+    padding: 18px var(--pad-x);
+    display: grid; grid-template-columns: 1fr auto;
+    align-items: center;
+    background: color-mix(in srgb, var(--bg) 92%, transparent);
+    backdrop-filter: blur(6px);
+    z-index: 40;
+    border-bottom: 1px solid var(--rule);
+  }
+  .post-top .back {
+    font-family: var(--serif); font-style: italic;
+    font-size: 15px; color: var(--ink-2);
+  }
+  .post-top .back:hover { color: var(--accent); }
+  .post-top nav { display: flex; gap: 22px; }
+  .post-top nav a {
+    font-family: var(--serif); font-style: italic;
+    font-size: 15px; color: var(--muted);
+  }
+  .post-top nav a:hover { color: var(--ink); }
+
+  /* ========== layout: ToC left rail + narrow reading column ========== */
+  .post-shell {
+    display: grid;
+    grid-template-columns: 240px minmax(0, 1fr);
+    gap: 80px;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: clamp(60px, 8vw, 100px) var(--pad-x) 0;
+  }
+
+  /* sticky ToC */
+  .toc {
+    position: sticky;
+    top: 120px;
+    align-self: start;
+    padding-top: 4px;
+  }
+  .toc-label {
+    font-family: var(--mono); font-size: 10px;
+    text-transform: uppercase; letter-spacing: 0.18em;
+    color: var(--muted);
+    margin-bottom: 16px;
+    display: block;
+  }
+  .toc ol {
+    list-style: none; margin: 0; padding: 0;
+    display: flex; flex-direction: column; gap: 12px;
+    border-left: 1px solid var(--rule);
+  }
+  .toc a {
+    display: block;
+    padding: 6px 0 6px 16px;
+    margin-left: -1px;
+    border-left: 1px solid transparent;
+    font-family: var(--serif); font-style: italic;
+    font-size: 14px; line-height: 1.4;
+    color: var(--muted);
+    transition: color 180ms ease, border-color 180ms ease;
+  }
+  .toc a:hover { color: var(--ink); }
+  .toc a.is-active {
+    color: var(--ink);
+    border-left-color: var(--accent);
+  }
+  .toc-foot {
+    margin-top: 28px;
+    padding-top: 20px;
+    border-top: 1px solid var(--rule);
+    font-family: var(--mono); font-size: 10px;
+    text-transform: uppercase; letter-spacing: 0.14em;
+    color: var(--muted);
+    line-height: 1.8;
+  }
+  .toc-foot .row { display: flex; justify-content: space-between; gap: 10px; }
+  .toc-foot strong { color: var(--ink); font-weight: 400; }
+
+  /* ========== article column ========== */
+  article.post {
+    max-width: 640px;
+    font-family: var(--serif);
+    color: var(--ink-2);
+    font-variation-settings: "opsz" 14;
+  }
+
+  .post-header {
+    padding-bottom: 40px;
+    margin-bottom: 48px;
+    border-bottom: 1px solid var(--ink);
+  }
+  .post-kicker {
+    display: flex; gap: 14px; align-items: center;
+    font-family: var(--mono); font-size: 11px;
+    text-transform: uppercase; letter-spacing: 0.16em;
+    color: var(--muted);
+    margin-bottom: 24px;
+  }
+  .post-kicker .dot { width: 4px; height: 4px; border-radius: 50%; background: var(--muted); }
+  .post-kicker .tag { color: var(--accent); }
+
+  .post-title {
+    margin: 0 0 20px;
+    font-family: var(--serif); font-weight: 400;
+    font-size: clamp(40px, 5vw, 62px);
+    line-height: 1.05;
+    letter-spacing: -0.025em;
+    color: var(--ink);
+    font-variation-settings: "opsz" 96;
+    text-wrap: balance;
+  }
+  .post-title em { font-style: italic; color: var(--accent); font-weight: 400; }
+
+  .post-dek {
+    margin: 0 0 28px;
+    font-family: var(--serif); font-style: italic;
+    font-size: clamp(18px, 1.6vw, 22px);
+    line-height: 1.5;
+    color: var(--muted);
+    letter-spacing: -0.005em;
+    max-width: 42ch;
+    text-wrap: pretty;
+  }
+
+  .post-meta {
+    display: flex; flex-wrap: wrap; gap: 20px;
+    font-family: var(--mono); font-size: 11px;
+    text-transform: uppercase; letter-spacing: 0.14em;
+    color: var(--muted);
+  }
+  .post-meta strong { color: var(--ink); font-weight: 400; }
+  .post-meta .sep { opacity: 0.4; }
+
+  /* ========== prose ========== */
+  .prose {
+    font-size: 18px;
+    line-height: 1.65;
+    color: var(--ink-2);
+    letter-spacing: -0.002em;
+  }
+  .prose > * + * { margin-top: 1.1em; }
+
+  .prose h2 {
+    margin-top: 2.4em;
+    margin-bottom: 0.6em;
+    font-family: var(--serif); font-weight: 500;
+    font-size: clamp(26px, 2.6vw, 32px);
+    line-height: 1.15;
+    letter-spacing: -0.018em;
+    color: var(--ink);
+    font-variation-settings: "opsz" 60;
+    scroll-margin-top: 110px;
+    text-wrap: balance;
+  }
+  .prose h2 em { font-style: italic; color: var(--accent); font-weight: 400; }
+  .prose h2::before {
+    content: "§ " attr(data-n);
+    display: block;
+    font-family: var(--mono); font-size: 10px;
+    font-weight: 400;
+    text-transform: uppercase; letter-spacing: 0.18em;
+    color: var(--muted);
+    margin-bottom: 10px;
+  }
+
+  .prose p { margin: 0; text-wrap: pretty; }
+  .prose p + p { margin-top: 1.1em; }
+
+  /* drop cap on first para */
+  .prose > p:first-of-type::first-letter {
+    float: left;
+    font-family: var(--serif); font-weight: 400;
+    font-size: 4.6em;
+    line-height: 0.85;
+    padding: 0.08em 0.1em 0 0;
+    color: var(--accent);
+    font-variation-settings: "opsz" 144;
+    font-style: italic;
+  }
+
+  .prose a {
+    color: var(--ink);
+    text-decoration: none;
+    border-bottom: 1px solid var(--rule);
+    transition: border-color 200ms ease, color 200ms ease;
+  }
+  .prose a:hover { color: var(--accent); border-bottom-color: var(--accent); }
+
+  .prose em { font-style: italic; color: var(--ink); }
+  .prose strong { font-weight: 500; color: var(--ink); }
+
+  /* inline code */
+  .prose code {
+    font-family: var(--mono); font-size: 0.85em;
+    background: var(--bg-deep);
+    padding: 2px 7px;
+    border-radius: 3px;
+    color: var(--ink);
+    letter-spacing: 0;
+    border: 1px solid var(--rule);
+    white-space: nowrap;
+  }
+
+  /* opener after intro — large italic statement */
+  .prose .opener {
+    font-family: var(--serif);
+    font-style: italic;
+    font-weight: 300;
+    font-size: clamp(26px, 2.6vw, 34px);
+    line-height: 1.25;
+    letter-spacing: -0.015em;
+    color: var(--ink);
+    font-variation-settings: "opsz" 72;
+    margin-top: 2.2em;
+    text-wrap: balance;
+  }
+  .prose .opener em { color: var(--accent); }
+
+  /* pullquote — highlights a key line from the body */
+  .prose .pull {
+    margin: 2.4em 0;
+    padding: 24px 0 24px 28px;
+    border-left: 2px solid var(--accent);
+    font-family: var(--serif);
+    font-style: italic;
+    font-weight: 400;
+    font-size: clamp(20px, 2vw, 24px);
+    line-height: 1.4;
+    color: var(--ink);
+    letter-spacing: -0.01em;
+    text-wrap: balance;
+  }
+  .prose .pull em { color: var(--accent); font-style: italic; }
+
+  /* horizontal rule */
+  .prose hr {
+    margin: 2.8em auto;
+    width: 80px; border: none; height: 1px;
+    background: var(--rule);
+    position: relative;
+  }
+  .prose hr::after {
+    content: "§";
+    position: absolute;
+    left: 50%; top: 50%;
+    transform: translate(-50%, -50%);
+    font-family: var(--serif); font-style: italic;
+    color: var(--muted); font-size: 16px;
+    background: var(--bg); padding: 0 10px;
+  }
+
+  /* footer within article */
+  .post-foot {
+    margin-top: 80px;
+    padding: 40px 0 32px;
+    border-top: 1px solid var(--ink);
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 24px;
+    align-items: baseline;
+  }
+  .post-foot .sign {
+    font-family: var(--serif); font-style: italic;
+    font-size: 17px; color: var(--muted);
+  }
+  .post-foot .sign strong { color: var(--ink); font-weight: 400; }
+  .post-foot .share {
+    display: flex; gap: 16px;
+    font-family: var(--mono); font-size: 11px;
+    text-transform: uppercase; letter-spacing: 0.14em;
+  }
+  .post-foot .share a { color: var(--muted); }
+  .post-foot .share a:hover { color: var(--ink); }
+
+  /* prev/next — back to notes */
+  .post-nav {
+    margin-top: 40px;
+    padding-bottom: 80px;
+  }
+  .post-nav a {
+    font-family: var(--serif); font-style: italic;
+    font-size: 17px; color: var(--ink-2);
+    display: inline-flex; align-items: center; gap: 10px;
+    transition: gap 300ms cubic-bezier(.7,0,.2,1), color 200ms ease;
+  }
+  .post-nav a:hover { color: var(--accent); gap: 16px; }
+
+  /* =========================================================
+     responsive — ToC collapses below 1000px
+  ========================================================= */
+  @media (max-width: 1000px) {
+    .post-shell { grid-template-columns: 1fr; gap: 0; max-width: 720px; }
+    .toc {
+      position: static; top: auto;
+      padding: 24px 0 32px;
+      margin-bottom: 32px;
+      border-bottom: 1px solid var(--rule);
+    }
+    .toc ol {
+      flex-direction: row; flex-wrap: wrap;
+      border-left: none;
+      gap: 6px 18px;
+    }
+    .toc a { padding: 2px 0; border-left: none; font-size: 13px; }
+    .toc a.is-active { border-left: none; color: var(--accent); }
+    .toc-foot { display: none; }
+  }
+
+  @media (max-width: 640px) {
+    .post-title { font-size: clamp(32px, 8vw, 44px); }
+    .prose { font-size: 17px; }
+    .prose > p:first-of-type::first-letter { font-size: 3.6em; }
+    .post-foot { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<div class="grain" aria-hidden="true"></div>
+
+<div class="read-progress"><span id="rp"></span></div>
+
+<header class="post-top">
+  <a href="../index.html" class="back"><em>&larr; jiongan mu</em></a>
+  <nav>
+    <a href="../index.html#notes"><em>all notes</em></a>
+    <a href="../index.html#contact"><em>contact</em></a>
+  </nav>
+</header>
+
+<main class="post-shell">
+
+  <aside class="toc" id="toc">
+    <span class="toc-label">contents</span>
+    <ol>
+      <li><a href="#context" class="is-active">Context</a></li>
+      <li><a href="#organized">Organized</a></li>
+      <li><a href="#missing">What it doesn&rsquo;t do (yet)</a></li>
+      <li><a href="#takeaway">The actual takeaway</a></li>
+    </ol>
+    <div class="toc-foot">
+      <div class="row"><span>read</span> <strong>3 min</strong></div>
+      <div class="row"><span>words</span> <strong>~550</strong></div>
+      <div class="row"><span>status</span> <strong>published</strong></div>
+    </div>
+  </aside>
+
+  <article class="post">
+
+    <header class="post-header">
+      <div class="post-kicker">
+        <span class="tag">Note &middot; 01</span>
+        <span class="dot"></span>
+        <span>Published</span>
+        <span class="dot"></span>
+        <span>Apr 18, 2026</span>
+      </div>
+      <h1 class="post-title">
+        Why I use <em>Emdash</em>.
+      </h1>
+      <p class="post-dek">
+        On running multiple coding agents in parallel without losing your mind in terminal tabs &mdash; and why organization, not capability, is the feature that matters.
+      </p>
+      <div class="post-meta">
+        <span><strong>3 min</strong> read</span>
+        <span class="sep">&middot;</span>
+        <span>~550 words</span>
+        <span class="sep">&middot;</span>
+        <span>Published <strong>Apr 18</strong></span>
+      </div>
+    </header>
+
+    <div class="prose">
+
+      <p id="context">
+        Quick context before I get into it: <a href="https://www.emdash.sh/" target="_blank" rel="noopener">Emdash</a> is an open-source desktop app for running multiple coding agents in parallel, each in its own Git worktree. It&rsquo;s built by Arne and Raban at <a href="https://github.com/generalaction/emdash" target="_blank" rel="noopener">generalaction</a> (YC&nbsp;W26), it&rsquo;s provider-agnostic &mdash; works with Claude Code, Codex, Gemini, Droid, and ~20 others &mdash; and it&rsquo;s local-first, meaning app state lives in a SQLite file on your machine rather than on someone&rsquo;s server. You can <code>brew install --cask emdash</code> or grab it from <a href="https://github.com/generalaction/emdash/releases" target="_blank" rel="noopener">GitHub releases</a>.
+      </p>
+
+      <p>Okay, onto why I actually use it.</p>
+
+      <hr />
+
+      <p class="opener" id="organized">
+        The thing I like most about Emdash is that it&rsquo;s <em>organized</em>.
+      </p>
+
+      <p>That sounds boring, but hear me out. Before Emdash, running coding agents meant a forest of terminal tabs. One for the agent working on the bug fix. Another for the one refactoring the API. A third for &ldquo;wait, what was this one doing again?&rdquo; I&rsquo;d lose track of which tab belonged to which task within about twenty minutes.</p>
+
+      <p>Emdash gives every task its own Git worktree and wraps the whole thing in a UI you can actually navigate. Switching between tasks is seamless &mdash; you click, you&rsquo;re there, the state is preserved, the diffs are waiting for you. It&rsquo;s the same repo, multiple workstreams, no collisions. That alone is worth it to me. Way better than juggling terminal tabs.</p>
+
+      <p>You can also spawn multiple agents inside a single worktree, each working on a different piece of the same feature. That&rsquo;s been useful when a feature has clearly separable parts and I want them moving in parallel without fragmenting into separate branches.</p>
+
+      <h2 id="missing" data-n="01">What it <em>doesn&rsquo;t</em> do (yet)</h2>
+
+      <p>No split screen. You only see one agent at a time. If you want to watch two of them work simultaneously, you can&rsquo;t &mdash; you pick one, the others run in the background.</p>
+
+      <p>Honestly, this bothered me less than I expected. Emdash fires off a notification and a sound when an agent finishes, with the agent&rsquo;s name. So I queue up work, go do something else &mdash; read, answer email, work on something in a different worktree &mdash; and the sound pulls me back when there&rsquo;s a diff to review. It turns out I don&rsquo;t actually need to <em>watch</em> agents work. I need to know when they&rsquo;re done.</p>
+
+      <p class="pull">
+        That&rsquo;s the loop: kick off tasks, go do other things, hear a chime, review a diff, move&nbsp;on.
+      </p>
+
+      <h2 id="takeaway" data-n="02">The <em>actual</em> takeaway</h2>
+
+      <p>Emdash didn&rsquo;t make agents smarter. It made running them sane. The organization is the product &mdash; worktrees per task, clean switching, notifications that let you step away. For something that&rsquo;s still early and missing obvious features like split screen, it&rsquo;s already the tool I reach for.</p>
+
+      <p>The fact that it&rsquo;s open source is a nice bonus. If split screen matters enough to someone, they can go build it &mdash; the repo is right <a href="https://github.com/generalaction/emdash" target="_blank" rel="noopener">there</a>, contributions welcome.</p>
+
+      <p>If you&rsquo;ve been running agents in terminal tabs and losing your mind, try it: <a href="https://www.emdash.sh/" target="_blank" rel="noopener">emdash.sh</a>.</p>
+
+    </div>
+
+    <footer class="post-foot">
+      <div class="sign">
+        <strong>Jiongan Mu</strong>, Vancouver, BC<br/>
+        written <em>April 18</em>, 2026
+      </div>
+      <div class="share">
+        <a href="mailto:jiongan.mu@gmail.com?subject=Re: Why I use Emdash">Write back</a>
+        <a href="https://www.emdash.sh/" target="_blank" rel="noopener">Try Emdash &rarr;</a>
+      </div>
+    </footer>
+
+    <nav class="post-nav">
+      <a href="../index.html#notes">&larr; <em>back to notes</em></a>
+    </nav>
+
+  </article>
+
+</main>
+
+<footer class="foot">
+  <div class="mono tiny">&copy; 2026 jiongan mu</div>
+  <div class="mono tiny"><a href="../index.html">&larr; home</a></div>
+  <div class="mono tiny">designed in vancouver</div>
+</footer>
+
+<script>
+(() => {
+  // reading progress bar
+  const bar = document.getElementById('rp');
+  const article = document.querySelector('article.post');
+  function updateProgress() {
+    const rect = article.getBoundingClientRect();
+    const start = rect.top + window.scrollY - 80;
+    const end = rect.bottom + window.scrollY - window.innerHeight;
+    const p = Math.max(0, Math.min(1, (window.scrollY - start) / Math.max(1, end - start)));
+    bar.style.width = (p * 100).toFixed(1) + '%';
+  }
+  window.addEventListener('scroll', updateProgress, { passive: true });
+  window.addEventListener('resize', updateProgress);
+  updateProgress();
+
+  // ToC active-link via IntersectionObserver
+  const tocLinks = [...document.querySelectorAll('.toc a')];
+  const sectionIds = tocLinks.map(a => a.getAttribute('href').slice(1));
+  const sections = sectionIds.map(id => document.getElementById(id)).filter(Boolean);
+
+  const setActive = (id) => {
+    tocLinks.forEach(a => a.classList.toggle('is-active', a.getAttribute('href') === '#' + id));
+  };
+
+  const io = new IntersectionObserver((entries) => {
+    const visible = entries
+      .filter(e => e.isIntersecting)
+      .sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top);
+    if (visible[0]) setActive(visible[0].target.id);
+  }, { rootMargin: '-20% 0px -70% 0px', threshold: 0 });
+
+  sections.forEach(s => io.observe(s));
+
+  // smooth scroll ToC clicks
+  tocLinks.forEach(a => {
+    a.addEventListener('click', (e) => {
+      const id = a.getAttribute('href').slice(1);
+      const el = document.getElementById(id);
+      if (!el) return;
+      e.preventDefault();
+      const y = el.getBoundingClientRect().top + window.scrollY - 100;
+      window.scrollTo({ top: y, behavior: 'smooth' });
+      history.replaceState(null, '', '#' + id);
+    });
+  });
+})();
+</script>
+</body>
+</html>
