@@ -1,256 +1,339 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Jiongan Mu</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&family=EB+Garamond:wght@400;600&display=swap">
-    <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Jiongan Mu — AI/ML Engineer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,300;1,9..144,400;1,9..144,600;1,9..144,700&family=JetBrains+Mono:wght@300;400;500&display=swap">
+<link rel="stylesheet" href="site.css?v=14">
 </head>
-
 <body>
-    <a href="#main-content" class="skip-link">Skip to main content</a>
-    <nav class="navbar">
-        <div class="nav-container">
-            <div class="nav-logo">
-                <a href="#home">Jiongan Mu</a>
-            </div>
-            <button class="nav-toggle" id="mobile-menu" aria-label="Toggle navigation" aria-expanded="false" aria-controls="nav-menu">
-                <span class="bar"></span>
-                <span class="bar"></span>
-                <span class="bar"></span>
-            </button>
-            <div class="nav-menu" id="nav-menu">
-                <div class="nav-item">
-                    <a href="#home" class="nav-link">Home</a>
-                </div>
-                <div class="nav-item">
-                    <a href="#about" class="nav-link">About</a>
-                </div>
-                <div class="nav-item">
-                    <a href="#education" class="nav-link">Education</a>
-                </div>
-                <div class="nav-item">
-                    <a href="#projects" class="nav-link">Projects</a>
-                </div>
-                <div class="nav-item">
-                    <a href="#contact" class="nav-link">Contact</a>
-                </div>
-                <div class="nav-item">
-                    <a href="recipes.html" class="nav-link">Recipes</a>
-                </div>
-            </div>
-            <div class="theme-switch-wrapper">
-                <div class="theme-switch">
-                    <input type="checkbox" id="theme-toggle" aria-label="Toggle dark mode" />
-                    <label for="theme-toggle" class="switch-label">
-                        <span class="sun-icon">
-                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                stroke-width="2">
-                                <circle cx="12" cy="12" r="5" />
-                                <path
-                                    d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" />
-                            </svg>
-                        </span>
-                        <span class="moon-icon">
-                            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
-                                <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
-                            </svg>
-                        </span>
-                        <div class="switch-button"></div>
-                    </label>
-                </div>
-            </div>
+
+<script>
+const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
+  "accent": "#2a4a3a",
+  "motion": "on",
+  "density": "regular"
+}/*EDITMODE-END*/;
+window.__TWEAKS = { ...TWEAK_DEFAULTS };
+</script>
+
+<div class="grain" aria-hidden="true"></div>
+
+<!-- top meta bar — fades in after hero (audit §11) -->
+<header class="top" data-screen-label="Top nav">
+  <div class="top-left"><em>jiongan mu</em></div>
+  <nav class="top-right">
+    <a href="#about"><em>about</em></a>
+    <a href="#offhours"><em>off&#8209;hours</em></a>
+    <a href="#education"><em>schooling</em></a>
+    <a href="#notes"><em>notes</em></a>
+    <a href="#contact"><em>contact</em></a>
+    <a href="recipes.html"><em>recipes</em></a>
+  </nav>
+</header>
+
+<div class="progress" aria-hidden="true"><span></span></div>
+
+<main>
+
+<!-- =========================================================
+     HERO — audit §02, §11
+========================================================= -->
+<section class="hero" id="home" data-screen-label="Hero">
+  <div class="hero-inner">
+
+    <!-- location + availability stamp (new) -->
+    <div class="hero-stamp">
+      <div class="row"><strong>vancouver, bc</strong></div>
+      <div class="row"><span class="dot"></span><span>open to chat about ai/ml &amp; else</span></div>
+    </div>
+
+    <!-- big type -->
+    <div class="hero-type">
+      <h1 class="mega">
+        <span class="mega-row"><span class="mega-word">jiongan</span></span>
+        <span class="mega-row mega-row-2"><span class="mega-word mega-italic"><em>mu</em>.</span></span>
+      </h1>
+    </div>
+
+    <!-- single figurine, deliberately scaled, bottom-right -->
+    <div class="hero-fig-solo" aria-hidden="true">
+      <img src="files/coding-cut.png" alt="" />
+    </div>
+
+    <!-- bottom-left lede -->
+    <p class="hero-lede">
+      ai/ml engineer <em>researching and building</em><br/>
+      <em class="hero-lede-bold">agentic systems for the future.</em>
+    </p>
+
+    <!-- bottom-right scroll hint -->
+    <div class="scroll-hint">
+      <span class="mono tiny">scroll</span>
+      <span class="scroll-arrow">&darr;</span>
+    </div>
+  </div>
+</section>
+
+<!-- marquee (kept) -->
+<section class="band" aria-hidden="true">
+  <div class="band-track">
+    <span>autonomous agents</span><span class="star">&#10045;</span>
+    <span>orchestration at scale</span><span class="star">&#10045;</span>
+    <span>agent harnesses in production</span><span class="star">&#10045;</span>
+    <span>frontier llm systems</span><span class="star">&#10045;</span>
+    <span>autonomous agents</span><span class="star">&#10045;</span>
+    <span>orchestration at scale</span><span class="star">&#10045;</span>
+    <span>agent harnesses in production</span><span class="star">&#10045;</span>
+    <span>frontier llm systems</span><span class="star">&#10045;</span>
+    <span>autonomous agents</span><span class="star">&#10045;</span>
+    <span>orchestration at scale</span><span class="star">&#10045;</span>
+  </div>
+</section>
+
+<!-- =========================================================
+     ABOUT — narrow centered column, Fraunces epigraph
+     audit §03, §07
+========================================================= -->
+<section class="sec about" id="about" data-screen-label="About">
+  <div class="about-wrap">
+    <div class="sec-head-new" data-reveal>
+      <div class="sec-num"><em>i.</em> about</div>
+      <div class="sec-label">&sect; 01</div>
+    </div>
+
+    <div class="about-big" data-reveal-stagger>
+      <p>
+        i&rsquo;m an AI/ML Engineer at Ema, where i research and build the
+        AutoBuilder/AutoPilot &mdash; our <em>agent harness</em>. my focus is
+        on <em>agent orchestration</em>, <em>autolearns</em>, and <em>evals</em>.
+      </p>
+      <p>
+        i recently completed my Master of Science in Applied Computing at the
+        University of Toronto, focusing on <em>computer systems and large language
+        models</em>. previously i worked as a backend software developer at Kijiji,
+        and as both a research and teaching assistant at U&nbsp;of&nbsp;T.
+      </p>
+      <p>
+        i&rsquo;m drawn to the frontier &mdash; designing agentic systems that are
+        <em>reliable today</em> and <em>ready for what comes next</em>, as models grow
+        more capable and the work we hand them grows more ambitious.
+      </p>
+      <p>
+        outside of work i sing, play piano, play guitar, and lose to my friends at
+        video games. i also love <em>making and eating food</em> &mdash; my
+        <a href="recipes.html"><em>recipes</em></a> are where the home-cooked ones
+        live.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- =========================================================
+     OFF-HOURS — image break with four figurines
+     audit §03, §06
+========================================================= -->
+<section class="sec offhours" id="offhours" data-screen-label="Off-hours">
+  <div class="sec-head-new" data-reveal>
+    <div class="sec-num"><em>ii.</em> off&#8209;hours</div>
+    <div class="sec-label">&sect; 02</div>
+  </div>
+
+  <div class="offhours-grid" data-reveal-stagger>
+    <figure class="fig piano">
+      <div class="img-wrap"><img src="files/piano-cut.png" alt="piano" /></div>
+      <figcaption class="cap">
+        <strong>piano</strong>
+        <span>since age 4</span>
+      </figcaption>
+    </figure>
+    <figure class="fig coding">
+      <div class="img-wrap"><img src="files/coding-cut.png" alt="coding" /></div>
+      <figcaption class="cap">
+        <strong>coding</strong>
+        <span>since 2019, before the vibes</span>
+      </figcaption>
+    </figure>
+    <figure class="fig guitar">
+      <div class="img-wrap"><img src="files/guitar-cut.png" alt="guitar &amp; singing" /></div>
+      <figcaption class="cap">
+        <strong>singing &amp; guitar</strong>
+        <span>learning still&hellip;</span>
+      </figcaption>
+    </figure>
+    <figure class="fig gaming">
+      <div class="img-wrap"><img src="files/gaming-cut.png" alt="gaming" /></div>
+      <figcaption class="cap">
+        <strong>gaming</strong>
+        <span>not as much as before</span>
+      </figcaption>
+    </figure>
+  </div>
+</section>
+
+<!-- =========================================================
+     EDUCATION — wide full-bleed table
+========================================================= -->
+<section class="sec edu" id="education" data-screen-label="Education">
+  <div class="sec-head-new" data-reveal>
+    <div class="sec-num"><em>iii.</em> schooling</div>
+    <div class="sec-label">&sect; 03</div>
+  </div>
+
+  <ol class="edu-list" data-reveal-stagger>
+    <li class="edu-item">
+      <span class="edu-index">01</span>
+      <div class="edu-when">
+        <span>aug 2024</span><span class="edu-to">&rarr;</span><span>dec 2025</span>
+      </div>
+      <div class="edu-what">
+        <h3 class="edu-title">University of Toronto</h3>
+        <p class="edu-sub"><em>M.Sc. Applied Computing</em> &mdash; computer systems &amp; LLMs</p>
+      </div>
+      <div class="edu-tag">
+        <span class="edu-loc">Toronto, ON</span>
+        <span class="edu-status">completed</span>
+      </div>
+    </li>
+    <li class="edu-item">
+      <span class="edu-index">02</span>
+      <div class="edu-when">
+        <span>sep 2019</span><span class="edu-to">&rarr;</span><span>jun 2024</span>
+      </div>
+      <div class="edu-what">
+        <h3 class="edu-title">University of Toronto</h3>
+        <p class="edu-sub"><em>Hons. B.Sc. Computer Science</em> &mdash; gpa 3.94 / 4.0</p>
+      </div>
+      <div class="edu-tag">
+        <span class="edu-loc">Toronto, ON</span>
+        <span class="edu-status">completed</span>
+      </div>
+    </li>
+  </ol>
+</section>
+
+<!-- =========================================================
+     NOW — replaces placeholder journal (audit §04)
+========================================================= -->
+<section class="sec now" id="notes" data-screen-label="Notes">
+  <div class="sec-head-new" data-reveal>
+    <div class="sec-num"><em>iv.</em> notes</div>
+    <div class="sec-label">&sect; 04</div>
+  </div>
+
+  <div class="now-intro-row" data-reveal>
+    <p class="now-intro">
+      essays, field notes, and half&#8209;formed ideas &mdash; <em>published as they&rsquo;re ready.</em>
+    </p>
+    <h2 class="now-huge"><em>notes.</em></h2>
+  </div>
+
+  <ul class="now-list" data-reveal-stagger>
+    <li class="now-row">
+      <a class="now-entry" href="notes/emdash.html">
+        <span class="now-date">apr &rsquo;26</span>
+        <div>
+          <h3 class="now-title">why i use <em>emdash</em></h3>
+          <p class="now-body">on running multiple coding agents in parallel without losing your mind in terminal tabs. local-first, open-source, provider-agnostic &mdash; and surprisingly, the product is just <em>organization</em>.</p>
         </div>
-    </nav>
+        <span class="now-status active">essay &rarr;</span>
+      </a>
+    </li>
+  </ul>
 
-    <main id="main-content">
-        <section id="home" class="hero">
-            <img src="files/coding.png" alt="" role="presentation" class="figurine figurine-coding float-animation">
-            <img src="files/guitar.png" alt="" role="presentation" class="figurine figurine-guitar float-animation-delayed">
-            <img src="files/piano.png" alt="" role="presentation" class="figurine figurine-piano float-animation">
-            <img src="files/gaming.png" alt="" role="presentation" class="figurine figurine-gaming float-animation-delayed">
-            <div class="hero-content">
-                <h1 class="hero-name">Jiongan Mu</h1>
-                <p class="hero-subtitle">Computer Systems & AI</p>
-                <p class="hero-description">AI/ML Engineer at Ema</p>
-                <p class="hero-description">M.Sc. Applied Computing, University of Toronto</p>
-                <p class="hero-location"><i class="fas fa-map-marker-alt"></i> Vancouver, BC • <span
-                        id="live-time">PST/PDT</span></p>
-            </div>
-        </section>
+  <p class="now-footnote">
+    more notes in the works. i&rsquo;m slow but <em>sincere</em> &mdash; things land here only when i believe them.
+  </p>
+</section>
 
-        <section id="about" class="about">
-            <div class="container">
-                <h2 class="fade-in-title">About Me</h2>
-                <div class="about-content">
-                    <div class="about-card">
-                        <p class="reveal-text" data-delay="0">I'm an AI/ML Engineer at Ema, building the AutoBuilder,
-                            our
-                            conversational workflow builder that generates and orchestrates multi-agent workflows from
-                            natural language. I architected it from zero to production, and it's now used by business
-                            users
-                            to cut workflow creation and iteration from hours to seconds.</p>
+</main>
 
-                        <p class="reveal-text" data-delay="300">I recently completed my Master of Science in Applied
-                            Computing at the University of Toronto, focusing on computer systems and large language
-                            models.
-                            Previously, I worked as a backend software developer at Kijiji and contributed as both a
-                            research assistant and teaching assistant at U of T.</p>
+<!-- =========================================================
+     CONTACT — dark ground, asymmetric, primary email huge
+     audit §03, §09
+========================================================= -->
+<section class="contact" id="contact" data-screen-label="Contact">
+  <div class="sec-head-new" data-reveal>
+    <div class="sec-num"><em>v.</em> contact</div>
+    <div class="sec-label">&sect; 05</div>
+  </div>
 
-                        <p class="reveal-text" data-delay="600">I specialize in designing custom AI systems that are
-                            efficient, reliable, and scalable for real-world business needs. Outside of work, I enjoy
-                            music -- I sing and play piano and guitar.</p>
-                    </div>
-                </div>
-            </div>
-        </section>
+  <h2 class="contact-huge" data-reveal-stagger>
+    <span class="line">let&rsquo;s make</span>
+    <span class="line"><em>something</em>.</span>
+  </h2>
 
-        <section id="education" class="education">
-            <div class="container">
-                <h2 class="fade-in-title">Education</h2>
-                <div class="education-timeline">
-                    <div class="education-item animate-on-scroll">
-                        <div class="timeline-dot"></div>
-                        <div class="education-content">
-                            <div class="education-header">
-                                <div class="education-institution">
-                                    <h3>University of Toronto</h3>
-                                    <p class="education-degree">Master of Science - MS, Computer Science</p>
-                                </div>
-                                <div class="education-date">August 2024 - December 2025</div>
-                            </div>
-                            <p class="education-description">The Master of Science in Applied Computing (MScAC)</p>
-                        </div>
-                    </div>
-                    <div class="education-item animate-on-scroll">
-                        <div class="timeline-dot"></div>
-                        <div class="education-content">
-                            <div class="education-header">
-                                <div class="education-institution">
-                                    <h3>University of Toronto</h3>
-                                    <p class="education-degree">Honours Bachelor of Science, Computer Science</p>
-                                </div>
-                                <div class="education-date">September 2019 - June 2024</div>
-                            </div>
-                            <p class="education-description">Grade: 3.94 / 4.0</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
+  <a class="contact-email" data-reveal href="mailto:jiongan.mu@gmail.com">
+    <span class="c-email"><em>jiongan.mu@gmail.com</em></span>
+    <span class="c-arrow">&rarr;</span>
+  </a>
 
-        <section id="projects" class="projects">
-            <div class="container">
-                <h2 class="fade-in-title">Projects</h2>
-                <div class="projects-grid">
-                    <div class="project-card animate-on-scroll">
-                        <div class="project-header">
-                            <h3>Swork</h3>
-                            <div class="project-links">
-                                <a href="https://swork.jiongan.me" target="_blank" rel="noopener noreferrer" class="project-link" aria-label="View Swork live site">
-                                    <i class="fas fa-external-link-alt" aria-hidden="true"></i>
-                                </a>
-                            </div>
-                        </div>
-                        <p class="project-description">An AI music critic that roasts your Spotify taste with sarcastic
-                            commentary and real-time streaming responses.</p>
-                        <div class="project-tech">
-                            <span class="tech-tag">FastAPI</span>
-                            <span class="tech-tag">Python</span>
-                            <span class="tech-tag">Spotify API</span>
-                            <span class="tech-tag">OpenRouter</span>
-                        </div>
-                    </div>
-                    <!-- <div class="project-card">
-                        <div class="project-header">
-                            <h3>DashDB</h3>
-                            <div class="project-links">
-                                <a href="https://github.com/MuJiongan/key-value-store" target="_blank" class="project-link">
-                                    <i class="fab fa-github"></i>
-                                </a>
-                            </div>
-                        </div>
-                        <p class="project-description">A high-performance key-value database built from scratch with LSM-tree architecture, featuring AVL tree memtables and Bloom filters for optimized storage and retrieval.</p>
-                        <div class="project-tech">
-                            <span class="tech-tag">C++</span>
-                        </div>
-                    </div> -->
-                    <div class="project-card animate-on-scroll">
-                        <div class="project-header">
-                            <h3>Vector Database Performance Study</h3>
-                            <div class="project-links">
-                                <a href="/files/VDBMS Final Report.pdf" target="_blank" rel="noopener noreferrer" class="project-link" aria-label="Read Vector Database Performance Study paper (PDF)">
-                                    <i class="fas fa-file-pdf" aria-hidden="true"></i>
-                                </a>
-                                <a href="https://github.com/dlrudwo1269/w25_csc2233_project" target="_blank" rel="noopener noreferrer" class="project-link" aria-label="View Vector Database Performance Study on GitHub">
-                                    <i class="fab fa-github" aria-hidden="true"></i>
-                                </a>
-                            </div>
-                        </div>
-                        <p class="project-description">Research investigating how metadata distribution affects filtered
-                            vector search performance across ElasticSearch, ChromaDB, and VBase.</p>
-                        <div class="project-tech">
-                            <span class="tech-tag">Python</span>
-                            <span class="tech-tag">VDBMS</span>
-                        </div>
-                    </div>
-                    <div class="project-card animate-on-scroll">
-                        <div class="project-header">
-                            <h3>Search</h3>
-                            <div class="project-links">
-                                <a href="https://search.jiongan.me" target="_blank" rel="noopener noreferrer" class="project-link" aria-label="View Search live site">
-                                    <i class="fas fa-external-link-alt" aria-hidden="true"></i>
-                                </a>
-                            </div>
-                        </div>
-                        <p class="project-description">A modern AI-powered web research agent with streaming responses,
-                            multi-model support, and real-time source tracking.</p>
-                        <div class="project-tech">
-                            <span class="tech-tag">React</span>
-                            <span class="tech-tag">TypeScript</span>
-                            <span class="tech-tag">OpenRouter</span>
-                            <span class="tech-tag">Parallel.ai</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
+  <div class="contact-secondary" data-reveal-stagger>
+    <a href="https://www.linkedin.com/in/jionganmu" target="_blank" rel="noopener">
+      <span class="c-label">linkedin</span>
+      <span class="c-val"><em>jionganmu</em></span>
+    </a>
+    <a href="https://github.com/MuJiongan" target="_blank" rel="noopener">
+      <span class="c-label">github</span>
+      <span class="c-val"><em>MuJiongan</em></span>
+    </a>
+    <a href="https://instagram.com/jionganmu" target="_blank" rel="noopener">
+      <span class="c-label">instagram</span>
+      <span class="c-val"><em>jionganmu</em></span>
+    </a>
+    <a href="https://discord.com/users/zo6231" target="_blank" rel="noopener">
+      <span class="c-label">discord</span>
+      <span class="c-val"><em>zo6231</em></span>
+    </a>
+    <div class="c-wechat">
+      <span class="c-label">wechat</span>
+      <span class="c-val"><em>mja1078735979</em></span>
+    </div>
+  </div>
+</section>
 
-        <section id="contact" class="contact">
-            <div class="container">
-                <h2 class="fade-in-title">Get In Touch</h2>
-                <div class="contact-content-wrapper">
-                    <p class="slide-up-text">Feel free to reach out if you'd like to connect or collaborate.</p>
-                    <div class="contact-links">
-                        <a href="mailto:jiongan.mu@gmail.com" class="contact-link float-in" data-delay="0">
-                            <i class="fas fa-envelope" aria-hidden="true"></i>
-                            <span>Email</span>
-                        </a>
-                        <a href="https://www.linkedin.com/in/jionganmu" target="_blank" rel="noopener noreferrer" class="contact-link float-in" data-delay="150">
-                            <i class="fab fa-linkedin" aria-hidden="true"></i>
-                            <span>LinkedIn</span>
-                        </a>
-                        <a href="https://github.com/MuJiongan" target="_blank" rel="noopener noreferrer" class="contact-link float-in" data-delay="300">
-                            <i class="fab fa-github" aria-hidden="true"></i>
-                            <span>GitHub</span>
-                        </a>
-                        <a href="https://discord.com/users/zo6231" target="_blank" rel="noopener noreferrer" class="contact-link float-in" data-delay="450">
-                            <i class="fab fa-discord" aria-hidden="true"></i>
-                            <span>Discord</span>
-                        </a>
-                    </div>
-                    <!-- Figurine moved to About section -->
-                </div>
-            </div>
-        </section>
-    </main>
-    <script src="script.js"></script>
+<footer class="foot">
+  <div class="mono tiny">&copy; 2026 jiongan mu</div>
+  <div class="mono tiny"><a href="#home">&uarr; back to top</a></div>
+  <div class="mono tiny">designed in vancouver</div>
+</footer>
+
+<aside class="tweaks" id="tweaks" hidden>
+  <header class="tweaks-head">
+    <span class="mono tiny label">tweaks</span>
+    <button class="tweaks-close" id="tweaks-close" aria-label="Close">&times;</button>
+  </header>
+  <div class="tweaks-body">
+    <div class="tweak">
+      <label class="tweak-label">accent</label>
+      <div class="swatches">
+        <button class="sw" data-accent="#b8532a" style="--c:#b8532a" aria-label="rust"></button>
+        <button class="sw" data-accent="#2a4a3a" style="--c:#2a4a3a" aria-label="forest"></button>
+        <button class="sw" data-accent="#23395b" style="--c:#23395b" aria-label="ink blue"></button>
+        <button class="sw" data-accent="#8a5a00" style="--c:#8a5a00" aria-label="amber"></button>
+        <button class="sw" data-accent="#1a1a1a" style="--c:#1a1a1a" aria-label="black"></button>
+      </div>
+    </div>
+    <div class="tweak">
+      <label class="tweak-label">density</label>
+      <div class="seg" data-tweak="density">
+        <button data-val="airy">airy</button>
+        <button data-val="regular">regular</button>
+      </div>
+    </div>
+    <div class="tweak">
+      <label class="tweak-label">motion</label>
+      <div class="seg" data-tweak="motion">
+        <button data-val="on">on</button>
+        <button data-val="off">off</button>
+      </div>
+    </div>
+  </div>
+</aside>
+
+<script src="site.js"></script>
 </body>
-
 </html>
