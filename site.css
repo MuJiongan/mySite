@@ -501,13 +501,9 @@ a.now-entry:hover {
 a.now-entry:hover::before { transform: scaleY(1); }
 a.now-entry .now-title { transition: color 300ms ease; }
 a.now-entry:hover .now-title { color: var(--accent); }
-a.now-entry .now-status { transition: transform 500ms var(--ease-out-quint), letter-spacing 500ms ease, color 300ms ease, border-color 300ms ease; }
-a.now-entry:hover .now-status {
-  transform: translateX(8px);
-  letter-spacing: 0.20em;
-  color: var(--ink);
-  border-color: var(--ink);
-}
+a.now-entry .now-status { transition: color 300ms ease; }
+a.now-entry:hover .now-status { color: var(--ink); }
+a.now-entry:hover .now-arrow { transform: translateX(10px); }
 .now-date {
   font-family: var(--mono); font-size: 11px;
   text-transform: uppercase; letter-spacing: 0.16em;
@@ -530,13 +526,21 @@ a.now-entry:hover .now-status {
 }
 .now-status {
   font-family: var(--mono); font-size: 10px;
-  text-transform: uppercase; letter-spacing: 0.14em;
+  text-transform: uppercase; letter-spacing: 0.16em;
   color: var(--muted);
-  align-self: start;
-  padding: 4px 10px; border: 1px solid var(--rule); border-radius: 999px;
+  align-self: center;
+  display: inline-flex; align-items: baseline; gap: 10px;
   white-space: nowrap;
 }
-.now-status.active { color: var(--ink); border-color: var(--ink); }
+.now-status.active { color: var(--ink); }
+.now-arrow {
+  font-family: var(--serif); font-style: italic;
+  font-size: 18px; line-height: 1;
+  letter-spacing: 0;
+  color: var(--accent);
+  display: inline-block;
+  transition: transform 500ms var(--ease-out-quint);
+}
 
 .now-footnote {
   margin: 32px 0 0;
