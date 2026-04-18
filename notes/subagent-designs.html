@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Why I Use Emdash — Jiongan Mu</title>
+<title>Subagent Designs &mdash; Jiongan Mu</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,300;1,9..144,400;1,9..144,500&family=JetBrains+Mono:wght@300;400;500&display=swap">
@@ -260,6 +260,36 @@
   }
   .prose .pull em { color: var(--accent); font-style: italic; }
 
+  /* process diagram — mermaid flowchart figure */
+  .prose .diagram {
+    margin: 2.6em 0;
+    padding: 32px 24px 24px;
+    background: var(--bg-deep);
+    border: 1px solid var(--rule);
+    border-radius: 4px;
+  }
+  .prose .diagram .mermaid {
+    background: transparent;
+    font-family: var(--mono);
+    display: flex;
+    justify-content: center;
+    overflow-x: auto;
+  }
+  .prose .diagram .mermaid svg {
+    max-width: 100%;
+    height: auto;
+  }
+  .prose .diagram figcaption {
+    margin-top: 22px;
+    text-align: center;
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 14px;
+    line-height: 1.5;
+    color: var(--muted);
+    text-wrap: pretty;
+  }
+
   /* horizontal rule */
   .prose hr {
     margin: 2.8em auto;
@@ -276,6 +306,7 @@
     color: var(--muted); font-size: 16px;
     background: var(--bg); padding: 0 10px;
   }
+
 
   /* footer within article */
   .post-foot {
@@ -361,14 +392,15 @@
   <aside class="toc" id="toc">
     <span class="toc-label">contents</span>
     <ol>
-      <li><a href="#context" class="is-active">Context</a></li>
-      <li><a href="#organized">Organized</a></li>
-      <li><a href="#missing">What it doesn&rsquo;t do (yet)</a></li>
-      <li><a href="#takeaway">The actual takeaway</a></li>
+      <li><a href="#intro" class="is-active">The wall</a></li>
+      <li><a href="#level-1">Level 1 &middot; Pick a preset</a></li>
+      <li><a href="#level-2">Level 2 &middot; Build on the fly</a></li>
+      <li><a href="#level-3">Level 3 &middot; The DAG</a></li>
+      <li><a href="#where">Where are we?</a></li>
     </ol>
     <div class="toc-foot">
-      <div class="row"><span>read</span> <strong>3 min</strong></div>
-      <div class="row"><span>words</span> <strong>~550</strong></div>
+      <div class="row"><span>read</span> <strong>4 min</strong></div>
+      <div class="row"><span>words</span> <strong>~920</strong></div>
       <div class="row"><span>status</span> <strong>published</strong></div>
     </div>
   </aside>
@@ -377,75 +409,124 @@
 
     <header class="post-header">
       <div class="post-kicker">
-        <span class="tag">Note &middot; 01</span>
+        <span class="tag">Note &middot; 02</span>
         <span class="dot"></span>
         <span>Published</span>
         <span class="dot"></span>
-        <span>Apr 12, 2026</span>
+        <span>Apr 18, 2026</span>
       </div>
       <h1 class="post-title">
-        Why I use <em>Emdash</em>.
+        Subagent <em>designs</em>.
       </h1>
       <p class="post-dek">
-        On running multiple coding agents in parallel without losing your mind in terminal tabs, and why organization, not capability, is the feature that matters.
+        Three paradigms of subagent orchestration are emerging right now: preset profiles, runtime construction, and dependency graphs. A field note on where each one is and where it&rsquo;s heading.
       </p>
       <div class="post-meta">
-        <span><strong>3 min</strong> read</span>
+        <span><strong>4 min</strong> read</span>
         <span class="sep">&middot;</span>
-        <span>~550 words</span>
+        <span>~920 words</span>
         <span class="sep">&middot;</span>
-        <span>Published <strong>Apr 12</strong></span>
+        <span>Published <strong>Apr 18</strong></span>
       </div>
     </header>
 
     <div class="prose">
 
-      <p id="context">
-        Quick context before I get into it: <a href="https://www.emdash.sh/" target="_blank" rel="noopener">Emdash</a> is an open-source desktop app for running multiple coding agents in parallel, each in its own Git worktree. It&rsquo;s built by Arne and Raban at <a href="https://github.com/generalaction/emdash" target="_blank" rel="noopener">generalaction</a> (YC&nbsp;W26), it&rsquo;s provider-agnostic (works with Claude Code, Codex, Gemini, Droid, and ~20 others) and it&rsquo;s local-first, meaning app state lives in a SQLite file on your machine rather than on someone&rsquo;s server. You can <code>brew install --cask emdash</code> or grab it from <a href="https://github.com/generalaction/emdash/releases" target="_blank" rel="noopener">GitHub releases</a>.
+      <p id="intro">
+        Every coding agent hits the same wall: you ask it to do something complex, and halfway through it forgets what it was doing. The context window fills up with file contents and test output, and suddenly it&rsquo;s lost.
       </p>
 
-      <p>Okay, onto why I actually use it.</p>
+      <p class="opener">
+        Subagents fix this. Spin up a separate context, let it do the messy work, get back a <em>summary</em>.
+      </p>
+
+      <p>Simple idea, but the implementations vary a lot. I think there are roughly three levels of sophistication emerging.</p>
 
       <hr />
 
-      <p class="opener" id="organized">
-        The thing I like most about Emdash is that it&rsquo;s <em>organized</em>.
-      </p>
+      <h2 id="level-1" data-n="01">Level 1 &middot; <em>Pick a preset</em></h2>
 
-      <p>That sounds boring, but hear me out. Before Emdash, running coding agents meant a forest of terminal tabs. One for the agent working on the bug fix. Another for the one refactoring the API. A third for &ldquo;wait, what was this one doing again?&rdquo; I&rsquo;d lose track of which tab belonged to which task within about twenty minutes.</p>
+      <p>This is where production tools are today.</p>
 
-      <p>Emdash gives every task its own Git worktree and wraps the whole thing in a UI you can actually navigate. Switching between tasks is seamless: you click, you&rsquo;re there, the state is preserved, the diffs are waiting for you. It&rsquo;s the same repo, multiple workstreams, no collisions. That alone is worth it to me. Way better than juggling terminal tabs.</p>
+      <p><strong><a href="https://code.claude.com/docs/en/sub-agents" target="_blank" rel="noopener">Claude Code</a></strong>, Anthropic&rsquo;s coding CLI, leans into automatic delegation. Each subagent has a description, and Claude just decides when to use one. It ships with Explore (fast read-only search on Haiku), Plan (gathers context before strategizing), and General-purpose (full tool access). You can define custom ones as Markdown files. Subagents can&rsquo;t spawn other subagents. Deliberately flat.</p>
 
-      <p>You can also spawn multiple agents inside a single worktree, each working on a different piece of the same feature. That&rsquo;s been useful when a feature has clearly separable parts and I want them moving in parallel without fragmenting into separate branches.</p>
+      <p>It solves context pollution well. But the subagent configs are static, decided before the conversation starts. The main agent picks <em>which</em> subagent, never <em>what it can do</em>. Works great for known workflows, less so when the task doesn&rsquo;t fit any predefined template.</p>
 
-      <h2 id="missing" data-n="01">What it <em>doesn&rsquo;t</em> do (yet)</h2>
+      <h2 id="level-2" data-n="02">Level 2 &middot; <em>Build on the fly</em></h2>
 
-      <p>No split screen. You only see one agent at a time. If you want to watch two of them work simultaneously, you can&rsquo;t; you pick one, the others run in the background.</p>
+      <p>Instead of picking from a catalog, the main agent constructs subagents at runtime, choosing tools, models, and instructions based on the actual task.</p>
 
-      <p>Honestly, this bothered me less than I expected. Emdash fires off a notification and a sound when an agent finishes, with the agent&rsquo;s name. So I queue up work, go do something else (read, answer email, work on something in a different worktree) and the sound pulls me back when there&rsquo;s a diff to review. It turns out I don&rsquo;t actually need to <em>watch</em> agents work. I need to know when they&rsquo;re done.</p>
+      <p><strong><a href="https://randomlabs.ai/blog/slate" target="_blank" rel="noopener">Slate</a></strong>, a coding agent from Random Labs, is squarely subagent-focused. The main agent dynamically hands each subagent a <em>subset</em> of tools scoped to the task, rather than exposing the full toolkit. Subagents can run different models, and return summaries rather than raw transcripts. Worth trying. <a href="https://randomlabs.ai/" target="_blank" rel="noopener">Install it here</a>; they offer <em>$10 in free usage</em> to start.</p>
+
+      <p><strong><a href="https://arxiv.org/abs/2602.16891" target="_blank" rel="noopener">OpenSage</a></strong>, a research paper on dynamic agent orchestration, pushes further. It doesn&rsquo;t just dynamically assign a <em>subset</em> of tools to each subagent &mdash; it can also dynamically <em>create</em> tools. The LLM writes them at runtime (actual executable functions) and assigns them per-task. Working on a database migration? The parent might mint a subagent with custom schema-inspection tools that didn&rsquo;t exist in the original toolkit. Two topology patterns emerge naturally: vertical (sequential pipeline) and horizontal (multiple agents trying different strategies, results ensembled).</p>
+
+      <p><strong><a href="https://arxiv.org/abs/2603.18000" target="_blank" rel="noopener">AgentFactory</a></strong>, another paper, optimizes across sessions. Successful subagents get saved as Python code. Next time a similar task appears, the system reuses and refines them. After a few tasks you&rsquo;ve got a growing library that cuts token usage roughly in half. The Meta-Agent dynamically scopes tools per subagent rather than dumping the full toolkit on every worker.</p>
 
       <p class="pull">
-        That&rsquo;s the loop: kick off tasks, go do other things, hear a chime, review a diff, move&nbsp;on.
+        The orchestrator <em>designs</em> the worker at runtime. Right tools, right model, right instructions, shaped by the&nbsp;task.
       </p>
 
-      <h2 id="takeaway" data-n="02">The <em>actual</em> takeaway</h2>
+      <p>But it&rsquo;s still hierarchical. One boss, multiple workers. Workers don&rsquo;t talk to each other.</p>
 
-      <p>Emdash didn&rsquo;t make agents smarter. It made running them sane. The organization is the product: worktrees per task, clean switching, notifications that let you step away. For something that&rsquo;s still early and missing obvious features like split screen, it&rsquo;s already the tool I reach for.</p>
+      <h2 id="level-3" data-n="03">Level 3 &middot; <em>The DAG</em> (mostly theoretical)</h2>
 
-      <p>The fact that it&rsquo;s open source is a nice bonus. If split screen matters enough to someone, they can go build it; the repo is right <a href="https://github.com/generalaction/emdash" target="_blank" rel="noopener">there</a>, contributions welcome.</p>
+      <p>Instead of one orchestrator delegating ad hoc, the system decomposes the task into a dependency graph where nodes are agents and edges are data dependencies.</p>
 
-      <p>If you&rsquo;ve been running agents in terminal tabs and losing your mind, try it: <a href="https://www.emdash.sh/" target="_blank" rel="noopener">emdash.sh</a>.</p>
+      <p>Another way to picture it: each agent acts like a <em>team member with a specific role</em>, and the structure mirrors an actual team hierarchy. Take shipping a new feature. A tech lead agent scopes the work and fans out three tracks in parallel: backend, frontend, and QA. Each delegates further. Backend spawns a migration specialist alongside a handler-writer. Frontend splits component work from state logic. QA, once the diff is ready, runs unit and integration testers side by side. Many branches execute concurrently. Each parent fans out further work based on what its own context reveals.</p>
+
+      <figure class="diagram">
+        <pre class="mermaid">
+flowchart TD
+    L["<b>Tech Lead</b><br/>scope &amp; delegate"]
+    B["<b>Backend</b><br/>build API"]
+    F["<b>Frontend</b><br/>build UI"]
+    Q["<b>QA Lead</b><br/>plan coverage"]
+    M["<b>Migration</b><br/>schema changes"]
+    HD["<b>Handlers</b><br/>endpoint logic"]
+    C["<b>Components</b><br/>UI parts"]
+    S["<b>State</b><br/>store &amp; sync"]
+    UT["<b>Unit Tests</b><br/>per-module"]
+    IT["<b>Integration</b><br/>end-to-end"]
+
+    L --> B
+    L --> F
+    L --> Q
+    B --> M
+    B --> HD
+    F --> C
+    F --> S
+    Q --> UT
+    Q --> IT
+        </pre>
+        <figcaption>Shipping a new feature as a team hierarchy. Tech Lead fans out three tracks in parallel; each mid-level agent spawns parallel children as the work surfaces new needs.</figcaption>
+      </figure>
+
+      <p>A DAG is more flexible than its one-way diagram suggests. A common variant gives each agent its own directory on a shared filesystem, with write access to its own and read access to everyone else&rsquo;s. Agents pull partial outputs from their dependencies as those appear, and coordination effectively becomes bidirectional without losing the declarative structure.</p>
+
+      <p>A close cousin is <em>nested subagents</em>, where a subagent can itself decide to spawn another subset of subagents. Same underlying idea as the DAG: control flow shaped by the task rather than fixed ahead of time. The real distinction is <em>when</em> the structure gets formed. A DAG is decomposed upfront. Nested subagents grow recursively at runtime, with each parent deciding what to spawn based on what its own context just revealed.</p>
+
+      <p><strong><a href="https://arxiv.org/abs/2602.16873" target="_blank" rel="noopener">AdaptOrch</a></strong>, a paper on DAG-based routing, shows that picking topologies based on task characteristics consistently beats fixed pipelines. <strong><a href="https://arxiv.org/abs/2602.06039" target="_blank" rel="noopener">DyTopo</a></strong>, a companion line of work on semantic message routing, has agents publish what they need and what they can offer, with a manager routing messages only where the match is useful.</p>
+
+      <p>One open idea: not all subagent outputs are equally important. A quick lookup might collapse cleanly into a single line. A piece of subtle reasoning that the parent needs to verify might warrant the full transcript. So the subagent should be able to choose the granularity of what it returns, up to <em>promoting its entire context</em> back to the parent when a summary would lose too much.</p>
+
+      <p>Another: <em>reusability</em>. Every run is data. If we log the call graphs, the inputs, the outputs, and especially the error paths, we can refine subagents that keep failing the same way. Winning ones get saved and reused. Broken ones get evaluated and rewritten. Over enough tasks, the system starts to learn what a good subagent for <em>this</em> kind of job actually looks like.</p>
+
+      <h2 id="where" data-n="04">Where <em>are</em> we?</h2>
+
+      <p>Production is solidly Level 1, inching into Level 2. Research is heading toward Level 3.</p>
+
+      <p>We aren&rsquo;t at Level 3 yet. But given how fast these frameworks are moving, we might be entering it sooner than I would have guessed.</p>
 
     </div>
 
     <footer class="post-foot">
       <div class="sign">
         <strong>Jiongan Mu</strong>, Vancouver, BC<br/>
-        written <em>April 12</em>, 2026
+        written <em>April 18</em>, 2026
       </div>
       <div class="share">
-        <a href="mailto:jiongan.mu@gmail.com?subject=Re: Why I use Emdash">Write back</a>
-        <a href="https://www.emdash.sh/" target="_blank" rel="noopener">Try Emdash &rarr;</a>
+        <a href="mailto:jiongan.mu@gmail.com?subject=Re: Subagent designs">Write back</a>
+        <a href="../index.html#notes">More notes &rarr;</a>
       </div>
     </footer>
 
@@ -462,6 +543,32 @@
   <div class="mono tiny"><a href="../index.html">&larr; home</a></div>
   <div class="mono tiny">designed in vancouver</div>
 </footer>
+
+<script type="module">
+  import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+  const root = getComputedStyle(document.documentElement);
+  const v = (name, fallback) => (root.getPropertyValue(name).trim() || fallback);
+  mermaid.initialize({
+    startOnLoad: true,
+    securityLevel: 'loose',
+    theme: 'base',
+    flowchart: { htmlLabels: true, curve: 'basis', padding: 14 },
+    themeVariables: {
+      fontFamily: "'JetBrains Mono', ui-monospace, monospace",
+      fontSize: '13px',
+      background: 'transparent',
+      primaryColor: v('--bg', '#f5f3ee'),
+      primaryTextColor: v('--ink', '#0e0e0e'),
+      primaryBorderColor: v('--rule', '#d6d3cb'),
+      secondaryColor: v('--bg-deep', '#ebe8e0'),
+      tertiaryColor: v('--bg', '#f5f3ee'),
+      lineColor: v('--muted', '#8a8a85'),
+      textColor: v('--ink-2', '#2a2a2a'),
+      mainBkg: v('--bg', '#f5f3ee'),
+      nodeBorder: v('--rule', '#d6d3cb')
+    }
+  });
+</script>
 
 <script>
 (() => {
