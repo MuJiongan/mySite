@@ -15,7 +15,7 @@
   }
 
   const T = window.__TWEAKS || {};
-  applyAccent(T.accent || '#b8532a');
+  applyAccent(T.accent || '#1f6a3d');
   applyMotion(T.motion || 'on');
   applyDensity(T.density || 'regular');
 

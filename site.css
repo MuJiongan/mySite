@@ -10,7 +10,10 @@
   --ink-2: #2a2a2a;
   --muted: #8a8a85;
   --rule: #d6d3cb;
-  --accent: #b8532a;           /* used ONLY for italic words, per audit §05 */
+  --accent: #1f6a3d;           /* forest green, designated accent voice */
+  --accent-rgb: 31, 106, 61;   /* rgba() helper for --accent */
+  --accent-soft: #9cc9ad;      /* lighter sage, for accent on dark ground */
+  --muted-on-dark: #9aa19d;    /* muted label color on dark ground */
   --grain: 0.04;
 
   --serif: "Fraunces", Georgia, serif;
@@ -119,14 +122,14 @@ img { max-width: 100%; display: block; }
 .hero-stamp .row strong { color: var(--ink); font-weight: 400; }
 .hero-stamp .dot {
   width: 6px; height: 6px; border-radius: 50%;
-  background: #3a7a4a;
-  box-shadow: 0 0 0 0 rgba(58,122,74,.6);
+  background: var(--accent);
+  box-shadow: 0 0 0 0 rgba(var(--accent-rgb), 0.6);
   animation: pulse 2.4s ease-in-out infinite;
 }
 .reduced .hero-stamp .dot { animation: none; }
 @keyframes pulse {
-  0%,100% { box-shadow: 0 0 0 0 rgba(58,122,74,.6); }
-  50%     { box-shadow: 0 0 0 8px rgba(58,122,74,0); }
+  0%,100% { box-shadow: 0 0 0 0 rgba(var(--accent-rgb), 0.6); }
+  50%     { box-shadow: 0 0 0 8px rgba(var(--accent-rgb), 0); }
 }
 
 /* big type, centered */
@@ -563,8 +566,8 @@ a.now-entry:hover .now-arrow { transform: translateX(10px); }
   color: var(--bg);
 }
 .contact .sec-head-new .sec-num { color: var(--bg); }
-.contact .sec-head-new .sec-num em { color: #d8a87f; }
-.contact .sec-head-new .sec-label { color: #7a7a75; }
+.contact .sec-head-new .sec-num em { color: var(--accent-soft); }
+.contact .sec-head-new .sec-label { color: var(--muted-on-dark); }
 
 .contact-huge {
   margin: 40px 0 60px;
@@ -577,7 +580,7 @@ a.now-entry:hover .now-arrow { transform: translateX(10px); }
   color: var(--bg);
 }
 .contact-huge .line { display: block; }
-.contact-huge em { font-style: italic; color: #d8a87f; font-weight: 300; }
+.contact-huge em { font-style: italic; color: var(--accent-soft); font-weight: 300; }
 
 .contact-email {
   display: flex; align-items: baseline; gap: 20px;
@@ -600,7 +603,7 @@ a.now-entry:hover .now-arrow { transform: translateX(10px); }
 .contact-email .c-arrow {
   font-family: var(--serif); font-weight: 300;
   font-size: clamp(32px, 5vw, 72px);
-  color: #d8a87f;
+  color: var(--accent-soft);
   transition: transform 400ms cubic-bezier(.7,0,.2,1);
 }
 .contact-email:hover .c-arrow { transform: translate(12px, -8px); }
@@ -617,11 +620,11 @@ a.now-entry:hover .now-arrow { transform: translateX(10px); }
   color: var(--bg);
   transition: color 300ms ease;
 }
-.contact-secondary a:hover { color: #d8a87f; }
+.contact-secondary a:hover { color: var(--accent-soft); }
 .contact-secondary .c-label {
   font-family: var(--mono); font-size: 10px;
   text-transform: uppercase; letter-spacing: 0.18em;
-  color: #7a7a75;
+  color: var(--muted-on-dark);
 }
 .contact-secondary .c-val {
   font-family: var(--serif);
@@ -807,7 +810,7 @@ a.now-entry:hover .now-arrow { transform: translateX(10px); }
   content: "";
   position: absolute;
   inset: 0;
-  background: linear-gradient(180deg, transparent 0%, rgba(184,83,42,0.06) 100%);
+  background: linear-gradient(180deg, transparent 0%, rgba(var(--accent-rgb), 0.06) 100%);
   opacity: 0;
   transition: opacity 700ms ease;
   pointer-events: none;
