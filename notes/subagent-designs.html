@@ -6,371 +6,505 @@
 <title>Subagent Designs &mdash; Jiongan Mu</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,300;1,9..144,400;1,9..144,500&family=JetBrains+Mono:wght@300;400;500&display=swap">
-<link rel="stylesheet" href="../site.css?v=16">
 <style>
-  /* =========================================================
-     POST PAGE — medium note, narrow column, sticky ToC left
-  ========================================================== */
-  body { background: var(--bg); }
+/* =======================================================
+   Subagent Designs — Elegant Content-Focused Style
+   Theme: High-End Minimalist Tech Editorial
+======================================================= */
 
-  /* top reading progress bar */
-  .read-progress {
-    position: fixed; top: 0; left: 0; right: 0; height: 2px; z-index: 60;
-    background: transparent;
-  }
-  .read-progress span {
-    display: block; height: 100%; width: 0%;
-    background: var(--accent);
-    transition: width 80ms linear;
-  }
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,300;1,9..144,400;1,9..144,600;1,9..144,700&family=JetBrains+Mono:wght@300;400;500&display=swap');
 
-  /* top bar — minimal, matches index but always visible */
-  .post-top {
-    position: sticky; top: 0;
-    padding: 18px var(--pad-x);
-    display: grid; grid-template-columns: 1fr auto;
-    align-items: center;
-    background: color-mix(in srgb, var(--bg) 92%, transparent);
-    backdrop-filter: blur(6px);
-    z-index: 40;
-    border-bottom: 1px solid var(--rule);
-  }
-  .post-top .back {
-    font-family: var(--serif); font-style: italic;
-    font-size: 15px; color: var(--ink-2);
-  }
-  .post-top .back:hover { color: var(--accent); }
-  .post-top nav { display: flex; gap: 22px; }
-  .post-top nav a {
-    font-family: var(--serif); font-style: italic;
-    font-size: 15px; color: var(--muted);
-  }
-  .post-top nav a:hover { color: var(--ink); }
+:root {
+  --bg: #f5f3ee;
+  --bg-deep: #ebe8e0;
+  --ink: #0e0e0e;
+  --ink-2: #2a2a2a;
+  --muted: #8a8a85;
+  --rule: #d6d3cb;
+  --accent: #1f6a3d;           /* designated forest green */
+  --accent-soft: #9cc9ad;
+  --grain: 0.04;
+  
+  --serif: "Fraunces", Georgia, serif;
+  --mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+  --pad-x: clamp(20px, 5vw, 40px);
+}
 
-  /* ========== layout: ToC left rail + narrow reading column ========== */
-  .post-shell {
-    display: grid;
-    grid-template-columns: 240px minmax(0, 1fr);
-    gap: 80px;
-    max-width: 1100px;
-    margin: 0 auto;
-    padding: clamp(60px, 8vw, 100px) var(--pad-x) 0;
-  }
+* { box-sizing: border-box; }
 
-  /* sticky ToC */
-  .toc {
-    position: sticky;
-    top: 120px;
-    align-self: start;
-    padding-top: 4px;
-  }
-  .toc-label {
-    font-family: var(--mono); font-size: 10px;
-    text-transform: uppercase; letter-spacing: 0.18em;
-    color: var(--muted);
-    margin-bottom: 16px;
-    display: block;
-  }
+body {
+  background-color: var(--bg);
+  color: var(--ink-2);
+  font-family: var(--serif);
+  font-variation-settings: "opsz" 14;
+  font-weight: 400;
+  line-height: 1.65;
+  margin: 0; padding: 0;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+/* grain */
+.grain {
+  position: fixed; inset: 0; pointer-events: none; z-index: 200;
+  opacity: var(--grain); mix-blend-mode: multiply;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)' opacity='0.6'/></svg>");
+  background-size: 200px 200px;
+}
+
+a { color: inherit; text-decoration: none; }
+
+/* read progress */
+.read-progress {
+  position: fixed; top: 0; left: 0; right: 0; height: 2px; z-index: 100;
+  background: transparent;
+}
+.read-progress span {
+  display: block; height: 100%; width: 0%;
+  background: var(--accent);
+  transition: width 100ms linear;
+}
+
+/* top nav */
+.post-top {
+  position: sticky; top: 0;
+  padding: 18px var(--pad-x);
+  display: flex; justify-content: space-between;
+  align-items: center;
+  background: color-mix(in srgb, var(--bg) 92%, transparent);
+  backdrop-filter: blur(8px);
+  z-index: 90;
+  border-bottom: 1px solid var(--rule);
+}
+.post-top .back {
+  font-family: var(--serif); font-style: italic;
+  font-size: 15px; color: var(--ink-2);
+}
+.post-top .back:hover { color: var(--accent); }
+.post-top nav { display: flex; gap: 22px; }
+.post-top nav a {
+  font-family: var(--serif); font-style: italic;
+  font-size: 15px; color: var(--muted);
+}
+.post-top nav a:hover { color: var(--ink); }
+
+/* layout */
+.post-shell {
+  max-width: 680px;
+  margin: 0 auto;
+  padding: 60px var(--pad-x) 100px;
+}
+
+article.post {
+  width: 100%;
+}
+
+/* Premium Top Content Outline */
+.toc {
+  margin-bottom: 40px;
+  padding: 20px 0;
+  border-top: 1px solid var(--rule);
+  border-bottom: 1px solid var(--rule);
+}
+.toc-label {
+  font-family: var(--mono); font-size: 10px;
+  text-transform: uppercase; letter-spacing: 0.16em;
+  color: var(--accent);
+  margin-bottom: 14px;
+  display: block;
+}
+.toc ol {
+  list-style: none; margin: 0; padding: 0;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px 24px;
+}
+.toc a {
+  display: block;
+  font-family: var(--mono);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--muted);
+  transition: all 180ms ease;
+}
+.toc a:hover {
+  color: var(--ink);
+}
+.toc a.is-active {
+  color: var(--accent);
+  font-weight: 500;
+}
+
+@media (max-width: 640px) {
   .toc ol {
-    list-style: none; margin: 0; padding: 0;
-    display: flex; flex-direction: column; gap: 12px;
-    border-left: 1px solid var(--rule);
+    grid-template-columns: 1fr;
+    gap: 10px;
   }
-  .toc a {
-    display: block;
-    padding: 6px 0 6px 16px;
-    margin-left: -1px;
-    border-left: 1px solid transparent;
-    font-family: var(--serif); font-style: italic;
-    font-size: 14px; line-height: 1.4;
-    color: var(--muted);
-    transition: color 180ms ease, border-color 180ms ease;
-  }
-  .toc a:hover { color: var(--ink); }
-  .toc a.is-active {
-    color: var(--ink);
-    border-left-color: var(--accent);
-  }
-  .toc-foot {
-    margin-top: 28px;
-    padding-top: 20px;
-    border-top: 1px solid var(--rule);
-    font-family: var(--mono); font-size: 10px;
-    text-transform: uppercase; letter-spacing: 0.14em;
-    color: var(--muted);
-    line-height: 1.8;
-  }
-  .toc-foot .row { display: flex; justify-content: space-between; gap: 10px; }
-  .toc-foot strong { color: var(--ink); font-weight: 400; }
+}
 
-  /* ========== article column ========== */
-  article.post {
-    max-width: 640px;
-    font-family: var(--serif);
-    color: var(--ink-2);
-    font-variation-settings: "opsz" 14;
-  }
+.post-header {
+  padding-bottom: 40px;
+  margin-bottom: 48px;
+  border-bottom: 1px solid var(--ink);
+}
+.post-kicker {
+  display: flex; gap: 14px; align-items: center;
+  font-family: var(--mono); font-size: 11px;
+  text-transform: uppercase; letter-spacing: 0.16em;
+  color: var(--muted);
+  margin-bottom: 24px;
+}
+.post-kicker .dot { width: 4px; height: 4px; border-radius: 50%; background: var(--muted); }
+.post-kicker .tag { color: var(--accent); }
 
-  .post-header {
-    padding-bottom: 40px;
-    margin-bottom: 48px;
-    border-bottom: 1px solid var(--ink);
-  }
-  .post-kicker {
-    display: flex; gap: 14px; align-items: center;
-    font-family: var(--mono); font-size: 11px;
-    text-transform: uppercase; letter-spacing: 0.16em;
-    color: var(--muted);
-    margin-bottom: 24px;
-  }
-  .post-kicker .dot { width: 4px; height: 4px; border-radius: 50%; background: var(--muted); }
-  .post-kicker .tag { color: var(--accent); }
+.post-title {
+  margin: 0 0 20px;
+  font-family: var(--serif); font-weight: 400;
+  font-size: clamp(38px, 5vw, 56px);
+  line-height: 1.08;
+  letter-spacing: -0.025em;
+  color: var(--ink);
+  font-variation-settings: "opsz" 96;
+}
+.post-title em { font-style: italic; color: var(--accent); font-weight: 400; }
 
-  .post-title {
-    margin: 0 0 20px;
-    font-family: var(--serif); font-weight: 400;
-    font-size: clamp(40px, 5vw, 62px);
-    line-height: 1.05;
-    letter-spacing: -0.025em;
-    color: var(--ink);
-    font-variation-settings: "opsz" 96;
-    text-wrap: balance;
-  }
-  .post-title em { font-style: italic; color: var(--accent); font-weight: 400; }
+.post-dek {
+  margin: 0 0 28px;
+  font-family: var(--serif); font-style: italic;
+  font-size: clamp(18px, 1.6vw, 21px);
+  line-height: 1.5;
+  color: var(--muted);
+  letter-spacing: -0.005em;
+  text-wrap: pretty;
+}
 
-  .post-dek {
-    margin: 0 0 28px;
-    font-family: var(--serif); font-style: italic;
-    font-size: clamp(18px, 1.6vw, 22px);
-    line-height: 1.5;
-    color: var(--muted);
-    letter-spacing: -0.005em;
-    max-width: 42ch;
-    text-wrap: pretty;
-  }
+.post-meta {
+  display: flex; flex-wrap: wrap; gap: 20px;
+  font-family: var(--mono); font-size: 11px;
+  text-transform: uppercase; letter-spacing: 0.14em;
+  color: var(--muted);
+}
+.post-meta strong { color: var(--ink); font-weight: 400; }
+.post-meta .sep { opacity: 0.4; }
 
-  .post-meta {
-    display: flex; flex-wrap: wrap; gap: 20px;
-    font-family: var(--mono); font-size: 11px;
-    text-transform: uppercase; letter-spacing: 0.14em;
-    color: var(--muted);
-  }
-  .post-meta strong { color: var(--ink); font-weight: 400; }
-  .post-meta .sep { opacity: 0.4; }
+/* prose */
+.prose {
+  font-size: 18px;
+  line-height: 1.7;
+  color: var(--ink-2);
+}
+.prose > * + * { margin-top: 1.2em; }
 
-  /* ========== prose ========== */
-  .prose {
-    font-size: 18px;
-    line-height: 1.65;
-    color: var(--ink-2);
-    letter-spacing: -0.002em;
-  }
-  .prose > * + * { margin-top: 1.1em; }
+.prose p { margin: 0; text-wrap: pretty; }
+.prose em { font-style: italic; color: var(--ink); }
+.prose strong { font-weight: 500; color: var(--ink); }
 
-  .prose h2 {
-    margin-top: 2.4em;
-    margin-bottom: 0.6em;
-    font-family: var(--serif); font-weight: 500;
-    font-size: clamp(26px, 2.6vw, 32px);
-    line-height: 1.15;
-    letter-spacing: -0.018em;
-    color: var(--ink);
-    font-variation-settings: "opsz" 60;
-    scroll-margin-top: 110px;
-    text-wrap: balance;
-  }
-  .prose h2 em { font-style: italic; color: var(--accent); font-weight: 400; }
-  .prose h2::before {
-    content: "§ " attr(data-n);
-    display: block;
-    font-family: var(--mono); font-size: 10px;
-    font-weight: 400;
-    text-transform: uppercase; letter-spacing: 0.18em;
-    color: var(--muted);
-    margin-bottom: 10px;
-  }
+.prose h2 {
+  margin-top: 2.2em; margin-bottom: 0.6em;
+  font-family: var(--serif); font-weight: 500;
+  font-size: clamp(24px, 2.5vw, 30px);
+  line-height: 1.2;
+  letter-spacing: -0.015em;
+  color: var(--ink);
+  font-variation-settings: "opsz" 60;
+  scroll-margin-top: 90px;
+}
+.prose h2 em { font-style: italic; color: var(--accent); font-weight: 400; }
+.prose h2::before {
+  content: "§ " attr(data-n);
+  display: block;
+  font-family: var(--mono); font-size: 10px;
+  font-weight: 400;
+  text-transform: uppercase; letter-spacing: 0.18em;
+  color: var(--muted);
+  margin-bottom: 8px;
+}
 
-  .prose p { margin: 0; text-wrap: pretty; }
-  .prose p + p { margin-top: 1.1em; }
+/* drop cap */
+.prose > p:first-of-type::first-letter {
+  float: left;
+  font-family: var(--serif); font-weight: 400;
+  font-size: 4.5em;
+  line-height: 0.85;
+  padding: 0.08em 0.1em 0 0;
+  color: var(--accent);
+  font-variation-settings: "opsz" 144;
+  font-style: italic;
+}
 
-  /* drop cap on first para */
-  .prose > p:first-of-type::first-letter {
-    float: left;
-    font-family: var(--serif); font-weight: 400;
-    font-size: 4.6em;
-    line-height: 0.85;
-    padding: 0.08em 0.1em 0 0;
-    color: var(--accent);
-    font-variation-settings: "opsz" 144;
-    font-style: italic;
-  }
+.prose a {
+  color: var(--ink);
+  text-decoration: none;
+  border-bottom: 1px solid var(--rule);
+  transition: border-color 200ms ease, color 200ms ease;
+}
+.prose a:hover { color: var(--accent); border-bottom-color: var(--accent); }
 
-  .prose a {
-    color: var(--ink);
-    text-decoration: none;
-    border-bottom: 1px solid var(--rule);
-    transition: border-color 200ms ease, color 200ms ease;
-  }
-  .prose a:hover { color: var(--accent); border-bottom-color: var(--accent); }
+.prose code {
+  font-family: var(--mono); font-size: 0.85em;
+  background: var(--bg-deep);
+  padding: 2px 6px;
+  border-radius: 3px;
+  color: var(--ink);
+  border: 1px solid var(--rule);
+  white-space: nowrap;
+}
 
-  .prose em { font-style: italic; color: var(--ink); }
-  .prose strong { font-weight: 500; color: var(--ink); }
+.prose .opener {
+  font-family: var(--serif);
+  font-style: italic;
+  font-weight: 300;
+  font-size: clamp(22px, 2vw, 26px);
+  line-height: 1.3;
+  color: var(--ink);
+  margin-top: 2em;
+  text-wrap: pretty;
+}
+.prose .opener em { color: var(--accent); }
 
-  /* inline code */
-  .prose code {
-    font-family: var(--mono); font-size: 0.85em;
-    background: var(--bg-deep);
-    padding: 2px 7px;
-    border-radius: 3px;
-    color: var(--ink);
-    letter-spacing: 0;
-    border: 1px solid var(--rule);
-    white-space: nowrap;
-  }
+.prose .pull {
+  margin: 2em 0;
+  padding: 16px 0 16px 24px;
+  border-left: 2px solid var(--accent);
+  font-family: var(--serif); font-style: italic;
+  font-size: clamp(19px, 2vw, 22px);
+  line-height: 1.4;
+  color: var(--ink);
+}
 
-  /* opener after intro — large italic statement */
-  .prose .opener {
-    font-family: var(--serif);
-    font-style: italic;
-    font-weight: 300;
-    font-size: clamp(26px, 2.6vw, 34px);
-    line-height: 1.25;
-    letter-spacing: -0.015em;
-    color: var(--ink);
-    font-variation-settings: "opsz" 72;
-    margin-top: 2.2em;
-    text-wrap: balance;
-  }
-  .prose .opener em { color: var(--accent); }
+.prose hr {
+  margin: 2.5em auto;
+  width: 60px; border: none; height: 1px;
+  background: var(--rule);
+  position: relative;
+}
+.prose hr::after {
+  content: "§";
+  position: absolute;
+  left: 50%; top: 50%;
+  transform: translate(-50%, -50%);
+  font-family: var(--serif); font-style: italic;
+  color: var(--muted); font-size: 14px;
+  background: var(--bg); padding: 0 8px;
+}
 
-  /* pullquote — highlights a key line from the body */
-  .prose .pull {
-    margin: 2.4em 0;
-    padding: 24px 0 24px 28px;
-    border-left: 2px solid var(--accent);
-    font-family: var(--serif);
-    font-style: italic;
-    font-weight: 400;
-    font-size: clamp(20px, 2vw, 24px);
-    line-height: 1.4;
-    color: var(--ink);
-    letter-spacing: -0.01em;
-    text-wrap: balance;
-  }
-  .prose .pull em { color: var(--accent); font-style: italic; }
+/* =======================================================
+   INLINE INTERACTIVE WIDGETS
+======================================================= */
+.interactive-card {
+  margin: 2.2em 0;
+  background: rgba(0, 0, 0, 0.015);
+  border: 1px solid var(--rule);
+  border-radius: 8px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.01);
+}
 
-  /* process diagram — mermaid flowchart figure */
-  .prose .diagram {
-    margin: 2.6em 0;
-    padding: 32px 24px 24px;
-    background: var(--bg-deep);
-    border: 1px solid var(--rule);
-    border-radius: 4px;
-  }
-  .prose .diagram .mermaid {
-    background: transparent;
-    font-family: var(--mono);
-    display: flex;
-    justify-content: center;
-    overflow-x: auto;
-  }
-  .prose .diagram .mermaid svg {
-    max-width: 100%;
-    height: auto;
-  }
-  .prose .diagram figcaption {
-    margin-top: 22px;
-    text-align: center;
-    font-family: var(--serif);
-    font-style: italic;
-    font-size: 14px;
-    line-height: 1.5;
-    color: var(--muted);
-    text-wrap: pretty;
-  }
+.widget-header {
+  display: flex; justify-content: space-between; align-items: center;
+  border-bottom: 1px solid var(--rule);
+  padding-bottom: 10px;
+}
+.widget-title {
+  font-family: var(--mono); font-size: 10px; color: var(--accent);
+  text-transform: uppercase; letter-spacing: 0.1em; font-weight: 500;
+}
+.widget-status {
+  font-family: var(--mono); font-size: 10px; color: var(--muted);
+  display: flex; align-items: center; gap: 6px;
+}
+.widget-status .dot {
+  width: 6px; height: 6px; border-radius: 50%; background: var(--muted);
+}
+.widget-status.active .dot {
+  background: var(--accent);
+  box-shadow: 0 0 6px var(--accent);
+  animation: pulseLight 1.5s infinite alternate;
+}
+@keyframes pulseLight { from { opacity: 0.4; } to { opacity: 1; } }
 
-  /* horizontal rule */
-  .prose hr {
-    margin: 2.8em auto;
-    width: 80px; border: none; height: 1px;
-    background: var(--rule);
-    position: relative;
-  }
-  .prose hr::after {
-    content: "§";
-    position: absolute;
-    left: 50%; top: 50%;
-    transform: translate(-50%, -50%);
-    font-family: var(--serif); font-style: italic;
-    color: var(--muted); font-size: 16px;
-    background: var(--bg); padding: 0 10px;
-  }
+/* Level 1 Catalog Cards */
+.catalog-tabs {
+  display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px;
+}
+.catalog-tab {
+  background: var(--bg-deep); border: 1px solid var(--rule);
+  border-radius: 6px; padding: 10px; cursor: pointer; text-align: left;
+  transition: all 150ms ease;
+}
+.catalog-tab:hover { background: rgba(0, 0, 0, 0.03); }
+.catalog-tab.active {
+  border-color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 5%, transparent);
+}
+.catalog-tab-name {
+  font-family: var(--mono); font-size: 12px; font-weight: 500;
+  color: var(--ink); margin-bottom: 4px; display: block;
+}
+.catalog-tab-desc {
+  font-size: 11px; color: var(--muted); line-height: 1.3; display: block;
+}
 
+.catalog-panel {
+  background: #1e1e1e; border-radius: 6px; padding: 14px;
+  font-family: var(--mono); font-size: 12px; line-height: 1.5; color: #f8fafc;
+  min-height: 130px; display: none;
+  animation: tabFade 250ms ease forwards;
+}
+.catalog-panel.active { display: block; }
+@keyframes tabFade { from { opacity: 0; } to { opacity: 1; } }
 
-  /* footer within article */
-  .post-foot {
-    margin-top: 80px;
-    padding: 40px 0 32px;
-    border-top: 1px solid var(--ink);
-    display: grid;
-    grid-template-columns: 1fr auto;
-    gap: 24px;
-    align-items: baseline;
-  }
-  .post-foot .sign {
-    font-family: var(--serif); font-style: italic;
-    font-size: 17px; color: var(--muted);
-  }
-  .post-foot .sign strong { color: var(--ink); font-weight: 400; }
-  .post-foot .share {
-    display: flex; gap: 16px;
-    font-family: var(--mono); font-size: 11px;
-    text-transform: uppercase; letter-spacing: 0.14em;
-  }
-  .post-foot .share a { color: var(--muted); }
-  .post-foot .share a:hover { color: var(--ink); }
+/* Level 2 Visual Flow */
+.dynamic-flow-box {
+  display: grid; grid-template-columns: 1fr auto 1fr auto 1fr; gap: 12px;
+  align-items: center; padding: 10px 0;
+}
+.flow-step {
+  background: var(--bg-deep); border: 1px solid var(--rule);
+  border-radius: 6px; padding: 12px;
+  font-size: 13px; line-height: 1.4;
+}
+.flow-step strong {
+  font-family: var(--mono); font-size: 11px; color: var(--accent);
+  text-transform: uppercase; display: block; margin-bottom: 4px;
+}
+.flow-arrow {
+  color: var(--rule); font-size: 18px; font-weight: 300;
+}
 
-  /* prev/next — back to notes */
-  .post-nav {
-    margin-top: 40px;
-    padding-bottom: 80px;
-  }
-  .post-nav a {
-    font-family: var(--serif); font-style: italic;
-    font-size: 17px; color: var(--ink-2);
-    display: inline-flex; align-items: center; gap: 10px;
-    transition: gap 300ms cubic-bezier(.7,0,.2,1), color 200ms ease;
-  }
-  .post-nav a:hover { color: var(--accent); gap: 16px; }
+/* Level 3 Interactive Diagram */
+.diagram-container {
+  background: var(--bg-deep);
+  border: 1px solid var(--rule);
+  border-radius: 6px;
+  padding: 20px;
+  display: flex; flex-direction: column; align-items: center;
+  position: relative;
+  overflow: hidden;
+}
+.diagram-container svg {
+  background: transparent !important;
+  width: 100% !important;
+  max-width: 650px !important;
+  height: auto !important;
+}
+.dag-node-highlight {
+  stroke: var(--accent) !important;
+  stroke-width: 3px !important;
+  fill: color-mix(in srgb, var(--accent) 15%, transparent) !important;
+  filter: drop-shadow(0 0 4px var(--accent-soft)) !important;
+  transition: all 180ms ease;
+}
+.dag-node-highlight-purple {
+  stroke: #7c3aed !important;
+  stroke-width: 3px !important;
+  fill: rgba(124, 58, 237, 0.08) !important;
+  filter: drop-shadow(0 0 4px #c084fc) !important;
+  transition: all 180ms ease;
+}
 
-  /* =========================================================
-     responsive — ToC collapses below 1000px
-  ========================================================= */
-  @media (max-width: 1000px) {
-    .post-shell { grid-template-columns: 1fr; gap: 0; max-width: 720px; }
-    .toc {
-      position: static; top: auto;
-      padding: 24px 0 32px;
-      margin-bottom: 32px;
-      border-bottom: 1px solid var(--rule);
-    }
-    .toc ol {
-      flex-direction: row; flex-wrap: wrap;
-      border-left: none;
-      gap: 6px 18px;
-    }
-    .toc a { padding: 2px 0; border-left: none; font-size: 13px; }
-    .toc a.is-active { border-left: none; color: var(--accent); }
-    .toc-foot { display: none; }
-  }
+.widget-control-row {
+  display: flex; justify-content: space-between; align-items: center;
+  margin-top: 4px;
+}
+.widget-btn {
+  background: transparent;
+  color: var(--accent);
+  border: 1px solid var(--accent);
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  padding: 8px 16px;
+  border-radius: 99px; /* premium pill shape */
+  cursor: pointer;
+  transition: all 300ms cubic-bezier(0.16, 1, 0.3, 1);
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+.widget-btn:hover {
+  background: rgba(31, 106, 61, 0.08);
+  border-color: rgba(31, 106, 61, 0.4);
+  transform: translateY(-0.5px);
+}
+.widget-btn:active {
+  transform: translateY(0.5px);
+}
+.widget-btn:disabled {
+  border-color: var(--rule);
+  color: var(--muted);
+  background: transparent;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+.widget-info-text {
+  font-family: var(--mono); font-size: 11px; color: var(--muted);
+}
 
-  @media (max-width: 640px) {
-    .post-title { font-size: clamp(32px, 8vw, 44px); }
-    .prose { font-size: 17px; }
-    .prose > p:first-of-type::first-letter { font-size: 3.6em; }
-    .post-foot { grid-template-columns: 1fr; }
-  }
+.inline-console {
+  background: #1e1e1e; border-radius: 6px; padding: 12px;
+  font-family: var(--mono); font-size: 11px; color: #cbd5e1;
+  max-height: 120px; overflow-y: auto; display: none;
+  margin-top: 12px;
+}
+.inline-console-line { margin: 0; line-height: 1.4; }
+.inline-console-line.cmd { color: #f59e0b; }
+.inline-console-line.cmd::before { content: "$ "; color: #64748b; }
+.inline-console-line.success { color: #10b981; }
+
+/* Footers */
+.post-foot {
+  margin-top: 60px;
+  padding: 32px 0 24px;
+  border-top: 1px solid var(--rule);
+  display: flex; justify-content: space-between;
+  align-items: center;
+  font-size: 14px;
+}
+.post-foot .sign { color: var(--muted); }
+.post-foot .sign strong { color: var(--ink); font-weight: 500; }
+.post-foot .share { display: flex; gap: 16px; font-family: var(--mono); font-size: 11px; text-transform: uppercase; }
+.post-foot .share a { color: var(--accent); }
+.post-foot .share a:hover { color: var(--ink); }
+
+.post-nav {
+  margin-top: 20px;
+  padding-bottom: 60px;
+}
+.post-nav a {
+  font-family: var(--serif); font-style: italic;
+  font-size: 16px; color: var(--ink-2);
+  display: inline-flex; align-items: center; gap: 8px;
+  transition: gap 200ms ease, color 200ms ease;
+}
+.post-nav a:hover { color: var(--accent); gap: 14px; }
+
+.foot {
+  padding: 40px var(--pad-x);
+  border-top: 1px solid var(--rule);
+  display: flex; justify-content: space-between;
+  align-items: center;
+  background: var(--bg-deep);
+}
+.foot div { font-family: var(--mono); font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; }
+.foot div a:hover { color: var(--accent); }
+
+/* Responsive */
+@media (max-width: 640px) {
+  .post-title { font-size: 36px; }
+  .prose { font-size: 17px; }
+  .post-foot { flex-direction: column; align-items: flex-start; gap: 16px; }
+  .foot { flex-direction: column; gap: 12px; text-align: center; }
+  .catalog-tabs { grid-template-columns: 1fr; }
+  .dynamic-flow-box { grid-template-columns: 1fr; text-align: center; }
+  .flow-arrow { transform: rotate(90deg); margin: 4px 0; display: block; }
+}
 </style>
 </head>
 <body>
@@ -382,29 +516,12 @@
 <header class="post-top">
   <a href="../index.html" class="back"><em>&larr; jiongan mu</em></a>
   <nav>
-    <a href="../index.html#notes"><em>all notes</em></a>
-    <a href="../index.html#contact"><em>contact</em></a>
+    <a href="../index.html#notes">all notes</a>
+    <a href="../index.html#contact">contact</a>
   </nav>
 </header>
 
 <main class="post-shell">
-
-  <aside class="toc" id="toc">
-    <span class="toc-label">contents</span>
-    <ol>
-      <li><a href="#intro" class="is-active">The wall</a></li>
-      <li><a href="#level-1">Level 1 &middot; Pick a preset</a></li>
-      <li><a href="#level-2">Level 2 &middot; Build on the fly</a></li>
-      <li><a href="#level-3">Level 3 &middot; The DAG</a></li>
-      <li><a href="#where">Where are we?</a></li>
-    </ol>
-    <div class="toc-foot">
-      <div class="row"><span>read</span> <strong>4 min</strong></div>
-      <div class="row"><span>words</span> <strong>~920</strong></div>
-      <div class="row"><span>status</span> <strong>published</strong></div>
-    </div>
-  </aside>
-
   <article class="post">
 
     <header class="post-header">
@@ -430,6 +547,17 @@
       </div>
     </header>
 
+    <aside class="toc" id="toc">
+      <span class="toc-label">Contents</span>
+      <ol>
+        <li><a href="#intro" class="is-active">00 / The wall</a></li>
+        <li><a href="#level-1">01 / Level 1 &middot; Preset</a></li>
+        <li><a href="#level-2">02 / Level 2 &middot; Dynamic</a></li>
+        <li><a href="#level-3">03 / Level 3 &middot; The DAG</a></li>
+        <li><a href="#where">04 / Takeaway</a></li>
+      </ol>
+    </aside>
+
     <div class="prose">
 
       <p id="intro">
@@ -444,7 +572,7 @@
 
       <hr />
 
-      <h2 id="level-1" data-n="01">Level 1 &middot; <em>Pick a preset</em></h2>
+      <h2 id="level-1" data-n="1">Level 1 &middot; <em>Pick a preset</em></h2>
 
       <p>This is where production tools are today.</p>
 
@@ -452,7 +580,50 @@
 
       <p>It solves context pollution well. But the subagent configs are static, decided before the conversation starts. The main agent picks <em>which</em> subagent, never <em>what it can do</em>. Works great for known workflows, less so when the task doesn&rsquo;t fit any predefined template.</p>
 
-      <h2 id="level-2" data-n="02">Level 2 &middot; <em>Build on the fly</em></h2>
+      <!-- Level 1 Interactive Catalog Widget -->
+      <div class="interactive-card">
+        <header class="widget-header">
+          <span class="widget-title">Interactive Presets Catalog</span>
+          <span class="widget-info-text">Explore active boundaries</span>
+        </header>
+        <div class="catalog-tabs">
+          <button class="catalog-tab active" data-tab="plan">
+            <span class="catalog-tab-name">&lt;Plan&gt;</span>
+            <span class="catalog-tab-desc">Gathers file context, constructs step strategy</span>
+          </button>
+          <button class="catalog-tab" data-tab="explore">
+            <span class="catalog-tab-name">&lt;Explore&gt;</span>
+            <span class="catalog-tab-desc">Fast read-only grep, search &amp; indexing</span>
+          </button>
+          <button class="catalog-tab" data-tab="gp">
+            <span class="catalog-tab-name">&lt;General-purpose&gt;</span>
+            <span class="catalog-tab-desc">Full terminal access, writes files &amp; compiles tests</span>
+          </button>
+        </div>
+        
+        <!-- Live panel viewports -->
+        <div class="catalog-panel active" id="panel-plan">
+          $ spawn plan-subagent "analyze reactant structure"<br/>
+          &gt; Plan initialized. Grabbing package.json and webpack config...<br/>
+          &gt; Scanning root structures... found 8 dependencies.<br/>
+          &gt; COMPLETED: Formulated 4-step implementation plan successfully.
+        </div>
+        <div class="catalog-panel" id="panel-explore">
+          $ spawn explore-subagent "grep search '.map('"<br/>
+          &gt; Explore initialized. Scanning files in /src/components/...<br/>
+          &gt; Located 1 matching unkeyed map in src/components/Grid.jsx:124.<br/>
+          &gt; COMPLETED: Identified all relevant query occurrences.
+        </div>
+        <div class="catalog-panel" id="panel-gp">
+          $ spawn general-purpose-subagent "apply React key fix"<br/>
+          &gt; GP initialized. Replacing lines 124 in src/components/Grid.jsx...<br/>
+          &gt; Executing: npm run test:components<br/>
+          &gt; output: ✓ All 4 unit tests successfully passed.<br/>
+          &gt; COMPLETED: Patched files and validated branch builds clean.
+        </div>
+      </div>
+
+      <h2 id="level-2" data-n="2">Level 2 &middot; <em>Build on the fly</em></h2>
 
       <p>Instead of picking from a catalog, the main agent constructs subagents at runtime, choosing tools, models, and instructions based on the actual task.</p>
 
@@ -466,25 +637,59 @@
         The orchestrator <em>designs</em> the worker at runtime. Right tools, right model, right instructions, shaped by the&nbsp;task.
       </p>
 
+      <!-- Level 2 Dynamic Compilation Flow Widget -->
+      <div class="interactive-card">
+        <header class="widget-header">
+          <span class="widget-title">Dynamic Scoping Flow</span>
+          <span class="widget-info-text">OpenSage dynamic tool compile flow</span>
+        </header>
+        <div class="dynamic-flow-box">
+          <div class="flow-step">
+            <strong>01 / Parent Agent</strong>
+            Analyzes database migration request. Needs to inspect active SQLite schemas.
+          </div>
+          <div class="flow-arrow">&rarr;</div>
+          <div class="flow-step">
+            <strong>02 / Tool Compiler</strong>
+            Writes script <code>inspect_sqlite_schema.py</code> dynamically at runtime to extract structural maps.
+          </div>
+          <div class="flow-arrow">&rarr;</div>
+          <div class="flow-step">
+            <strong>03 / Transient Worker</strong>
+            Orchestrator creates a fresh Haiku subagent, scoping only the newly compiled DB tool to it.
+          </div>
+        </div>
+      </div>
+
       <p>But it&rsquo;s still hierarchical. One boss, multiple workers. Workers don&rsquo;t talk to each other.</p>
 
-      <h2 id="level-3" data-n="03">Level 3 &middot; <em>The DAG</em> (mostly theoretical)</h2>
+      <h2 id="level-3" data-n="3">Level 3 &middot; <em>The DAG</em> (mostly theoretical)</h2>
 
       <p>Instead of one orchestrator delegating ad hoc, the system decomposes the task into a dependency graph where nodes are agents and edges are data dependencies.</p>
 
       <p>Another way to picture it: each agent acts like a <em>team member with a specific role</em>, and the structure mirrors an actual team hierarchy. Take shipping a new feature. A tech lead agent scopes the work and fans out three tracks in parallel: backend, frontend, and QA. Each delegates further. Backend spawns a migration specialist alongside a handler-writer. Frontend splits component work from state logic. QA, once the diff is ready, runs unit and integration testers side by side. Many branches execute concurrently. Each parent fans out further work based on what its own context reveals.</p>
 
-      <figure class="diagram">
-        <pre class="mermaid">
+      <!-- Level 3 Interactive DAG SVG Highlighter Widget -->
+      <div class="interactive-card">
+        <header class="widget-header">
+          <span class="widget-title">Interactive DAG Control Flow Graph</span>
+          <div class="widget-status" id="dagStatus">
+            <span class="dot"></span>
+            <span>ONLINE</span>
+          </div>
+        </header>
+        
+        <div class="diagram-container">
+          <pre class="mermaid">
 flowchart TD
-    L["<b>Tech Lead</b><br/>scope &amp; delegate"]
+    L["<b>Tech Lead</b><br/>scope & delegate"]
     B["<b>Backend</b><br/>build API"]
     F["<b>Frontend</b><br/>build UI"]
     Q["<b>QA Lead</b><br/>plan coverage"]
     M["<b>Migration</b><br/>schema changes"]
     HD["<b>Handlers</b><br/>endpoint logic"]
     C["<b>Components</b><br/>UI parts"]
-    S["<b>State</b><br/>store &amp; sync"]
+    S["<b>State</b><br/>store & sync"]
     UT["<b>Unit Tests</b><br/>per-module"]
     IT["<b>Integration</b><br/>end-to-end"]
 
@@ -497,9 +702,17 @@ flowchart TD
     F --> S
     Q --> UT
     Q --> IT
-        </pre>
-        <figcaption>Shipping a new feature as a team hierarchy. Tech Lead fans out three tracks in parallel; each mid-level agent spawns parallel children as the work surfaces new needs.</figcaption>
-      </figure>
+          </pre>
+        </div>
+
+        <div class="widget-control-row">
+          <button class="widget-btn" id="btnRunDag">Run Graph Simulation</button>
+          <span class="widget-info-text">Visualizes parallel controls</span>
+        </div>
+
+        <!-- Inline logging console -->
+        <div class="inline-console" id="dagConsole"></div>
+      </div>
 
       <p>A DAG is more flexible than its one-way diagram suggests. A common variant gives each agent its own directory on a shared filesystem, with write access to its own and read access to everyone else&rsquo;s. Agents pull partial outputs from their dependencies as those appear, and coordination effectively becomes bidirectional without losing the declarative structure.</p>
 
@@ -511,7 +724,7 @@ flowchart TD
 
       <p>Another: <em>reusability</em>. Every run is data. If we log the call graphs, the inputs, the outputs, and especially the error paths, we can refine subagents that keep failing the same way. Winning ones get saved and reused. Broken ones get evaluated and rewritten. Over enough tasks, the system starts to learn what a good subagent for <em>this</em> kind of job actually looks like.</p>
 
-      <h2 id="where" data-n="04">Where <em>are</em> we?</h2>
+      <h2 id="where" data-n="4">Where <em>are</em> we?</h2>
 
       <p>Production is solidly Level 1, inching into Level 2. Research is heading toward Level 3.</p>
 
@@ -535,7 +748,6 @@ flowchart TD
     </nav>
 
   </article>
-
 </main>
 
 <footer class="foot">
@@ -552,59 +764,241 @@ flowchart TD
     startOnLoad: true,
     securityLevel: 'loose',
     theme: 'base',
-    flowchart: { htmlLabels: true, curve: 'basis', padding: 14 },
+    flowchart: { htmlLabels: true, curve: 'basis', padding: 8 },
     themeVariables: {
       fontFamily: "'JetBrains Mono', ui-monospace, monospace",
-      fontSize: '13px',
+      fontSize: '11px',
       background: 'transparent',
-      primaryColor: v('--bg', '#f5f3ee'),
-      primaryTextColor: v('--ink', '#0e0e0e'),
-      primaryBorderColor: v('--rule', '#d6d3cb'),
-      secondaryColor: v('--bg-deep', '#ebe8e0'),
-      tertiaryColor: v('--bg', '#f5f3ee'),
-      lineColor: v('--muted', '#8a8a85'),
-      textColor: v('--ink-2', '#2a2a2a'),
-      mainBkg: v('--bg', '#f5f3ee'),
-      nodeBorder: v('--rule', '#d6d3cb')
+      primaryColor: '#ebe8e0',
+      primaryTextColor: '#0e0e0e',
+      primaryBorderColor: '#d6d3cb',
+      secondaryColor: '#f5f3ee',
+      tertiaryColor: '#f5f3ee',
+      lineColor: '#8a8a85',
+      textColor: '#2a2a2a',
+      mainBkg: '#ebe8e0',
+      nodeBorder: '#d6d3cb'
     }
   });
 </script>
 
 <script>
+/**
+ * Subagent Designs — Refined Inline Interactive Script
+ */
+
 (() => {
-  // reading progress bar
+  // --- LEVEL 1: CATALOG TABS ---
+  const catalogTabs = document.querySelectorAll('.catalog-tab');
+  const catalogPanels = document.querySelectorAll('.catalog-panel');
+
+  catalogTabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+      const tabId = tab.getAttribute('data-tab');
+
+      // Update tabs active state
+      catalogTabs.forEach(t => t.classList.toggle('active', t === tab));
+
+      // Update panels active state
+      catalogPanels.forEach(panel => {
+        panel.classList.toggle('active', panel.getAttribute('id') === `panel-${tabId}`);
+      });
+    });
+  });
+
+  // --- LEVEL 3: DAG GRAPH SIMULATOR ---
+  let isDagSimulating = false;
+  let dagTimeout = null;
+  const btnRunDag = document.getElementById('btnRunDag');
+  const dagStatus = document.getElementById('dagStatus');
+  const dagConsole = document.getElementById('dagConsole');
+
+  // Mermaid nodes highlighting maps
+  function highlightMermaidNode(labelText, highlightType = 'cyan') {
+    const nodes = document.querySelectorAll('.mermaid .node');
+    nodes.forEach(node => {
+      const textEl = node.querySelector('.label') || node;
+      if (textEl.textContent.toLowerCase().replace(/&amp;/g, '&').includes(labelText.toLowerCase())) {
+        const shapes = node.querySelectorAll('rect, polygon, circle, path, .label-container');
+        shapes.forEach(shape => {
+          shape.classList.add(highlightType === 'purple' ? 'dag-node-highlight-purple' : 'dag-node-highlight');
+        });
+      }
+    });
+  }
+
+  function clearMermaidHighlights() {
+    document.querySelectorAll('.mermaid .node rect, .mermaid .node polygon, .mermaid .node circle, .mermaid .node path, .mermaid .node .label-container').forEach(shape => {
+      shape.classList.remove('dag-node-highlight', 'dag-node-highlight-purple');
+    });
+  }
+
+  // Refactored to represent true parallel execution waves
+  const dagWaves = [
+    {
+      logs: [
+        { text: 'DAG-LEAD: Decomposing task requirements...', type: 'cmd' }
+      ],
+      nodes: [
+        { label: 'Tech Lead', color: 'purple' }
+      ],
+      clearPrevious: true,
+      delayAfter: 700
+    },
+    {
+      logs: [
+        { text: 'DAG-LEAD: Spawning Backend, Frontend, and QA branches in parallel.', type: 'cmd' },
+        { text: 'BACKEND: Initializing API endpoints setup...', type: 'output' },
+        { text: 'FRONTEND: Mapping UI component layouts...', type: 'output' },
+        { text: 'QA-LEAD: Structuring integration test scope...', type: 'info' }
+      ],
+      nodes: [
+        { label: 'Backend', color: 'cyan' },
+        { label: 'Frontend', color: 'cyan' },
+        { label: 'QA Lead', color: 'purple' }
+      ],
+      clearPrevious: false,
+      delayAfter: 1200
+    },
+    {
+      logs: [
+        { text: 'BACKEND: Spawning Migration and Handlers child workers in parallel...', type: 'info' },
+        { text: 'FRONTEND: Spawning Components and State child workers in parallel...', type: 'info' }
+      ],
+      nodes: [
+        { label: 'Migration', color: 'cyan' },
+        { label: 'Handlers', color: 'cyan' },
+        { label: 'Components', color: 'cyan' },
+        { label: 'State', color: 'cyan' }
+      ],
+      clearPrevious: false,
+      delayAfter: 1000
+    },
+    {
+      logs: [
+        { text: 'MIGRATION: Schema successfully migrated.', type: 'success' },
+        { text: 'COMPONENTS: Responsive LoginBox constructed.', type: 'success' },
+        { text: 'HANDLERS: Endpoint /api/v2/auth active.', type: 'success' },
+        { text: 'STATE: Redux state sync completed.', type: 'success' }
+      ],
+      nodes: [], // Keep active nodes highlighted
+      clearPrevious: false,
+      delayAfter: 1200
+    },
+    {
+      logs: [
+        { text: 'QA-LEAD: Executing parallel unit & integration tests...', type: 'cmd' },
+        { text: 'UNIT-TESTS: Running 24 local unit assertions...', type: 'output' },
+        { text: 'INTEGRATION: Performing Puppeteer end-to-end check...', type: 'output' }
+      ],
+      nodes: [
+        { label: 'Unit Tests', color: 'cyan' },
+        { label: 'Integration', color: 'cyan' }
+      ],
+      clearPrevious: true, // clear details, keep test scopes focused
+      delayAfter: 1200
+    },
+    {
+      logs: [
+        { text: 'UNIT-TESTS: ✓ All 24 unit assertions successful.', type: 'success' },
+        { text: 'INTEGRATION: ✓ E2E user auth flow verified.', type: 'success' },
+        { text: 'DAG-LEAD: All team branches verified. Merging branch clean.', type: 'success' }
+      ],
+      nodes: [
+        { label: 'Tech Lead', color: 'purple' }
+      ],
+      clearPrevious: true,
+      delayAfter: 800
+    }
+  ];
+
+  function runDagSimulation() {
+    if (isDagSimulating) return;
+
+    isDagSimulating = true;
+    btnRunDag.disabled = true;
+    btnRunDag.textContent = 'Executing graph...';
+    dagStatus.classList.add('active');
+    dagStatus.querySelector('span:last-child').textContent = 'EXECUTING';
+    dagConsole.style.display = 'block';
+    dagConsole.innerHTML = '';
+    clearMermaidHighlights();
+
+    let waveIdx = 0;
+
+    function executeWave() {
+      if (!isDagSimulating || waveIdx >= dagWaves.length) {
+        finishDagSimulation();
+        return;
+      }
+
+      const wave = dagWaves[waveIdx];
+
+      // Highlight/Clear nodes in parallel
+      if (wave.clearPrevious) {
+        clearMermaidHighlights();
+      }
+      wave.nodes.forEach(node => {
+        highlightMermaidNode(node.label, node.color);
+      });
+
+      // Stream logs for this wave with very short staggered delays to mimic concurrency
+      let logIdx = 0;
+      function printWaveLog() {
+        if (!isDagSimulating) return;
+        if (logIdx < wave.logs.length) {
+          const log = wave.logs[logIdx];
+          const line = document.createElement('p');
+          line.className = `inline-console-line ${log.type === 'info' ? 'cmd' : log.type}`;
+          line.textContent = log.text;
+          dagConsole.appendChild(line);
+          dagConsole.scrollTop = dagConsole.scrollHeight;
+
+          logIdx++;
+          setTimeout(printWaveLog, 150); // fast staggered stdout prints
+        } else {
+          // Finished this wave, schedule next wave
+          waveIdx++;
+          dagTimeout = setTimeout(executeWave, wave.delayAfter || 800);
+        }
+      }
+
+      printWaveLog();
+    }
+
+    executeWave();
+  }
+
+  function finishDagSimulation() {
+    isDagSimulating = false;
+    btnRunDag.disabled = false;
+    btnRunDag.textContent = 'Run Graph Simulation';
+    dagStatus.classList.remove('active');
+    dagStatus.querySelector('span:last-child').textContent = 'ONLINE';
+    setTimeout(clearMermaidHighlights, 3000);
+  }
+
+  btnRunDag.addEventListener('click', runDagSimulation);
+
+  // --- GENERAL READING UTILITIES ---
   const bar = document.getElementById('rp');
   const article = document.querySelector('article.post');
+
   function updateProgress() {
+    if (!article) return;
     const rect = article.getBoundingClientRect();
     const start = rect.top + window.scrollY - 80;
     const end = rect.bottom + window.scrollY - window.innerHeight;
     const p = Math.max(0, Math.min(1, (window.scrollY - start) / Math.max(1, end - start)));
     bar.style.width = (p * 100).toFixed(1) + '%';
   }
+
   window.addEventListener('scroll', updateProgress, { passive: true });
   window.addEventListener('resize', updateProgress);
   updateProgress();
 
-  // ToC active-link via IntersectionObserver
+  // Smooth scroll ToC clicks
   const tocLinks = [...document.querySelectorAll('.toc a')];
-  const sectionIds = tocLinks.map(a => a.getAttribute('href').slice(1));
-  const sections = sectionIds.map(id => document.getElementById(id)).filter(Boolean);
-
-  const setActive = (id) => {
-    tocLinks.forEach(a => a.classList.toggle('is-active', a.getAttribute('href') === '#' + id));
-  };
-
-  const io = new IntersectionObserver((entries) => {
-    const visible = entries
-      .filter(e => e.isIntersecting)
-      .sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top);
-    if (visible[0]) setActive(visible[0].target.id);
-  }, { rootMargin: '-20% 0px -70% 0px', threshold: 0 });
-
-  sections.forEach(s => io.observe(s));
-
-  // smooth scroll ToC clicks
   tocLinks.forEach(a => {
     a.addEventListener('click', (e) => {
       const id = a.getAttribute('href').slice(1);
@@ -614,9 +1008,14 @@ flowchart TD
       const y = el.getBoundingClientRect().top + window.scrollY - 100;
       window.scrollTo({ top: y, behavior: 'smooth' });
       history.replaceState(null, '', '#' + id);
+      
+      // Update TOC active state
+      tocLinks.forEach(lnk => lnk.classList.toggle('is-active', lnk === a));
     });
   });
+
 })();
 </script>
+
 </body>
 </html>
