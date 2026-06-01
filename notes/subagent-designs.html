@@ -3,628 +3,799 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Subagent Designs &mdash; Jiongan Mu</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<title>Subagent Designs &mdash; Studio Notes</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Spectral:ital,wght@0,400;0,500;0,600;1,400&family=Caveat:wght@400;500;600;700&display=swap" rel="stylesheet" />
 <style>
-/* =======================================================
-   Subagent Designs — Elegant Content-Focused Style
-   Theme: High-End Minimalist Tech Editorial
-======================================================= */
+/* ============================================================
+   STUDIO NOTES — sketchbook blog
+   ============================================================ */
 
-@import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,300;1,9..144,400;1,9..144,600;1,9..144,700&family=JetBrains+Mono:wght@300;400;500&display=swap');
+:root{
+  --font-display: "EB Garamond", Georgia, serif;
+  --font-body: "Spectral", Georgia, serif;
+  --font-hand: "Caveat", "Segoe Script", cursive;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
 
-:root {
-  --bg: #f5f3ee;
-  --bg-deep: #ebe8e0;
-  --ink: #0e0e0e;
-  --ink-2: #2a2a2a;
-  --muted: #8a8a85;
-  --rule: #d6d3cb;
-  --accent: #1f6a3d;           /* designated forest green */
-  --accent-soft: #9cc9ad;
-  --grain: 0.04;
-  
-  --serif: "Fraunces", Georgia, serif;
-  --mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
-  --pad-x: clamp(20px, 5vw, 40px);
-}
+  --desk:    #cfc7b6;
+  --desk-2:  #c4bba8;
+  --paper:   #f4f0e5;
+  --paper-2: #ece4d2;
+  --paper-3: #e6dcc4;
+  --ruled:   #c9bfa8;
 
-* { box-sizing: border-box; }
+  --ink:      #2c2820;
+  --ink-soft: #564e40;
+  --ink-faint:#857a64;
+  --pencil:   #6f6657;
 
-body {
-  background-color: var(--bg);
-  color: var(--ink-2);
-  font-family: var(--serif);
-  font-variation-settings: "opsz" 14;
-  font-weight: 400;
-  line-height: 1.65;
-  margin: 0; padding: 0;
-  -webkit-font-smoothing: antialiased;
-  overflow-x: hidden;
-}
+  --accent: oklch(0.50 0.075 150);
+  --accent-soft: oklch(0.50 0.075 150 / 0.16);
 
-/* grain */
-.grain {
-  position: fixed; inset: 0; pointer-events: none; z-index: 200;
-  opacity: var(--grain); mix-blend-mode: multiply;
-  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)' opacity='0.6'/></svg>");
-  background-size: 200px 200px;
+  --tape: rgba(210, 196, 158, 0.5);
+  --tape-edge: rgba(176, 161, 122, 0.55);
+
+  --shadow-note: 0 1px 1px rgba(60,50,30,.06), 0 8px 18px rgba(60,50,30,.13);
+
+  --grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 0.42 0 0 0 0 0.36 0 0 0 0 0.24 0 0 0 0.55 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  --squiggle: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='44' height='8'%3E%3Cpath d='M0 5 Q5.5 1 11 5 T22 5 T33 5 T44 5' stroke='black' stroke-width='2.6' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+  --blob: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 28'%3E%3Cpath fill='black' d='M3 6C8 1 30 0 37 5c3 7 2 17-3 20-9 4-28 3-32-3C-1 16 0 10 3 6Z'/%3E%3C/svg%3E");
+  --torn-edge: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 60' preserveAspectRatio='none'%3E%3Cpath fill='black' d='M0 4 6 2 12 5 19 2 26 5 33 2 40 5 48 2 56 5 64 2 72 5 80 2 88 5 95 2 100 5 100 55 94 58 86 55 78 58 70 55 62 58 54 55 46 58 38 55 30 58 22 55 14 58 7 55 0 56Z'/%3E%3C/svg%3E");
 }
 
-a { color: inherit; text-decoration: none; }
+*{ box-sizing:border-box; }
+html{ scroll-behavior:smooth; }
 
-/* read progress */
-.read-progress {
-  position: fixed; top: 0; left: 0; right: 0; height: 2px; z-index: 100;
-  background: transparent;
-}
-.read-progress span {
-  display: block; height: 100%; width: 0%;
-  background: var(--accent);
-  transition: width 100ms linear;
-}
-
-/* top nav */
-.post-top {
-  position: sticky; top: 0;
-  padding: 18px var(--pad-x);
-  display: flex; justify-content: space-between;
-  align-items: center;
-  background: color-mix(in srgb, var(--bg) 92%, transparent);
-  backdrop-filter: blur(8px);
-  z-index: 90;
-  border-bottom: 1px solid var(--rule);
-}
-.post-top .back {
-  font-family: var(--serif); font-style: italic;
-  font-size: 15px; color: var(--ink-2);
-}
-.post-top .back:hover { color: var(--accent); }
-.post-top nav { display: flex; gap: 22px; }
-.post-top nav a {
-  font-family: var(--serif); font-style: italic;
-  font-size: 15px; color: var(--muted);
-}
-.post-top nav a:hover { color: var(--ink); }
-
-/* layout */
-.post-shell {
-  max-width: 680px;
-  margin: 0 auto;
-  padding: 60px var(--pad-x) 100px;
+body{
+  margin:0;
+  background:
+    radial-gradient(120% 80% at 50% -10%, var(--desk) 0%, var(--desk-2) 70%, #b9b09c 100%);
+  color:var(--ink);
+  font-family:var(--font-body);
+  font-size:18px;
+  line-height:1.62;
+  -webkit-font-smoothing:antialiased;
+  padding:40px 18px 80px;
 }
 
-article.post {
-  width: 100%;
+.sheet{
+  position:relative;
+  max-width:1200px;
+  margin:0 auto;
+  background:var(--paper);
+  box-shadow:
+    0 2px 4px rgba(40,30,15,.10),
+    0 28px 60px rgba(40,30,15,.30);
+}
+.sheet::before{
+  content:""; position:absolute; inset:0;
+  background-image:var(--grain);
+  opacity:.5; mix-blend-mode:multiply;
+  pointer-events:none; z-index:0;
+}
+.sheet::after{
+  content:""; position:absolute; inset:0;
+  background:radial-gradient(110% 70% at 50% 40%, transparent 60%, rgba(120,100,60,.10) 100%);
+  pointer-events:none; z-index:1;
 }
 
-/* Premium Top Content Outline */
-.toc {
-  margin-bottom: 40px;
-  padding: 20px 0;
-  border-top: 1px solid var(--rule);
-  border-bottom: 1px solid var(--rule);
-}
-.toc-label {
-  font-family: var(--mono); font-size: 10px;
-  text-transform: uppercase; letter-spacing: 0.16em;
-  color: var(--accent);
-  margin-bottom: 14px;
-  display: block;
-}
-.toc ol {
-  list-style: none; margin: 0; padding: 0;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 12px 24px;
-}
-.toc a {
-  display: block;
-  font-family: var(--mono);
-  font-size: 11px;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  color: var(--muted);
-  transition: all 180ms ease;
-}
-.toc a:hover {
-  color: var(--ink);
-}
-.toc a.is-active {
-  color: var(--accent);
-  font-weight: 500;
+.page{
+  position:relative; z-index:2;
+  display:grid;
+  grid-template-columns: 188px minmax(0,1fr) 250px;
+  gap:0 38px;
+  padding:44px 54px 40px 54px;
 }
 
-@media (max-width: 640px) {
-  .toc ol {
-    grid-template-columns: 1fr;
-    gap: 10px;
-  }
+.topbar{
+  display:flex; justify-content:space-between; align-items:baseline;
+  grid-column:1 / -1; margin-bottom:30px; gap:16px;
+}
+.topbar .back{
+  font-family:var(--font-hand); font-size:20px; color:var(--ink-soft);
+  text-decoration:none; white-space:nowrap;
+}
+.topbar .back:hover{ color:var(--ink); }
+.topbar .filed{
+  font-family:var(--font-body); font-size:13px; letter-spacing:.04em;
+  color:var(--ink-faint); border-bottom:1px solid var(--ruled); padding-bottom:3px;
 }
 
-.post-header {
-  padding-bottom: 40px;
-  margin-bottom: 48px;
-  border-bottom: 1px solid var(--ink);
+/* RAIL spans the headzone + body rows so body sits alongside the rail */
+.rail{
+  position:relative; z-index:3;
+  grid-column:1; grid-row:2 / span 2;
 }
-.post-kicker {
-  display: flex; gap: 14px; align-items: center;
-  font-family: var(--mono); font-size: 11px;
-  text-transform: uppercase; letter-spacing: 0.16em;
-  color: var(--muted);
-  margin-bottom: 24px;
+.rail .brand{
+  font-family:var(--font-hand);
+  font-size:25px; letter-spacing:.04em;
+  text-transform:uppercase; color:var(--ink);
+  line-height:1;
 }
-.post-kicker .dot { width: 4px; height: 4px; border-radius: 50%; background: var(--muted); }
-.post-kicker .tag { color: var(--accent); }
-
-.post-title {
-  margin: 0 0 20px;
-  font-family: var(--serif); font-weight: 400;
-  font-size: clamp(38px, 5vw, 56px);
-  line-height: 1.08;
-  letter-spacing: -0.025em;
-  color: var(--ink);
-  font-variation-settings: "opsz" 96;
+.rail .blurb{
+  font-family:var(--font-hand);
+  font-size:18px; line-height:1.34; color:var(--ink-soft);
+  margin-top:12px;
+  border-bottom:1px solid var(--ruled); padding-bottom:18px;
 }
-.post-title em { font-style: italic; color: var(--accent); font-weight: 400; }
-
-.post-dek {
-  margin: 0 0 28px;
-  font-family: var(--serif); font-style: italic;
-  font-size: clamp(18px, 1.6vw, 21px);
-  line-height: 1.5;
-  color: var(--muted);
-  letter-spacing: -0.005em;
-  text-wrap: pretty;
+.rail nav{ margin-top:20px; display:flex; flex-direction:column; gap:9px; }
+.rail nav a{
+  font-family:var(--font-hand);
+  font-size:22px; color:var(--ink-soft);
+  text-decoration:none; width:max-content;
+  transition:color .15s, transform .15s;
+}
+.rail nav a:hover{ color:var(--ink); transform:translateX(2px); }
+.rail nav a.active{ color:var(--accent); }
+.rail nav a.active::after{
+  content:""; display:block; height:5px; margin-top:1px;
+  background:var(--accent);
+  -webkit-mask:var(--squiggle) repeat-x left center/auto 5px;
+  mask:var(--squiggle) repeat-x left center/auto 5px;
 }
 
-.post-meta {
-  display: flex; flex-wrap: wrap; gap: 20px;
-  font-family: var(--mono); font-size: 11px;
-  text-transform: uppercase; letter-spacing: 0.14em;
-  color: var(--muted);
+.aside-note{
+  font-family:var(--font-hand);
+  font-size:19px; line-height:1.3; color:var(--ink-soft);
 }
-.post-meta strong { color: var(--ink); font-weight: 400; }
-.post-meta .sep { opacity: 0.4; }
+.rail .stack{ display:flex; flex-direction:column; gap:30px; margin-top:36px; }
 
-/* prose */
-.prose {
-  font-size: 18px;
-  line-height: 1.7;
-  color: var(--ink-2);
-}
-.prose > * + * { margin-top: 1.2em; }
-
-.prose p { margin: 0; text-wrap: pretty; }
-.prose em { font-style: italic; color: var(--ink); }
-.prose strong { font-weight: 500; color: var(--ink); }
-
-.prose h2 {
-  margin-top: 2.2em; margin-bottom: 0.6em;
-  font-family: var(--serif); font-weight: 500;
-  font-size: clamp(24px, 2.5vw, 30px);
-  line-height: 1.2;
-  letter-spacing: -0.015em;
-  color: var(--ink);
-  font-variation-settings: "opsz" 60;
-  scroll-margin-top: 90px;
-}
-.prose h2 em { font-style: italic; color: var(--accent); font-weight: 400; }
-.prose h2::before {
-  content: "§ " attr(data-n);
-  display: block;
-  font-family: var(--mono); font-size: 10px;
-  font-weight: 400;
-  text-transform: uppercase; letter-spacing: 0.18em;
-  color: var(--muted);
-  margin-bottom: 8px;
+.swatches{ display:flex; flex-wrap:wrap; gap:7px; max-width:150px; }
+.swatch{
+  width:38px; height:26px; border-radius:3px;
+  filter:saturate(.85);
+  -webkit-mask:var(--blob); mask:var(--blob);
+  -webkit-mask-size:cover; mask-size:cover;
+  box-shadow:inset 0 0 8px rgba(0,0,0,.12);
 }
 
-/* drop cap */
-.prose > p:first-of-type::first-letter {
-  float: left;
-  font-family: var(--serif); font-weight: 400;
-  font-size: 4.5em;
-  line-height: 0.85;
-  padding: 0.08em 0.1em 0 0;
-  color: var(--accent);
-  font-variation-settings: "opsz" 144;
-  font-style: italic;
+/* Headzone */
+.headzone{ grid-column:2 / -1; grid-row:2; position:relative; }
+.headzone .swatch-cluster{
+  position:absolute; right:0; top:-6px; display:flex; gap:7px;
+}
+.headzone .swatch-cluster .swatch{
+  -webkit-mask:none; mask:none; border-radius:2px 3px 2px 4px;
 }
 
-.prose a {
-  color: var(--ink);
-  text-decoration: none;
-  border-bottom: 1px solid var(--rule);
-  transition: border-color 200ms ease, color 200ms ease;
+.kicker{
+  font-family:var(--font-hand);
+  font-size:21px; color:var(--ink-soft);
+  letter-spacing:.02em;
 }
-.prose a:hover { color: var(--accent); border-bottom-color: var(--accent); }
+h1.title{
+  font-family:var(--font-display);
+  font-weight:600;
+  font-size:74px; line-height:.98;
+  letter-spacing:-.01em;
+  margin:.1em 0 .28em;
+  color:var(--ink);
+}
+h1.title em{ font-style:italic; color:var(--accent); font-weight:600; }
+.lede{
+  font-family:var(--font-hand);
+  font-size:25px; line-height:1.32;
+  color:var(--ink-soft);
+}
+.meta{
+  display:flex; align-items:flex-start; gap:15px;
+  margin:22px 0 4px;
+  border-top:1px solid var(--ruled);
+  padding-top:22px;
+}
+.stamp{
+  flex:0 0 auto;
+  width:46px; height:46px;
+  margin-top:-10px;            /* center the seal on the name line */
+  display:grid; place-items:center;
+  font-family:var(--font-hand);
+  font-size:24px; font-weight:600; letter-spacing:.01em;
+  color:var(--accent);
+  border:1.5px solid var(--accent);
+  border-radius:50%;
+  background:rgba(255,255,255,.22);
+  box-shadow:0 0 0 3px rgba(244,240,229,.55), inset 0 0 0 2px var(--accent-soft);
+  transform:rotate(-8deg);
+}
+.byline{ display:flex; flex-direction:column; gap:5px; }
+.byline .who{
+  font-family:var(--font-hand);
+  font-size:26px; line-height:1; color:var(--ink);
+  width:max-content;
+}
+.byline .who::after{
+  content:""; display:block; height:4px; margin-top:4px; width:100%;
+  background:var(--accent);
+  -webkit-mask:var(--squiggle) repeat-x left center/auto 4px;
+  mask:var(--squiggle) repeat-x left center/auto 4px;
+  opacity:.5;
+}
+.byline .when{
+  font-family:var(--font-body); font-size:13px;
+  letter-spacing:.03em; color:var(--ink-faint);
+}
+.byline .when b{ color:var(--ink-soft); font-weight:500; }
 
-.prose code {
-  font-family: var(--mono); font-size: 0.85em;
-  background: var(--bg-deep);
-  padding: 2px 6px;
-  border-radius: 3px;
-  color: var(--ink);
-  border: 1px solid var(--rule);
-  white-space: nowrap;
+/* Body */
+.body{ grid-column:2; grid-row:3; min-width:0; }
+.body h2{
+  font-family:var(--font-hand);
+  font-weight:600;
+  font-size:33px; line-height:1.1;
+  color:var(--ink);
+  margin:1.7em 0 .5em;
+  scroll-margin-top:24px;
 }
-
-.prose .opener {
-  font-family: var(--serif);
-  font-style: italic;
-  font-weight: 300;
-  font-size: clamp(22px, 2vw, 26px);
-  line-height: 1.3;
-  color: var(--ink);
-  margin-top: 2em;
-  text-wrap: pretty;
+.body h2 .num{ color:var(--accent); margin-right:.18em; }
+.body h2 em{ font-style:italic; color:var(--accent); }
+.body h2::after{
+  content:""; display:block;
+  height:7px; margin-top:6px;
+  width:min(360px,72%);
+  background:var(--accent);
+  -webkit-mask:var(--squiggle) repeat-x left center / auto 7px;
+  mask:var(--squiggle) repeat-x left center / auto 7px;
+  opacity:.85;
 }
-.prose .opener em { color: var(--accent); }
-
-.prose .pull {
-  margin: 2em 0;
-  padding: 16px 0 16px 24px;
-  border-left: 2px solid var(--accent);
-  font-family: var(--serif); font-style: italic;
-  font-size: clamp(19px, 2vw, 22px);
-  line-height: 1.4;
-  color: var(--ink);
-}
-
-.prose hr {
-  margin: 2.5em auto;
-  width: 60px; border: none; height: 1px;
-  background: var(--rule);
-  position: relative;
-}
-.prose hr::after {
-  content: "§";
-  position: absolute;
-  left: 50%; top: 50%;
-  transform: translate(-50%, -50%);
-  font-family: var(--serif); font-style: italic;
-  color: var(--muted); font-size: 14px;
-  background: var(--bg); padding: 0 8px;
-}
-
-/* =======================================================
-   INLINE INTERACTIVE WIDGETS
-======================================================= */
-.interactive-card {
-  margin: 2.2em 0;
-  background: rgba(0, 0, 0, 0.015);
-  border: 1px solid var(--rule);
-  border-radius: 8px;
-  padding: 20px;
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.01);
-}
-
-.widget-header {
-  display: flex; justify-content: space-between; align-items: center;
-  border-bottom: 1px solid var(--rule);
-  padding-bottom: 10px;
-}
-.widget-title {
-  font-family: var(--mono); font-size: 10px; color: var(--accent);
-  text-transform: uppercase; letter-spacing: 0.1em; font-weight: 500;
-}
-.widget-status {
-  font-family: var(--mono); font-size: 10px; color: var(--muted);
-  display: flex; align-items: center; gap: 6px;
-}
-.widget-status .dot {
-  width: 6px; height: 6px; border-radius: 50%; background: var(--muted);
-}
-.widget-status.active .dot {
-  background: var(--accent);
-  box-shadow: 0 0 6px var(--accent);
-  animation: pulseLight 1.5s infinite alternate;
-}
-@keyframes pulseLight { from { opacity: 0.4; } to { opacity: 1; } }
-
-/* Level 1 Catalog Cards */
-.catalog-tabs {
-  display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px;
-}
-.catalog-tab {
-  background: var(--bg-deep); border: 1px solid var(--rule);
-  border-radius: 6px; padding: 10px; cursor: pointer; text-align: left;
-  transition: all 150ms ease;
-}
-.catalog-tab:hover { background: rgba(0, 0, 0, 0.03); }
-.catalog-tab.active {
-  border-color: var(--accent);
-  background: color-mix(in srgb, var(--accent) 5%, transparent);
-}
-.catalog-tab-name {
-  font-family: var(--mono); font-size: 12px; font-weight: 500;
-  color: var(--ink); margin-bottom: 4px; display: block;
-}
-.catalog-tab-desc {
-  font-size: 11px; color: var(--muted); line-height: 1.3; display: block;
+.body p{ margin:0 0 1.05em; }
+.body p:first-of-type{ margin-top:.2em; }
+.body strong{ font-weight:600; color:var(--ink); }
+.body em{ font-style:italic; color:var(--ink); }
+.body a{ color:var(--accent); text-decoration:none; border-bottom:1px solid var(--accent-soft); }
+.body a:hover{ border-bottom-color:var(--accent); }
+.body code{
+  font-family:var(--font-body); font-style:italic; font-size:.95em;
+  background:rgba(255,255,255,.4);
+  padding:1px 6px; border-radius:2px;
+  color:var(--ink); border:1px solid rgba(120,100,60,.25);
 }
 
-.catalog-panel {
-  background: #1e1e1e; border-radius: 6px; padding: 14px;
-  font-family: var(--mono); font-size: 12px; line-height: 1.5; color: #f8fafc;
-  min-height: 130px; display: none;
-  animation: tabFade 250ms ease forwards;
+.body .opening::first-letter{
+  font-family:var(--font-display);
+  float:left; font-size:78px; line-height:.74;
+  padding:8px 10px 0 0; color:var(--accent);
+  font-weight:600; font-style:italic;
 }
-.catalog-panel.active { display: block; }
-@keyframes tabFade { from { opacity: 0; } to { opacity: 1; } }
+.body .opener{
+  font-family:var(--font-display); font-style:italic;
+  font-size:24px; line-height:1.35; color:var(--ink);
+  margin:1.4em 0;
+}
+.body .opener em{ color:var(--accent); }
 
-/* Level 2 Visual Flow */
-.dynamic-flow-box {
-  display: grid; grid-template-columns: 1fr auto 1fr auto 1fr; gap: 12px;
-  align-items: center; padding: 10px 0;
+.pullquote, .body .pull{
+  font-family:var(--font-display);
+  font-style:italic;
+  font-size:26px; line-height:1.32;
+  color:var(--ink);
+  margin:1.4em 0; padding:.2em 0 .2em 22px;
+  border-left:3px solid var(--accent);
 }
-.flow-step {
-  background: var(--bg-deep); border: 1px solid var(--rule);
-  border-radius: 6px; padding: 12px;
-  font-size: 13px; line-height: 1.4;
-}
-.flow-step strong {
-  font-family: var(--mono); font-size: 11px; color: var(--accent);
-  text-transform: uppercase; display: block; margin-bottom: 4px;
-}
-.flow-arrow {
-  color: var(--rule); font-size: 18px; font-weight: 300;
-}
+.pullquote em, .body .pull em{ color:var(--accent); }
 
-/* Level 3 Interactive Diagram */
-.diagram-container {
-  background: var(--bg-deep);
-  border: 1px solid var(--rule);
-  border-radius: 6px;
-  padding: 20px;
-  display: flex; flex-direction: column; align-items: center;
-  position: relative;
-  overflow: hidden;
-}
-.diagram-container svg {
-  background: transparent !important;
-  width: 100% !important;
-  max-width: 650px !important;
-  height: auto !important;
-}
-.dag-node-highlight {
-  stroke: var(--accent) !important;
-  stroke-width: 3px !important;
-  fill: color-mix(in srgb, var(--accent) 15%, transparent) !important;
-  filter: drop-shadow(0 0 4px var(--accent-soft)) !important;
-  transition: all 180ms ease;
-}
-.dag-node-highlight-purple {
-  stroke: #7c3aed !important;
-  stroke-width: 3px !important;
-  fill: rgba(124, 58, 237, 0.08) !important;
-  filter: drop-shadow(0 0 4px #c084fc) !important;
-  transition: all 180ms ease;
+.body hr{
+  margin:2em auto; width:120px; border:none; height:7px;
+  background:var(--accent);
+  -webkit-mask:var(--squiggle) repeat-x left center / auto 7px;
+  mask:var(--squiggle) repeat-x left center / auto 7px;
+  opacity:.6;
 }
 
-.widget-control-row {
-  display: flex; justify-content: space-between; align-items: center;
-  margin-top: 4px;
+.body ul.notes{ list-style:none; margin:1em 0 1.2em; padding:0; }
+.body ul.notes li{
+  position:relative; padding:.18em 0 .18em 26px; margin:0;
 }
-.widget-btn {
-  background: transparent;
-  color: var(--accent);
-  border: 1px solid var(--accent);
-  font-family: var(--mono);
-  font-size: 10px;
-  font-weight: 500;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  padding: 8px 16px;
-  border-radius: 99px; /* premium pill shape */
-  cursor: pointer;
-  transition: all 300ms cubic-bezier(0.16, 1, 0.3, 1);
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-}
-.widget-btn:hover {
-  background: rgba(31, 106, 61, 0.08);
-  border-color: rgba(31, 106, 61, 0.4);
-  transform: translateY(-0.5px);
-}
-.widget-btn:active {
-  transform: translateY(0.5px);
-}
-.widget-btn:disabled {
-  border-color: var(--rule);
-  color: var(--muted);
-  background: transparent;
-  cursor: not-allowed;
-  box-shadow: none;
-}
-.widget-info-text {
-  font-family: var(--mono); font-size: 11px; color: var(--muted);
+.body ul.notes li::before{
+  content:""; position:absolute; left:2px; top:.78em;
+  width:9px; height:9px; border-radius:50%;
+  border:2px solid var(--accent);
 }
 
-.inline-console {
-  background: #1e1e1e; border-radius: 6px; padding: 12px;
-  font-family: var(--mono); font-size: 11px; color: #cbd5e1;
-  max-height: 120px; overflow-y: auto; display: none;
-  margin-top: 12px;
+/* notes / tape */
+.note{
+  position:relative;
+  background:var(--paper-2);
+  background-image:var(--grain);
+  padding:16px 18px;
+  box-shadow:var(--shadow-note);
+  font-family:var(--font-hand);
+  font-size:19px; line-height:1.32; color:var(--ink-soft);
 }
-.inline-console-line { margin: 0; line-height: 1.4; }
-.inline-console-line.cmd { color: #f59e0b; }
-.inline-console-line.cmd::before { content: "$ "; color: #64748b; }
-.inline-console-line.success { color: #10b981; }
+.note.kraft{ background-color:var(--paper-3); }
+.note.tilt-l{ transform:rotate(-1.4deg); }
+.note.tilt-r{ transform:rotate(1.6deg); }
+.tape{
+  position:absolute; z-index:5;
+  width:88px; height:26px;
+  background:
+    repeating-linear-gradient(90deg, transparent 0 9px, rgba(255,255,255,.12) 9px 10px),
+    var(--tape);
+  border-left:1px dashed var(--tape-edge);
+  border-right:1px dashed var(--tape-edge);
+  box-shadow:0 1px 3px rgba(0,0,0,.08);
+  opacity:.92;
+}
+.tape.t-top{ top:-12px; left:50%; transform:translateX(-50%) rotate(-2deg); }
+.tape.t-tl{ top:-13px; left:14px; transform:rotate(-24deg); }
+.tape.t-tr{ top:-13px; right:14px; transform:rotate(20deg); }
 
-/* Footers */
-.post-foot {
-  margin-top: 60px;
-  padding: 32px 0 24px;
-  border-top: 1px solid var(--rule);
-  display: flex; justify-content: space-between;
-  align-items: center;
-  font-size: 14px;
+.ph{
+  position:relative;
+  background:
+    repeating-linear-gradient(45deg, rgba(120,105,75,.10) 0 9px, transparent 9px 18px),
+    var(--paper-2);
+  border:1px solid rgba(120,100,60,.3);
+  display:grid; place-items:center; text-align:center;
+  color:var(--ink-faint);
 }
-.post-foot .sign { color: var(--muted); }
-.post-foot .sign strong { color: var(--ink); font-weight: 500; }
-.post-foot .share { display: flex; gap: 16px; font-family: var(--mono); font-size: 11px; text-transform: uppercase; }
-.post-foot .share a { color: var(--accent); }
-.post-foot .share a:hover { color: var(--ink); }
+.ph .ph-lbl{
+  font-family:var(--font-mono);
+  font-size:11px; letter-spacing:.05em; text-transform:uppercase;
+  background:rgba(244,240,229,.85); padding:4px 9px; border-radius:2px;
+}
 
-.post-nav {
-  margin-top: 20px;
-  padding-bottom: 60px;
+/* Side rail */
+.side{ position:relative; z-index:3; grid-column:3; grid-row:3; padding-top:6px;
+  display:flex; flex-direction:column; gap:30px;
 }
-.post-nav a {
-  font-family: var(--serif); font-style: italic;
-  font-size: 16px; color: var(--ink-2);
-  display: inline-flex; align-items: center; gap: 8px;
-  transition: gap 200ms ease, color 200ms ease;
+.eyebrow{
+  font-size:11px; letter-spacing:.18em; text-transform:uppercase;
+  color:var(--ink-faint); font-family:var(--font-body); font-weight:600;
+  margin-bottom:10px;
 }
-.post-nav a:hover { color: var(--accent); gap: 14px; }
+.index-card{
+  background:var(--paper-3);
+  background-image:var(--grain);
+  padding:18px 18px 20px;
+  box-shadow:var(--shadow-note);
+  transform:rotate(.7deg);
+}
+.index-card .eyebrow{ color:#7a6c4f; }
+.index-card ol{
+  list-style:none; margin:0; padding:0;
+  font-family:var(--font-hand); font-size:19px; line-height:1.1;
+  color:var(--ink);
+}
+.index-card ol li{
+  display:flex; gap:8px; padding:7px 0;
+  border-bottom:1px dashed rgba(120,100,60,.32);
+  cursor:pointer; transition:color .15s;
+}
+.index-card ol li:last-child{ border-bottom:0; }
+.index-card ol li:hover, .index-card ol li.on{ color:var(--accent); }
+.index-card ol li b{ color:var(--accent); font-weight:600; }
 
-.foot {
-  padding: 40px var(--pad-x);
-  border-top: 1px solid var(--rule);
-  display: flex; justify-content: space-between;
-  align-items: center;
-  background: var(--bg-deep);
+.toc-side{ display:flex; flex-direction:column; gap:12px; }
+.toc-side a{
+  display:flex; align-items:center; gap:12px;
+  text-decoration:none; color:var(--ink-soft);
+  font-family:var(--font-hand); font-size:18px; line-height:1.1;
+  transition:color .15s, transform .15s;
 }
-.foot div { font-family: var(--mono); font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; }
-.foot div a:hover { color: var(--accent); }
+.toc-side a:hover, .toc-side a.active{ color:var(--ink); transform:translateX(2px); }
+.toc-side a.active .toc-ico{ border-color:var(--accent); }
+.toc-ico{
+  flex:0 0 auto; width:42px; height:34px;
+  border:1px solid rgba(120,100,60,.4);
+  display:grid; place-items:center;
+  background:rgba(255,255,255,.25);
+}
+.toc-ico svg{ width:26px; height:22px; }
 
-/* Responsive */
-@media (max-width: 640px) {
-  .post-title { font-size: 36px; }
-  .prose { font-size: 17px; }
-  .post-foot { flex-direction: column; align-items: flex-start; gap: 16px; }
-  .foot { flex-direction: column; gap: 12px; text-align: center; }
-  .catalog-tabs { grid-template-columns: 1fr; }
-  .dynamic-flow-box { grid-template-columns: 1fr; text-align: center; }
-  .flow-arrow { transform: rotate(90deg); margin: 4px 0; display: block; }
+.last-edited{ font-family:var(--font-body); }
+.last-edited .eyebrow{ margin-bottom:4px; }
+.last-edited .d{ font-family:var(--font-hand); font-size:20px; color:var(--ink-soft); }
+
+/* Progress bar */
+.progress{
+  position:fixed; left:0; top:0; height:3px; width:0;
+  background:var(--accent); z-index:40; opacity:.8;
+}
+
+/* Footer */
+.foot{
+  grid-column:1 / -1; grid-row:4;
+  margin-top:42px;
+  border-top:1px solid var(--ruled); padding-top:22px;
+  display:grid; grid-template-columns:1fr auto 1fr; gap:20px; align-items:center;
+}
+.foot .pn{ display:flex; align-items:center; gap:12px; text-decoration:none; color:inherit; }
+.foot .pn.next{ justify-content:flex-end; text-align:right; }
+.foot .pn .thumb{
+  width:64px; height:46px; flex:0 0 auto;
+  background:repeating-linear-gradient(45deg, rgba(120,105,75,.12) 0 7px, transparent 7px 14px), var(--paper-2);
+  border:1px solid rgba(120,100,60,.3);
+}
+.foot .pn .lbl{ font-family:var(--font-body); font-size:12px; letter-spacing:.06em; text-transform:uppercase; color:var(--ink-faint); }
+.foot .pn .ttl{ font-family:var(--font-hand); font-size:21px; color:var(--ink); line-height:1.05; }
+.foot .pn:hover .ttl{ color:var(--accent); }
+.foot .mid{ font-family:var(--font-hand); font-size:18px; color:var(--ink-faint); text-align:center; line-height:1.3; }
+
+/* reveal */
+.reveal{ opacity:0; transform:translateY(14px) rotate(var(--rot,0deg)); }
+.reveal.shown{
+  opacity:1; transform:translateY(0) rotate(var(--rot,0deg));
+  transition:opacity .7s ease, transform .7s cubic-bezier(.2,.7,.3,1);
+}
+
+/* ============================================================
+   INTERACTIVE WIDGETS — sketchbook style
+   ============================================================ */
+.interactive-card{
+  position:relative;
+  margin:1.8em 0;
+  background:var(--paper-2);
+  background-image:var(--grain);
+  padding:18px 20px 18px;
+  box-shadow:var(--shadow-note);
+  transform:rotate(.3deg);
+}
+.interactive-card.tilt-l{ transform:rotate(-.4deg); }
+
+.widget-header{
+  display:flex; justify-content:space-between; align-items:center;
+  gap:14px;
+  border-bottom:1px dashed rgba(120,100,60,.4);
+  padding-bottom:10px; margin-bottom:14px;
+}
+.widget-title{
+  font-family:var(--font-hand);
+  font-size:21px;
+  color:var(--ink);
+  line-height:1;
+}
+.widget-info-text{
+  font-family:var(--font-body); font-size:12px;
+  color:var(--ink-faint); letter-spacing:.04em;
+  font-style:italic;
+}
+.widget-status{
+  font-family:var(--font-body); font-size:11px;
+  color:var(--ink-faint); letter-spacing:.14em; text-transform:uppercase;
+  display:flex; align-items:center; gap:6px;
+}
+.widget-status .dot{
+  width:7px; height:7px; border-radius:50%;
+  background:var(--ink-faint);
+}
+.widget-status.active .dot{
+  background:var(--accent);
+  box-shadow:0 0 6px var(--accent);
+  animation:pulseLight 1.5s infinite alternate;
+}
+@keyframes pulseLight{ from{opacity:.4;} to{opacity:1;} }
+
+/* Catalog tabs (level 1) */
+.catalog-tabs{
+  display:grid; grid-template-columns:1fr 1fr 1fr; gap:10px;
+  margin-bottom:14px;
+}
+.catalog-tab{
+  background:rgba(255,255,255,.4);
+  border:1px solid rgba(120,100,60,.35);
+  padding:10px 12px; cursor:pointer; text-align:left;
+  transition:all .15s ease;
+  font-family:var(--font-body);
+}
+.catalog-tab:hover{ background:rgba(255,255,255,.65); transform:translateY(-1px); }
+.catalog-tab.active{
+  background:rgba(255,255,255,.85);
+  border-color:var(--accent);
+  box-shadow:0 1px 0 var(--accent), 0 2px 6px rgba(60,50,30,.1);
+}
+.catalog-tab-name{
+  font-family:var(--font-hand); font-size:20px;
+  color:var(--ink); display:block; margin-bottom:2px;
+  line-height:1.05;
+}
+.catalog-tab.active .catalog-tab-name{ color:var(--accent); }
+.catalog-tab-desc{
+  font-family:var(--font-body); font-size:12px;
+  color:var(--ink-faint); line-height:1.35; display:block;
+}
+
+.catalog-panel{
+  background:#2a2520;
+  border:1px solid rgba(120,100,60,.4);
+  border-radius:2px;
+  padding:14px 16px;
+  font-family:var(--font-body);
+  font-size:14px; line-height:1.6;
+  color:#e6dcc4;
+  min-height:130px; display:none;
+  animation:tabFade 250ms ease forwards;
+  position:relative;
+}
+.catalog-panel::before{
+  content:"$"; position:absolute; left:14px; top:14px;
+  color:#857a64; font-family:var(--font-body);
+}
+.catalog-panel{ padding-left:34px; }
+.catalog-panel.active{ display:block; }
+@keyframes tabFade{ from{opacity:0;} to{opacity:1;} }
+
+/* Dynamic flow box (level 2) */
+.dynamic-flow-box{
+  display:grid;
+  grid-template-columns: 1fr auto 1fr auto 1fr;
+  gap:12px; align-items:stretch;
+  padding:6px 0;
+}
+.flow-step{
+  background:rgba(255,255,255,.5);
+  border:1px solid rgba(120,100,60,.3);
+  padding:12px 14px;
+  font-family:var(--font-body);
+  font-size:13.5px; line-height:1.4;
+  color:var(--ink-soft);
+  position:relative;
+}
+.flow-step strong{
+  font-family:var(--font-hand);
+  font-size:18px; color:var(--accent);
+  display:block; margin-bottom:4px;
+  font-weight:600; text-transform:none;
+}
+.flow-arrow{
+  color:var(--pencil); font-size:24px;
+  font-family:var(--font-hand);
+  display:grid; place-items:center;
+}
+
+/* Diagram (level 3) */
+.diagram-container{
+  background:rgba(255,255,255,.32);
+  border:1px solid rgba(120,100,60,.3);
+  padding:18px;
+  display:flex; flex-direction:column; align-items:center;
+  position:relative; overflow:hidden;
+}
+.diagram-container svg{
+  background:transparent !important;
+  width:100% !important;
+  max-width:650px !important;
+  height:auto !important;
+}
+.dag-node-highlight{
+  stroke:var(--accent) !important;
+  stroke-width:3px !important;
+  fill:rgba(74,107,79,0.14) !important;
+  filter:drop-shadow(0 0 4px rgba(74,107,79,0.45)) !important;
+  transition:all 180ms ease;
+}
+.dag-node-highlight-purple{
+  stroke:#7c5236 !important;
+  stroke-width:3px !important;
+  fill:rgba(124,82,54,0.10) !important;
+  filter:drop-shadow(0 0 4px rgba(174,128,82,0.5)) !important;
+  transition:all 180ms ease;
+}
+
+.widget-control-row{
+  display:flex; justify-content:space-between; align-items:center;
+  margin-top:12px; gap:14px; flex-wrap:wrap;
+}
+.widget-btn{
+  background:rgba(255,255,255,.4);
+  color:var(--accent);
+  border:1px solid var(--accent);
+  font-family:var(--font-hand);
+  font-size:17px; line-height:1;
+  padding:8px 16px;
+  cursor:pointer;
+  transition:all .25s cubic-bezier(.16,1,.3,1);
+}
+.widget-btn:hover{
+  background:var(--accent);
+  color:#fff;
+  transform:translateY(-1px);
+}
+.widget-btn:active{ transform:translateY(0); }
+.widget-btn:disabled{
+  border-color:rgba(120,100,60,.4);
+  color:var(--ink-faint); background:rgba(255,255,255,.2);
+  cursor:not-allowed;
+}
+
+.inline-console{
+  background:#2a2520;
+  border:1px solid rgba(120,100,60,.4);
+  padding:12px 14px;
+  font-family:var(--font-body);
+  font-size:13.5px; color:#d8cfb4;
+  max-height:150px; overflow-y:auto;
+  display:none;
+  margin-top:12px;
+}
+.inline-console-line{ margin:0; line-height:1.45; }
+.inline-console-line.cmd{ color:#e6b87a; }
+.inline-console-line.cmd::before{ content:"$ "; color:#857a64; }
+.inline-console-line.output{ color:#cbb990; }
+.inline-console-line.success{ color:#9ec79f; }
+.inline-console-line.success::before{ content:"✓ "; color:#9ec79f; }
+
+/* responsive */
+@media (max-width:1080px){
+  .page{ grid-template-columns:160px minmax(0,1fr) 210px; padding:36px 34px 34px 34px; gap:0 26px; }
+  h1.title{ font-size:60px; }
+}
+@media (max-width:840px){
+  body{ padding:16px 8px 50px; }
+  .page{ grid-template-columns:1fr; padding:30px 26px 28px 26px; gap:0; }
+  .rail, .side, .headzone, .body, .foot{ grid-column:1; }
+  .rail{ grid-row:auto; }
+  .headzone{ grid-row:auto; }
+  .body{ grid-row:auto; }
+  .side{ grid-row:auto; margin-top:30px; display:grid; grid-template-columns:1fr 1fr; gap:22px; }
+  .rail nav{ flex-flow:row wrap; gap:14px; }
+  .rail .stack{ flex-flow:row wrap; }
+  h1.title{ font-size:46px; }
+  .catalog-tabs{ grid-template-columns:1fr; }
+  .dynamic-flow-box{ grid-template-columns:1fr; text-align:left; }
+  .flow-arrow{ transform:rotate(90deg); padding:4px 0; }
 }
 </style>
 </head>
 <body>
 
-<div class="grain" aria-hidden="true"></div>
+<div class="progress" id="progress"></div>
 
-<div class="read-progress"><span id="rp"></span></div>
+<div class="sheet">
+  <div class="page">
 
-<header class="post-top">
-  <a href="../index.html" class="back"><em>&larr; jiongan mu</em></a>
-  <nav>
-    <a href="../index.html#notes">all notes</a>
-    <a href="../index.html#contact">contact</a>
-  </nav>
-</header>
+    <div class="topbar">
+      <a class="back" href="../index.html#notes">&larr; All posts</a>
+      <span class="filed">Filed under: Agents, Subagents, Orchestration</span>
+    </div>
 
-<main class="post-shell">
-  <article class="post">
+    <!-- LEFT RAIL -->
+    <aside class="rail">
+      <div class="brand">Studio Notes</div>
+      <p class="blurb">thoughts on building, breaking, and trusting software that acts on its own.</p>
 
-    <header class="post-header">
-      <div class="post-kicker">
-        <span class="tag">Note &middot; 02</span>
-        <span class="dot"></span>
-        <span>Published</span>
-        <span class="dot"></span>
-        <span>Apr 18, 2026</span>
+      <nav>
+        <a href="#" class="active">This note</a>
+        <a href="../index.html#notes">All notes</a>
+        <a href="../index.html#about">About</a>
+        <a href="../index.html">Home</a>
+      </nav>
+
+      <div class="stack">
+        <figure class="note tilt-l reveal" style="--rot:-1.4deg; padding:12px 10px;">
+          <span class="tape t-tl"></span>
+          <svg viewBox="0 0 150 128" width="100%" height="128" fill="none"
+               stroke="#6f6657" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"
+               style="display:block;">
+            <!-- edges: one boss to four workers -->
+            <path d="M75 30 C60 44 38 50 28 70" stroke="#857a64" stroke-width="1.2"/>
+            <path d="M75 30 C68 46 58 54 54 70" stroke="#857a64" stroke-width="1.2"/>
+            <path d="M75 30 C82 46 92 54 96 70" stroke="#857a64" stroke-width="1.2"/>
+            <path d="M75 30 C90 44 112 50 122 70" stroke="#857a64" stroke-width="1.2"/>
+            <!-- second level under one worker -->
+            <path d="M54 86 C50 96 46 100 44 110" stroke="#857a64" stroke-width="1"/>
+            <path d="M54 86 C58 96 62 100 66 110" stroke="#857a64" stroke-width="1"/>
+            <!-- boss node -->
+            <ellipse cx="75" cy="22" rx="15" ry="11.5" fill="#ece4d2" stroke="#9c6b4f" stroke-width="2"/>
+            <!-- worker nodes -->
+            <circle cx="26" cy="77" r="8" fill="#f4f0e5"/>
+            <circle cx="54" cy="78" r="8" fill="#f4f0e5"/>
+            <circle cx="96" cy="78" r="8" fill="#f4f0e5"/>
+            <circle cx="124" cy="77" r="8" fill="#f4f0e5"/>
+            <!-- leaf nodes -->
+            <circle cx="44" cy="116" r="5.5" fill="#f4f0e5" stroke-width="1.2"/>
+            <circle cx="66" cy="116" r="5.5" fill="#f4f0e5" stroke-width="1.2"/>
+          </svg>
+          <figcaption style="font-family:var(--font-hand); font-size:18px; color:var(--ink-soft); margin-top:6px; text-align:center;">
+            One boss.<br/>Many&nbsp;workers.
+          </figcaption>
+        </figure>
+
+        <p class="aside-note reveal" style="--rot:0deg;">A subagent<br/>is just a <em>fresh</em><br/>context window.</p>
+
+        <div class="swatches reveal">
+          <span class="swatch" style="background:#7d8466;"></span>
+          <span class="swatch" style="background:#a9a07f;"></span>
+          <span class="swatch" style="background:#6f6657;"></span>
+          <span class="swatch" style="background:#9c6b4f;"></span>
+          <span class="swatch" style="background:#5b6b6e;"></span>
+          <span class="swatch" style="background:#c2b79a;"></span>
+        </div>
+
+        <p class="aside-note reveal" style="--rot:0deg; color:var(--ink-faint);">
+          Three levels.<br/>Production sits at&nbsp;one.
+        </p>
       </div>
-      <h1 class="post-title">
-        Subagent <em>designs</em>.
-      </h1>
-      <p class="post-dek">
-        Three paradigms of subagent orchestration are emerging right now: preset profiles, runtime construction, and dependency graphs. A field note on where each one is and where it&rsquo;s heading.
-      </p>
-      <div class="post-meta">
-        <span><strong>4 min</strong> read</span>
-        <span class="sep">&middot;</span>
-        <span>~920 words</span>
-        <span class="sep">&middot;</span>
-        <span>Published <strong>Apr 18</strong></span>
+    </aside>
+
+    <!-- HEADER ZONE -->
+    <header class="headzone">
+      <div class="swatch-cluster">
+        <span class="swatch" style="background:#7d8466; width:30px; height:46px;"></span>
+        <span class="swatch" style="background:#bfb393; width:30px; height:46px;"></span>
+      </div>
+
+      <div class="kicker">Journal &mdash; field note &middot; 02</div>
+      <h1 class="title">Subagent<br/><em>designs.</em></h1>
+
+      <div style="display:flex; gap:26px; align-items:flex-start; flex-wrap:wrap;">
+        <p class="lede" style="max-width:520px;">
+          Three paradigms of subagent orchestration are emerging: preset profiles, runtime construction, and dependency graphs. A field note on where each one is, and where it&rsquo;s heading.
+        </p>
+        <p class="aside-note reveal" style="max-width:175px; --rot:1.5deg; transform:rotate(1.5deg);">
+          The interesting question isn&rsquo;t <em>can</em> they delegate &mdash; it&rsquo;s <em>who designs the worker.</em>
+        </p>
+      </div>
+
+      <div class="meta">
+        <span class="stamp" aria-hidden="true">JM</span>
+        <span class="byline">
+          <span class="who">Jiongan&nbsp;Mu</span>
+          <span class="when"><b>Apr 18, 2026</b> &middot; 4 min read &middot; ~920 words</span>
+        </span>
       </div>
     </header>
 
-    <aside class="toc" id="toc">
-      <span class="toc-label">Contents</span>
-      <ol>
-        <li><a href="#intro" class="is-active">00 / The wall</a></li>
-        <li><a href="#level-1">01 / Level 1 &middot; Preset</a></li>
-        <li><a href="#level-2">02 / Level 2 &middot; Dynamic</a></li>
-        <li><a href="#level-3">03 / Level 3 &middot; The DAG</a></li>
-        <li><a href="#where">04 / Takeaway</a></li>
-      </ol>
-    </aside>
+    <!-- BODY -->
+    <article class="body">
 
-    <div class="prose">
+      <p class="opening" id="intro">Every coding agent hits the same wall: you ask it to do something complex, and halfway through it forgets what it was doing. The context window fills up with file contents and test output, and suddenly it&rsquo;s lost.</p>
 
-      <p id="intro">
-        Every coding agent hits the same wall: you ask it to do something complex, and halfway through it forgets what it was doing. The context window fills up with file contents and test output, and suddenly it&rsquo;s lost.
-      </p>
-
-      <p class="opener">
-        Subagents fix this. Spin up a separate context, let it do the messy work, get back a <em>summary</em>.
-      </p>
+      <p class="opener">Subagents fix this. Spin up a separate context, let it do the messy work, get back a <em>summary.</em></p>
 
       <p>Simple idea, but the implementations vary a lot. I think there are roughly three levels of sophistication emerging.</p>
 
       <hr />
 
-      <h2 id="level-1" data-n="1">Level 1 &middot; <em>Pick a preset</em></h2>
-
+      <h2 id="level-1"><span class="num">1.</span>Pick a <em>preset</em></h2>
       <p>This is where production tools are today.</p>
 
       <p><strong><a href="https://code.claude.com/docs/en/sub-agents" target="_blank" rel="noopener">Claude Code</a></strong>, Anthropic&rsquo;s coding CLI, leans into automatic delegation. Each subagent has a description, and Claude just decides when to use one. It ships with Explore (fast read-only search on Haiku), Plan (gathers context before strategizing), and General-purpose (full tool access). You can define custom ones as Markdown files. Subagents can&rsquo;t spawn other subagents. Deliberately flat.</p>
 
       <p>It solves context pollution well. But the subagent configs are static, decided before the conversation starts. The main agent picks <em>which</em> subagent, never <em>what it can do</em>. Works great for known workflows, less so when the task doesn&rsquo;t fit any predefined template.</p>
 
-      <!-- Level 1 Interactive Catalog Widget -->
-      <div class="interactive-card">
+      <div class="interactive-card reveal" style="--rot:.3deg;">
         <header class="widget-header">
-          <span class="widget-title">Interactive Presets Catalog</span>
-          <span class="widget-info-text">Explore active boundaries</span>
+          <span class="widget-title">Try the presets</span>
+          <span class="widget-info-text">click a card &rarr; watch it run</span>
         </header>
         <div class="catalog-tabs">
           <button class="catalog-tab active" data-tab="plan">
             <span class="catalog-tab-name">&lt;Plan&gt;</span>
-            <span class="catalog-tab-desc">Gathers file context, constructs step strategy</span>
+            <span class="catalog-tab-desc">Gathers file context, builds a step strategy.</span>
           </button>
           <button class="catalog-tab" data-tab="explore">
             <span class="catalog-tab-name">&lt;Explore&gt;</span>
-            <span class="catalog-tab-desc">Fast read-only grep, search &amp; indexing</span>
+            <span class="catalog-tab-desc">Fast read-only grep, search &amp; indexing.</span>
           </button>
           <button class="catalog-tab" data-tab="gp">
-            <span class="catalog-tab-name">&lt;General-purpose&gt;</span>
-            <span class="catalog-tab-desc">Full terminal access, writes files &amp; compiles tests</span>
+            <span class="catalog-tab-name">&lt;General&dash;purpose&gt;</span>
+            <span class="catalog-tab-desc">Full terminal access, writes files &amp; runs tests.</span>
           </button>
         </div>
-        
-        <!-- Live panel viewports -->
+
         <div class="catalog-panel active" id="panel-plan">
-          $ spawn plan-subagent "analyze reactant structure"<br/>
-          &gt; Plan initialized. Grabbing package.json and webpack config...<br/>
-          &gt; Scanning root structures... found 8 dependencies.<br/>
+          spawn plan-subagent "analyze reactant structure"<br/>
+          &gt; Plan initialized. Grabbing package.json and webpack config&hellip;<br/>
+          &gt; Scanning root structures&hellip; found 8 dependencies.<br/>
           &gt; COMPLETED: Formulated 4-step implementation plan successfully.
         </div>
         <div class="catalog-panel" id="panel-explore">
-          $ spawn explore-subagent "grep search '.map('"<br/>
-          &gt; Explore initialized. Scanning files in /src/components/...<br/>
+          spawn explore-subagent "grep search '.map('"<br/>
+          &gt; Explore initialized. Scanning files in /src/components/&hellip;<br/>
           &gt; Located 1 matching unkeyed map in src/components/Grid.jsx:124.<br/>
           &gt; COMPLETED: Identified all relevant query occurrences.
         </div>
         <div class="catalog-panel" id="panel-gp">
-          $ spawn general-purpose-subagent "apply React key fix"<br/>
-          &gt; GP initialized. Replacing lines 124 in src/components/Grid.jsx...<br/>
+          spawn general-purpose-subagent "apply React key fix"<br/>
+          &gt; GP initialized. Replacing lines 124 in src/components/Grid.jsx&hellip;<br/>
           &gt; Executing: npm run test:components<br/>
-          &gt; output: ✓ All 4 unit tests successfully passed.<br/>
+          &gt; output: &check; All 4 unit tests successfully passed.<br/>
           &gt; COMPLETED: Patched files and validated branch builds clean.
         </div>
       </div>
 
-      <h2 id="level-2" data-n="2">Level 2 &middot; <em>Build on the fly</em></h2>
-
+      <h2 id="level-2"><span class="num">2.</span>Build on the <em>fly</em></h2>
       <p>Instead of picking from a catalog, the main agent constructs subagents at runtime, choosing tools, models, and instructions based on the actual task.</p>
 
       <p><strong><a href="https://randomlabs.ai/blog/slate" target="_blank" rel="noopener">Slate</a></strong>, a coding agent from Random Labs, is squarely subagent-focused. The main agent dynamically hands each subagent a <em>subset</em> of tools scoped to the task, rather than exposing the full toolkit. Subagents can run different models, and return summaries rather than raw transcripts. Worth trying. <a href="https://randomlabs.ai/" target="_blank" rel="noopener">Install it here</a>; they offer <em>$10 in free usage</em> to start.</p>
@@ -633,63 +804,58 @@ article.post {
 
       <p><strong><a href="https://arxiv.org/abs/2603.18000" target="_blank" rel="noopener">AgentFactory</a></strong>, another paper, optimizes across sessions. Successful subagents get saved as Python code. Next time a similar task appears, the system reuses and refines them. After a few tasks you&rsquo;ve got a growing library that cuts token usage roughly in half. The Meta-Agent dynamically scopes tools per subagent rather than dumping the full toolkit on every worker.</p>
 
-      <p class="pull">
-        The orchestrator <em>designs</em> the worker at runtime. Right tools, right model, right instructions, shaped by the&nbsp;task.
-      </p>
+      <blockquote class="pullquote">The orchestrator <em>designs</em> the worker at runtime. Right tools, right model, right instructions, shaped by the&nbsp;task.</blockquote>
 
-      <!-- Level 2 Dynamic Compilation Flow Widget -->
-      <div class="interactive-card">
+      <div class="interactive-card tilt-l reveal" style="--rot:-.4deg;">
         <header class="widget-header">
-          <span class="widget-title">Dynamic Scoping Flow</span>
-          <span class="widget-info-text">OpenSage dynamic tool compile flow</span>
+          <span class="widget-title">Dynamic scoping flow</span>
+          <span class="widget-info-text">OpenSage: tools compiled per task</span>
         </header>
         <div class="dynamic-flow-box">
           <div class="flow-step">
-            <strong>01 / Parent Agent</strong>
-            Analyzes database migration request. Needs to inspect active SQLite schemas.
+            <strong>01 &middot; Parent</strong>
+            Analyzes the database migration request. Needs to inspect active SQLite schemas.
           </div>
           <div class="flow-arrow">&rarr;</div>
           <div class="flow-step">
-            <strong>02 / Tool Compiler</strong>
-            Writes script <code>inspect_sqlite_schema.py</code> dynamically at runtime to extract structural maps.
+            <strong>02 &middot; Tool compiler</strong>
+            Writes <code>inspect_sqlite_schema.py</code> at runtime to extract structural maps.
           </div>
           <div class="flow-arrow">&rarr;</div>
           <div class="flow-step">
-            <strong>03 / Transient Worker</strong>
-            Orchestrator creates a fresh Haiku subagent, scoping only the newly compiled DB tool to it.
+            <strong>03 &middot; Transient worker</strong>
+            Fresh Haiku subagent scoped to <em>only</em> the newly compiled DB tool.
           </div>
         </div>
       </div>
 
       <p>But it&rsquo;s still hierarchical. One boss, multiple workers. Workers don&rsquo;t talk to each other.</p>
 
-      <h2 id="level-3" data-n="3">Level 3 &middot; <em>The DAG</em> (mostly theoretical)</h2>
-
+      <h2 id="level-3"><span class="num">3.</span>The <em>DAG</em> <span style="font-family:var(--font-body); font-size:18px; color:var(--ink-faint); font-style:italic; font-weight:400;">(mostly theoretical)</span></h2>
       <p>Instead of one orchestrator delegating ad hoc, the system decomposes the task into a dependency graph where nodes are agents and edges are data dependencies.</p>
 
-      <p>Another way to picture it: each agent acts like a <em>team member with a specific role</em>, and the structure mirrors an actual team hierarchy. Take shipping a new feature. A tech lead agent scopes the work and fans out three tracks in parallel: backend, frontend, and QA. Each delegates further. Backend spawns a migration specialist alongside a handler-writer. Frontend splits component work from state logic. QA, once the diff is ready, runs unit and integration testers side by side. Many branches execute concurrently. Each parent fans out further work based on what its own context reveals.</p>
+      <p>Another way to picture it: each agent acts like a <em>team member with a specific role</em>, and the structure mirrors an actual team hierarchy. Take shipping a new feature. A tech lead agent scopes the work and fans out three tracks in parallel: backend, frontend, and QA. Each delegates further. Backend spawns a migration specialist alongside a handler-writer. Frontend splits component work from state logic. QA, once the diff is ready, runs unit and integration testers side by side. Many branches execute concurrently.</p>
 
-      <!-- Level 3 Interactive DAG SVG Highlighter Widget -->
-      <div class="interactive-card">
+      <div class="interactive-card reveal" style="--rot:.4deg;">
         <header class="widget-header">
-          <span class="widget-title">Interactive DAG Control Flow Graph</span>
+          <span class="widget-title">DAG control flow</span>
           <div class="widget-status" id="dagStatus">
             <span class="dot"></span>
-            <span>ONLINE</span>
+            <span>idle</span>
           </div>
         </header>
-        
+
         <div class="diagram-container">
           <pre class="mermaid">
 flowchart TD
-    L["<b>Tech Lead</b><br/>scope & delegate"]
+    L["<b>Tech Lead</b><br/>scope &amp; delegate"]
     B["<b>Backend</b><br/>build API"]
     F["<b>Frontend</b><br/>build UI"]
     Q["<b>QA Lead</b><br/>plan coverage"]
     M["<b>Migration</b><br/>schema changes"]
     HD["<b>Handlers</b><br/>endpoint logic"]
     C["<b>Components</b><br/>UI parts"]
-    S["<b>State</b><br/>store & sync"]
+    S["<b>State</b><br/>store &amp; sync"]
     UT["<b>Unit Tests</b><br/>per-module"]
     IT["<b>Integration</b><br/>end-to-end"]
 
@@ -706,11 +872,10 @@ flowchart TD
         </div>
 
         <div class="widget-control-row">
-          <button class="widget-btn" id="btnRunDag">Run Graph Simulation</button>
-          <span class="widget-info-text">Visualizes parallel controls</span>
+          <button class="widget-btn" id="btnRunDag">Run the simulation &rarr;</button>
+          <span class="widget-info-text">watch parallel waves light up</span>
         </div>
 
-        <!-- Inline logging console -->
         <div class="inline-console" id="dagConsole"></div>
       </div>
 
@@ -724,298 +889,327 @@ flowchart TD
 
       <p>Another: <em>reusability</em>. Every run is data. If we log the call graphs, the inputs, the outputs, and especially the error paths, we can refine subagents that keep failing the same way. Winning ones get saved and reused. Broken ones get evaluated and rewritten. Over enough tasks, the system starts to learn what a good subagent for <em>this</em> kind of job actually looks like.</p>
 
-      <h2 id="where" data-n="4">Where <em>are</em> we?</h2>
-
+      <h2 id="where"><span class="num">4.</span>Where <em>are</em> we?</h2>
       <p>Production is solidly Level 1, inching into Level 2. Research is heading toward Level 3.</p>
 
       <p>We aren&rsquo;t at Level 3 yet. But given how fast these frameworks are moving, we might be entering it sooner than I would have guessed.</p>
 
-    </div>
+      <p style="font-family:var(--font-hand); font-size:21px; color:var(--ink-soft);">
+        Note to self: revisit nested subagents and topology benchmarks next.
+      </p>
+    </article>
 
-    <footer class="post-foot">
-      <div class="sign">
-        <strong>Jiongan Mu</strong>, Vancouver, BC<br/>
-        written <em>April 18</em>, 2026
+    <!-- RIGHT RAIL -->
+    <aside class="side">
+      <div class="index-card reveal" style="--rot:.7deg;">
+        <div class="eyebrow">Index</div>
+        <ol id="indexOl">
+          <li data-to="intro"><b>00.</b> The wall</li>
+          <li data-to="level-1"><b>01.</b> Pick a preset</li>
+          <li data-to="level-2"><b>02.</b> Build on the fly</li>
+          <li data-to="level-3"><b>03.</b> The DAG</li>
+          <li data-to="where"><b>04.</b> Where are we?</li>
+        </ol>
       </div>
-      <div class="share">
-        <a href="mailto:jiongan.mu@gmail.com?subject=Re: Subagent designs">Write back</a>
-        <a href="../index.html#notes">More notes &rarr;</a>
+
+      <div class="note kraft tilt-r reveal" style="--rot:1.4deg;">
+        <span class="tape t-top"></span>
+        Next time:<br/>nested subagents,<br/>topology routing<br/>(<em>AdaptOrch</em>).
       </div>
+
+      <figure class="note tilt-l reveal" style="--rot:-1.2deg; padding:12px 12px 10px;">
+        <span class="tape t-tr"></span>
+        <svg viewBox="0 0 200 120" width="100%" height="118" fill="none"
+             stroke="#6f6657" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"
+             style="display:block;">
+          <!-- DAG edges -->
+          <path d="M40 24 C70 30 96 36 120 30" stroke="#857a64" stroke-width="1.1"/>
+          <path d="M40 24 C58 44 70 56 78 70" stroke="#857a64" stroke-width="1.1"/>
+          <path d="M120 30 C132 44 140 54 146 66" stroke="#857a64" stroke-width="1.1"/>
+          <path d="M78 70 C100 78 124 76 146 70" stroke="#857a64" stroke-width="1.1"/>
+          <path d="M146 66 C150 80 152 90 150 100" stroke="#857a64" stroke-width="1.1"/>
+          <path d="M78 70 C84 84 90 92 96 102" stroke="#857a64" stroke-width="1.1"/>
+          <!-- nodes -->
+          <circle cx="34" cy="22" r="9" fill="#ece4d2" stroke="#9c6b4f" stroke-width="2"/>
+          <circle cx="124" cy="28" r="8" fill="#f4f0e5"/>
+          <circle cx="76" cy="70" r="8" fill="#f4f0e5"/>
+          <circle cx="150" cy="66" r="8" fill="#f4f0e5"/>
+          <circle cx="98" cy="106" r="6.5" fill="#f4f0e5" stroke-width="1.2"/>
+          <circle cx="150" cy="104" r="6.5" fill="#f4f0e5" stroke-width="1.2"/>
+        </svg>
+        <figcaption style="font-family:var(--font-hand); font-size:18px; color:var(--ink-soft); margin-top:6px; text-align:center;">
+          Edges = data.<br/>Nodes = agents.
+        </figcaption>
+      </figure>
+
+      <div class="last-edited">
+        <div class="eyebrow">Last edited</div>
+        <div class="d">Apr 18, 2026</div>
+      </div>
+    </aside>
+
+    <!-- FOOTER -->
+    <footer class="foot">
+      <a class="pn prev" href="../index.html#notes">
+        <span class="thumb"></span>
+        <span><span class="lbl">&larr; back</span><br/><span class="ttl">All notes</span></span>
+      </a>
+      <div class="mid">Keep experimenting.<br/>Keep notes.</div>
+      <a class="pn next" href="emdash.html">
+        <span><span class="lbl">Next &rarr;</span><br/><span class="ttl">Why I use emdash</span></span>
+        <span class="thumb"></span>
+      </a>
     </footer>
 
-    <nav class="post-nav">
-      <a href="../index.html#notes">&larr; <em>back to notes</em></a>
-    </nav>
-
-  </article>
-</main>
-
-<footer class="foot">
-  <div class="mono tiny">&copy; 2026 jiongan mu</div>
-  <div class="mono tiny"><a href="../index.html">&larr; home</a></div>
-  <div class="mono tiny">designed in vancouver</div>
-</footer>
+  </div>
+</div>
 
 <script type="module">
   import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
-  const root = getComputedStyle(document.documentElement);
-  const v = (name, fallback) => (root.getPropertyValue(name).trim() || fallback);
   mermaid.initialize({
     startOnLoad: true,
     securityLevel: 'loose',
     theme: 'base',
-    flowchart: { htmlLabels: true, curve: 'basis', padding: 8 },
+    flowchart: { htmlLabels: true, curve: 'basis', padding: 10 },
     themeVariables: {
-      fontFamily: "'JetBrains Mono', ui-monospace, monospace",
-      fontSize: '11px',
+      fontFamily: "'Caveat', 'Spectral', serif",
+      fontSize: '13px',
       background: 'transparent',
-      primaryColor: '#ebe8e0',
-      primaryTextColor: '#0e0e0e',
-      primaryBorderColor: '#d6d3cb',
-      secondaryColor: '#f5f3ee',
-      tertiaryColor: '#f5f3ee',
-      lineColor: '#8a8a85',
-      textColor: '#2a2a2a',
-      mainBkg: '#ebe8e0',
-      nodeBorder: '#d6d3cb'
+      primaryColor: '#ece4d2',
+      primaryTextColor: '#2c2820',
+      primaryBorderColor: '#857a64',
+      secondaryColor: '#e6dcc4',
+      tertiaryColor: '#f4f0e5',
+      lineColor: '#6f6657',
+      textColor: '#2c2820',
+      mainBkg: '#ece4d2',
+      nodeBorder: '#857a64'
     }
   });
 </script>
 
 <script>
-/**
- * Subagent Designs — Refined Inline Interactive Script
- */
+(function () {
+  "use strict";
+  var $ = function (s, r) { return (r || document).querySelector(s); };
+  var $$ = function (s, r) { return [].slice.call((r || document).querySelectorAll(s)); };
 
-(() => {
-  // --- LEVEL 1: CATALOG TABS ---
-  const catalogTabs = document.querySelectorAll('.catalog-tab');
-  const catalogPanels = document.querySelectorAll('.catalog-panel');
+  /* progress bar */
+  function progress() {
+    var bar = $("#progress");
+    var onScroll = function () {
+      var d = document.documentElement;
+      var max = d.scrollHeight - d.clientHeight;
+      bar.style.width = (max > 0 ? (d.scrollTop / max) * 100 : 0) + "%";
+    };
+    document.addEventListener("scroll", onScroll, { passive: true });
+    onScroll();
+  }
 
-  catalogTabs.forEach(tab => {
-    tab.addEventListener('click', () => {
-      const tabId = tab.getAttribute('data-tab');
+  /* reveal on scroll */
+  function reveals() {
+    var nodes = $$(".reveal");
+    var show = function (n) { n.classList.add("shown"); };
+    if (!("IntersectionObserver" in window)) { nodes.forEach(show); return; }
+    var io = new IntersectionObserver(function (ents) {
+      ents.forEach(function (e) {
+        if (e.isIntersecting) { show(e.target); io.unobserve(e.target); }
+      });
+    }, { threshold: 0.01, rootMargin: "0px 0px -8% 0px" });
+    nodes.forEach(function (n) { io.observe(n); });
+    var sweep = function () {
+      var h = window.innerHeight || 800;
+      nodes.forEach(function (n) {
+        if (n.classList.contains("shown")) return;
+        var r = n.getBoundingClientRect();
+        if (r.top < h * 1.1 && r.bottom > -40) show(n);
+      });
+    };
+    window.addEventListener("scroll", function () {
+      clearTimeout(reveals._t); reveals._t = setTimeout(sweep, 60);
+    }, { passive: true });
+    setTimeout(sweep, 1200);
+  }
 
-      // Update tabs active state
-      catalogTabs.forEach(t => t.classList.toggle('active', t === tab));
-
-      // Update panels active state
-      catalogPanels.forEach(panel => {
-        panel.classList.toggle('active', panel.getAttribute('id') === `panel-${tabId}`);
+  /* scroll-spy */
+  function scrollSpy() {
+    var idx = $$("#indexOl li");
+    var io = new IntersectionObserver(function (ents) {
+      ents.forEach(function (e) {
+        if (!e.isIntersecting) return;
+        var id = e.target.id;
+        idx.forEach(function (li) { li.classList.toggle("on", li.dataset.to === id); });
+      });
+    }, { rootMargin: "-20% 0px -65% 0px" });
+    ["intro", "level-1", "level-2", "level-3", "where"].forEach(function (id) {
+      var s = document.getElementById(id); if (s) io.observe(s);
+    });
+    idx.forEach(function (li) {
+      li.addEventListener("click", function () {
+        var t = document.getElementById(li.dataset.to);
+        if (t) t.scrollIntoView({ behavior: "smooth", block: "start" });
       });
     });
-  });
+  }
 
-  // --- LEVEL 3: DAG GRAPH SIMULATOR ---
-  let isDagSimulating = false;
-  let dagTimeout = null;
-  const btnRunDag = document.getElementById('btnRunDag');
-  const dagStatus = document.getElementById('dagStatus');
-  const dagConsole = document.getElementById('dagConsole');
-
-  // Mermaid nodes highlighting maps
-  function highlightMermaidNode(labelText, highlightType = 'cyan') {
-    const nodes = document.querySelectorAll('.mermaid .node');
-    nodes.forEach(node => {
-      const textEl = node.querySelector('.label') || node;
-      if (textEl.textContent.toLowerCase().replace(/&amp;/g, '&').includes(labelText.toLowerCase())) {
-        const shapes = node.querySelectorAll('rect, polygon, circle, path, .label-container');
-        shapes.forEach(shape => {
-          shape.classList.add(highlightType === 'purple' ? 'dag-node-highlight-purple' : 'dag-node-highlight');
+  /* catalog tabs */
+  function catalogTabs() {
+    var tabs = $$(".catalog-tab");
+    var panels = $$(".catalog-panel");
+    tabs.forEach(function (tab) {
+      tab.addEventListener("click", function () {
+        var id = tab.getAttribute("data-tab");
+        tabs.forEach(function (t) { t.classList.toggle("active", t === tab); });
+        panels.forEach(function (p) {
+          p.classList.toggle("active", p.id === "panel-" + id);
         });
-      }
+      });
     });
   }
 
-  function clearMermaidHighlights() {
-    document.querySelectorAll('.mermaid .node rect, .mermaid .node polygon, .mermaid .node circle, .mermaid .node path, .mermaid .node .label-container').forEach(shape => {
-      shape.classList.remove('dag-node-highlight', 'dag-node-highlight-purple');
-    });
-  }
-
-  // Refactored to represent true parallel execution waves
-  const dagWaves = [
-    {
-      logs: [
-        { text: 'DAG-LEAD: Decomposing task requirements...', type: 'cmd' }
-      ],
-      nodes: [
-        { label: 'Tech Lead', color: 'purple' }
-      ],
-      clearPrevious: true,
-      delayAfter: 700
-    },
-    {
-      logs: [
-        { text: 'DAG-LEAD: Spawning Backend, Frontend, and QA branches in parallel.', type: 'cmd' },
-        { text: 'BACKEND: Initializing API endpoints setup...', type: 'output' },
-        { text: 'FRONTEND: Mapping UI component layouts...', type: 'output' },
-        { text: 'QA-LEAD: Structuring integration test scope...', type: 'info' }
-      ],
-      nodes: [
-        { label: 'Backend', color: 'cyan' },
-        { label: 'Frontend', color: 'cyan' },
-        { label: 'QA Lead', color: 'purple' }
-      ],
-      clearPrevious: false,
-      delayAfter: 1200
-    },
-    {
-      logs: [
-        { text: 'BACKEND: Spawning Migration and Handlers child workers in parallel...', type: 'info' },
-        { text: 'FRONTEND: Spawning Components and State child workers in parallel...', type: 'info' }
-      ],
-      nodes: [
-        { label: 'Migration', color: 'cyan' },
-        { label: 'Handlers', color: 'cyan' },
-        { label: 'Components', color: 'cyan' },
-        { label: 'State', color: 'cyan' }
-      ],
-      clearPrevious: false,
-      delayAfter: 1000
-    },
-    {
-      logs: [
-        { text: 'MIGRATION: Schema successfully migrated.', type: 'success' },
-        { text: 'COMPONENTS: Responsive LoginBox constructed.', type: 'success' },
-        { text: 'HANDLERS: Endpoint /api/v2/auth active.', type: 'success' },
-        { text: 'STATE: Redux state sync completed.', type: 'success' }
-      ],
-      nodes: [], // Keep active nodes highlighted
-      clearPrevious: false,
-      delayAfter: 1200
-    },
-    {
-      logs: [
-        { text: 'QA-LEAD: Executing parallel unit & integration tests...', type: 'cmd' },
-        { text: 'UNIT-TESTS: Running 24 local unit assertions...', type: 'output' },
-        { text: 'INTEGRATION: Performing Puppeteer end-to-end check...', type: 'output' }
-      ],
-      nodes: [
-        { label: 'Unit Tests', color: 'cyan' },
-        { label: 'Integration', color: 'cyan' }
-      ],
-      clearPrevious: true, // clear details, keep test scopes focused
-      delayAfter: 1200
-    },
-    {
-      logs: [
-        { text: 'UNIT-TESTS: ✓ All 24 unit assertions successful.', type: 'success' },
-        { text: 'INTEGRATION: ✓ E2E user auth flow verified.', type: 'success' },
-        { text: 'DAG-LEAD: All team branches verified. Merging branch clean.', type: 'success' }
-      ],
-      nodes: [
-        { label: 'Tech Lead', color: 'purple' }
-      ],
-      clearPrevious: true,
-      delayAfter: 800
-    }
-  ];
-
+  /* DAG simulation */
+  var isDagSimulating = false;
   function runDagSimulation() {
     if (isDagSimulating) return;
+    var btn = $("#btnRunDag");
+    var status = $("#dagStatus");
+    var cons = $("#dagConsole");
+    if (!btn || !cons) return;
 
     isDagSimulating = true;
-    btnRunDag.disabled = true;
-    btnRunDag.textContent = 'Executing graph...';
-    dagStatus.classList.add('active');
-    dagStatus.querySelector('span:last-child').textContent = 'EXECUTING';
-    dagConsole.style.display = 'block';
-    dagConsole.innerHTML = '';
-    clearMermaidHighlights();
+    btn.disabled = true;
+    btn.textContent = "executing…";
+    status.classList.add("active");
+    status.querySelector("span:last-child").textContent = "running";
+    cons.style.display = "block";
+    cons.innerHTML = "";
+    clearHighlights();
 
-    let waveIdx = 0;
+    var waves = [
+      { logs: [{ text: "DAG-LEAD: Decomposing task requirements…", type: "cmd" }],
+        nodes: [{ label: "Tech Lead", color: "purple" }],
+        clear: true, after: 700 },
+      { logs: [
+          { text: "DAG-LEAD: Spawning Backend, Frontend, and QA in parallel.", type: "cmd" },
+          { text: "BACKEND: Initializing API endpoint setup…", type: "output" },
+          { text: "FRONTEND: Mapping UI component layouts…", type: "output" },
+          { text: "QA-LEAD: Structuring integration test scope…", type: "output" }
+        ],
+        nodes: [
+          { label: "Backend", color: "cyan" },
+          { label: "Frontend", color: "cyan" },
+          { label: "QA Lead", color: "purple" }
+        ],
+        clear: false, after: 1200 },
+      { logs: [
+          { text: "BACKEND: Spawning Migration and Handlers in parallel…", type: "output" },
+          { text: "FRONTEND: Spawning Components and State in parallel…", type: "output" }
+        ],
+        nodes: [
+          { label: "Migration", color: "cyan" },
+          { label: "Handlers", color: "cyan" },
+          { label: "Components", color: "cyan" },
+          { label: "State", color: "cyan" }
+        ],
+        clear: false, after: 1000 },
+      { logs: [
+          { text: "MIGRATION: schema migrated.", type: "success" },
+          { text: "COMPONENTS: LoginBox constructed.", type: "success" },
+          { text: "HANDLERS: /api/v2/auth active.", type: "success" },
+          { text: "STATE: redux sync completed.", type: "success" }
+        ],
+        nodes: [], clear: false, after: 1200 },
+      { logs: [
+          { text: "QA-LEAD: Running parallel unit & integration tests…", type: "cmd" },
+          { text: "UNIT: 24 local assertions running…", type: "output" },
+          { text: "INTEGRATION: end-to-end Puppeteer check…", type: "output" }
+        ],
+        nodes: [
+          { label: "Unit Tests", color: "cyan" },
+          { label: "Integration", color: "cyan" }
+        ],
+        clear: true, after: 1200 },
+      { logs: [
+          { text: "UNIT: all 24 assertions successful.", type: "success" },
+          { text: "INTEGRATION: E2E auth flow verified.", type: "success" },
+          { text: "DAG-LEAD: branches merged clean.", type: "success" }
+        ],
+        nodes: [{ label: "Tech Lead", color: "purple" }],
+        clear: true, after: 800 }
+    ];
 
-    function executeWave() {
-      if (!isDagSimulating || waveIdx >= dagWaves.length) {
-        finishDagSimulation();
-        return;
-      }
-
-      const wave = dagWaves[waveIdx];
-
-      // Highlight/Clear nodes in parallel
-      if (wave.clearPrevious) {
-        clearMermaidHighlights();
-      }
-      wave.nodes.forEach(node => {
-        highlightMermaidNode(node.label, node.color);
-      });
-
-      // Stream logs for this wave with very short staggered delays to mimic concurrency
-      let logIdx = 0;
-      function printWaveLog() {
+    var wi = 0;
+    function nextWave() {
+      if (!isDagSimulating || wi >= waves.length) return finish();
+      var w = waves[wi];
+      if (w.clear) clearHighlights();
+      w.nodes.forEach(function (n) { highlightNode(n.label, n.color); });
+      var li = 0;
+      function pump() {
         if (!isDagSimulating) return;
-        if (logIdx < wave.logs.length) {
-          const log = wave.logs[logIdx];
-          const line = document.createElement('p');
-          line.className = `inline-console-line ${log.type === 'info' ? 'cmd' : log.type}`;
-          line.textContent = log.text;
-          dagConsole.appendChild(line);
-          dagConsole.scrollTop = dagConsole.scrollHeight;
-
-          logIdx++;
-          setTimeout(printWaveLog, 150); // fast staggered stdout prints
+        if (li < w.logs.length) {
+          var log = w.logs[li++];
+          var p = document.createElement("p");
+          p.className = "inline-console-line " + log.type;
+          p.textContent = log.text;
+          cons.appendChild(p);
+          cons.scrollTop = cons.scrollHeight;
+          setTimeout(pump, 150);
         } else {
-          // Finished this wave, schedule next wave
-          waveIdx++;
-          dagTimeout = setTimeout(executeWave, wave.delayAfter || 800);
+          wi++;
+          setTimeout(nextWave, w.after || 800);
         }
       }
-
-      printWaveLog();
+      pump();
     }
 
-    executeWave();
+    function finish() {
+      isDagSimulating = false;
+      btn.disabled = false;
+      btn.textContent = "Run the simulation →";
+      status.classList.remove("active");
+      status.querySelector("span:last-child").textContent = "idle";
+      setTimeout(clearHighlights, 2500);
+    }
+
+    nextWave();
   }
 
-  function finishDagSimulation() {
-    isDagSimulating = false;
-    btnRunDag.disabled = false;
-    btnRunDag.textContent = 'Run Graph Simulation';
-    dagStatus.classList.remove('active');
-    dagStatus.querySelector('span:last-child').textContent = 'ONLINE';
-    setTimeout(clearMermaidHighlights, 3000);
-  }
-
-  btnRunDag.addEventListener('click', runDagSimulation);
-
-  // --- GENERAL READING UTILITIES ---
-  const bar = document.getElementById('rp');
-  const article = document.querySelector('article.post');
-
-  function updateProgress() {
-    if (!article) return;
-    const rect = article.getBoundingClientRect();
-    const start = rect.top + window.scrollY - 80;
-    const end = rect.bottom + window.scrollY - window.innerHeight;
-    const p = Math.max(0, Math.min(1, (window.scrollY - start) / Math.max(1, end - start)));
-    bar.style.width = (p * 100).toFixed(1) + '%';
-  }
-
-  window.addEventListener('scroll', updateProgress, { passive: true });
-  window.addEventListener('resize', updateProgress);
-  updateProgress();
-
-  // Smooth scroll ToC clicks
-  const tocLinks = [...document.querySelectorAll('.toc a')];
-  tocLinks.forEach(a => {
-    a.addEventListener('click', (e) => {
-      const id = a.getAttribute('href').slice(1);
-      const el = document.getElementById(id);
-      if (!el) return;
-      e.preventDefault();
-      const y = el.getBoundingClientRect().top + window.scrollY - 100;
-      window.scrollTo({ top: y, behavior: 'smooth' });
-      history.replaceState(null, '', '#' + id);
-      
-      // Update TOC active state
-      tocLinks.forEach(lnk => lnk.classList.toggle('is-active', lnk === a));
+  function highlightNode(labelText, color) {
+    var nodes = document.querySelectorAll(".mermaid .node");
+    var needle = labelText.toLowerCase();
+    nodes.forEach(function (node) {
+      var txt = (node.querySelector(".label") || node).textContent || "";
+      if (txt.toLowerCase().replace(/&amp;/g, "&").indexOf(needle) === -1) return;
+      node.querySelectorAll("rect, polygon, circle, path, .label-container").forEach(function (sh) {
+        sh.classList.add(color === "purple" ? "dag-node-highlight-purple" : "dag-node-highlight");
+      });
     });
-  });
+  }
+  function clearHighlights() {
+    document.querySelectorAll(".mermaid .node rect, .mermaid .node polygon, .mermaid .node circle, .mermaid .node path, .mermaid .node .label-container").forEach(function (sh) {
+      sh.classList.remove("dag-node-highlight", "dag-node-highlight-purple");
+    });
+  }
 
+  function dagButton() {
+    var b = $("#btnRunDag");
+    if (b) b.addEventListener("click", runDagSimulation);
+  }
+
+  function boot() {
+    progress();
+    reveals();
+    scrollSpy();
+    catalogTabs();
+    dagButton();
+  }
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", boot);
+  } else {
+    boot();
+  }
 })();
 </script>
-
 </body>
 </html>

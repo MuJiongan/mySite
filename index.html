@@ -1,349 +1,425 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Jiongan Mu — AI/ML Engineer</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>jiongan mu — AI/ML Engineer</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,300;1,9..144,400;1,9..144,600;1,9..144,700&family=JetBrains+Mono:wght@300;400;500&display=swap">
-<link rel="stylesheet" href="site.css?v=16">
+<link href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=Caveat:wght@400;500;600;700&family=Courier+Prime:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="sketchbook.css?v=13">
 </head>
 <body>
+<main class="page" id="home">
+  <div class="binding" aria-hidden="true"></div>
 
-<script>
-const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
-  "accent": "#1f6a3d",
-  "motion": "on",
-  "density": "regular"
-}/*EDITMODE-END*/;
-window.__TWEAKS = { ...TWEAK_DEFAULTS };
-</script>
+  <div class="layout">
+    <!-- ============ MARGIN COLUMN ============ -->
+    <aside class="margin">
+      <div class="brand-tag">
+        <div class="kicker">jiongan.mu</div>
+        <p>— 2026 —</p>
+      </div>
+      <hr class="hr-hand">
 
-<div class="grain" aria-hidden="true"></div>
+      <nav class="sketch-nav">
+        <a href="#home" class="active">Home</a>
+        <a href="#about">About</a>
+        <a href="#offhours">Off-hours</a>
+        <a href="#notes">Notes</a>
+        <a href="#education">Schooling</a>
+        <a href="#contact">Contact</a>
+        <a href="recipes.html">Recipes <span class="ext"><svg class="arr arr-ext" viewBox="0 0 16 16" aria-hidden="true"><path d="M2.5 13.5 Q8 9 13.5 3"/><path d="M8.4 2.8 Q12 2.6 13.6 3 Q13.8 5 13.4 8.6"/></svg></span></a>
+      </nav>
 
-<!-- top meta bar — fades in after hero (audit §11) -->
-<header class="top" data-screen-label="Top nav">
-  <div class="top-left"><em>jiongan mu</em></div>
-  <nav class="top-right">
-    <a href="#about"><em>about</em></a>
-    <a href="#offhours"><em>off&#8209;hours</em></a>
-    <a href="#notes"><em>notes</em></a>
-    <a href="#education"><em>schooling</em></a>
-    <a href="#contact"><em>contact</em></a>
-    <a href="recipes.html"><em>recipes</em></a>
-  </nav>
-</header>
-
-<div class="progress" aria-hidden="true"><span></span></div>
-
-<main>
-
-<!-- =========================================================
-     HERO — audit §02, §11
-========================================================= -->
-<section class="hero" id="home" data-screen-label="Hero">
-  <div class="hero-inner">
-
-    <!-- location + availability stamp (new) -->
-    <div class="hero-stamp">
-      <div class="row"><strong>vancouver, bc</strong></div>
-      <div class="row"><span class="dot"></span><span>open to chat about ai/ml &amp; else</span></div>
-    </div>
-
-    <!-- big type -->
-    <div class="hero-type">
-      <h1 class="mega">
-        <span class="mega-row"><span class="mega-word">jiongan</span></span>
-        <span class="mega-row mega-row-2"><span class="mega-word mega-italic"><em>mu</em>.</span></span>
-      </h1>
-    </div>
-
-    <!-- single figurine, deliberately scaled, bottom-right -->
-    <div class="hero-fig-solo" aria-hidden="true">
-      <img src="files/coding-cut.png" alt="" />
-    </div>
-
-    <!-- bottom-left lede -->
-    <p class="hero-lede">
-      ai/ml engineer <em>researching and building</em><br/>
-      <em class="hero-lede-bold">agentic systems for the future.</em>
-    </p>
-
-    <!-- bottom-right scroll hint -->
-    <div class="scroll-hint">
-      <span class="mono tiny">scroll</span>
-      <span class="scroll-arrow">&darr;</span>
-    </div>
-  </div>
-</section>
-
-<!-- marquee (kept) -->
-<section class="band" aria-hidden="true">
-  <div class="band-track">
-    <span>autonomous agents</span><span class="star">&#10045;</span>
-    <span>orchestration at scale</span><span class="star">&#10045;</span>
-    <span>agent harnesses in production</span><span class="star">&#10045;</span>
-    <span>frontier llm systems</span><span class="star">&#10045;</span>
-    <span>autonomous agents</span><span class="star">&#10045;</span>
-    <span>orchestration at scale</span><span class="star">&#10045;</span>
-    <span>agent harnesses in production</span><span class="star">&#10045;</span>
-    <span>frontier llm systems</span><span class="star">&#10045;</span>
-    <span>autonomous agents</span><span class="star">&#10045;</span>
-    <span>orchestration at scale</span><span class="star">&#10045;</span>
-  </div>
-</section>
-
-<!-- =========================================================
-     ABOUT — narrow centered column, Fraunces epigraph
-     audit §03, §07
-========================================================= -->
-<section class="sec about" id="about" data-screen-label="About">
-  <div class="about-wrap">
-    <div class="sec-head-new" data-reveal>
-      <div class="sec-num"><em>i.</em> about</div>
-      <div class="sec-label">&sect; 01</div>
-    </div>
-
-    <div class="about-big" data-reveal-stagger>
-      <p>
-        i&rsquo;m an AI/ML Engineer at Ema, where i research and build the
-        AutoBuilder/AutoPilot, our <em>agent harness</em>. my focus is
-        on <em>agent orchestration</em>, <em>autolearns</em>, and <em>evals</em>.
-      </p>
-      <p>
-        i recently completed my Master of Science in Applied Computing at the
-        University of Toronto, focusing on <em>computer systems and large language
-        models</em>. previously i worked as a backend software developer at Kijiji,
-        and as both a research and teaching assistant at U&nbsp;of&nbsp;T.
-      </p>
-      <p>
-        i&rsquo;m drawn to the frontier: designing agentic systems that are
-        <em>reliable today</em> and <em>ready for what comes next</em>, as models grow
-        more capable and the work we hand them grows more ambitious.
-      </p>
-      <p>
-        outside of work i sing, play piano, play guitar, and lose to my friends at
-        video games. i also love <em>making and eating food</em>. my
-        <a href="recipes.html"><em>recipes</em></a> are where the home-cooked ones
-        live.
-      </p>
-    </div>
-  </div>
-</section>
-
-<!-- =========================================================
-     OFF-HOURS — image break with four figurines
-     audit §03, §06
-========================================================= -->
-<section class="sec offhours" id="offhours" data-screen-label="Off-hours">
-  <div class="sec-head-new" data-reveal>
-    <div class="sec-num"><em>ii.</em> off&#8209;hours</div>
-    <div class="sec-label">&sect; 02</div>
-  </div>
-
-  <div class="offhours-grid" data-reveal-stagger>
-    <figure class="fig piano">
-      <div class="img-wrap"><img src="files/piano-cut.png" alt="piano" /></div>
-      <figcaption class="cap">
-        <strong>piano</strong>
-        <span>since age 4</span>
-      </figcaption>
-    </figure>
-    <figure class="fig coding">
-      <div class="img-wrap"><img src="files/coding-cut.png" alt="coding" /></div>
-      <figcaption class="cap">
-        <strong>coding</strong>
-        <span>since 2019, before the vibes</span>
-      </figcaption>
-    </figure>
-    <figure class="fig guitar">
-      <div class="img-wrap"><img src="files/guitar-cut.png" alt="guitar &amp; singing" /></div>
-      <figcaption class="cap">
-        <strong>singing &amp; guitar</strong>
-        <span>learning still&hellip;</span>
-      </figcaption>
-    </figure>
-    <figure class="fig gaming">
-      <div class="img-wrap"><img src="files/gaming-cut.png" alt="gaming" /></div>
-      <figcaption class="cap">
-        <strong>gaming</strong>
-        <span>not as much as before</span>
-      </figcaption>
-    </figure>
-  </div>
-</section>
-
-<!-- =========================================================
-     NOW — replaces placeholder journal (audit §04)
-========================================================= -->
-<section class="sec now" id="notes" data-screen-label="Notes">
-  <div class="sec-head-new" data-reveal>
-    <div class="sec-num"><em>iii.</em> notes</div>
-    <div class="sec-label">&sect; 03</div>
-  </div>
-
-  <div class="now-intro-row" data-reveal>
-    <p class="now-intro">
-      notes, field observations, and half&#8209;formed ideas, <em>published as they&rsquo;re ready.</em>
-    </p>
-    <h2 class="now-huge"><em>notes.</em></h2>
-  </div>
-
-  <ul class="now-list" data-reveal-stagger>
-    <li class="now-row">
-      <a class="now-entry" href="notes/subagent-designs.html">
-        <span class="now-date">apr &rsquo;26</span>
-        <div>
-          <h3 class="now-title">subagent <em>designs</em></h3>
-          <p class="now-body">on how coding agents delegate to other agents, and the three paradigms emerging right now: <em>preset profiles</em>, <em>runtime construction</em>, and <em>dependency graphs</em>.</p>
+      <div class="margin-block">
+        <p class="label">Current mood</p>
+        <div class="mood-music" aria-hidden="true">
+          <svg class="m-notes" viewBox="0 0 62 42">
+            <g fill="currentColor" stroke="none">
+              <ellipse cx="12" cy="31" rx="5.6" ry="4" transform="rotate(-22 12 31)"/>
+              <ellipse cx="33" cy="26" rx="5.6" ry="4" transform="rotate(-22 33 26)"/>
+              <ellipse cx="50" cy="34" rx="4.8" ry="3.5" transform="rotate(-22 50 34)"/>
+            </g>
+            <g fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M17 29.5 Q16.4 18 17 8.5"/>
+              <path d="M38 24.5 Q37.4 13 38 4"/>
+              <path d="M16.6 8.6 Q27 4.4 38.2 5" stroke-width="3.4"/>
+              <path d="M54 32.5 Q53.5 23 54 15"/>
+              <path d="M54 15 Q58.6 16 59 21 Q57 19 54 20.5"/>
+            </g>
+          </svg>
+          <svg class="m-ball" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round">
+            <circle cx="12" cy="12" r="9.4"/>
+            <path d="M12 2.7 Q10.8 12 12 21.3"/>
+            <path d="M2.7 12 Q12 13 21.3 12"/>
+            <path d="M5 5 Q12.5 11 5 19"/>
+            <path d="M19 5 Q11.5 11 19 19"/>
+          </svg>
         </div>
-        <span class="now-status active">read <span class="now-arrow">&rarr;</span></span>
-      </a>
-    </li>
-    <li class="now-row">
-      <a class="now-entry" href="notes/emdash.html">
-        <span class="now-date">apr &rsquo;26</span>
-        <div>
-          <h3 class="now-title">why i use <em>emdash</em></h3>
-          <p class="now-body">on running multiple coding agents in parallel without losing your mind in terminal tabs. local-first, open-source, provider-agnostic, and surprisingly, the product is just <em>organization</em>.</p>
+        <div class="mood-music mood-row2" aria-hidden="true">
+          <svg class="m-piano" viewBox="0 0 44 24">
+            <path d="M4.6 5 Q4.4 4 5.6 4 L40.4 3.9 Q41.6 3.9 41.4 5.1 L41.3 18.4 Q41.3 19.4 40.1 19.4 L5.4 19.5 Q4.2 19.5 4.4 18.3 Z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round"/>
+            <g fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round">
+              <path d="M10.5 4.5 L10.4 19"/>
+              <path d="M15.5 4.5 L15.4 19"/>
+              <path d="M20.5 4.5 L20.4 19"/>
+              <path d="M25.5 4.5 L25.4 19"/>
+              <path d="M30.5 4.5 L30.4 19"/>
+              <path d="M35.5 4.5 L35.4 19"/>
+            </g>
+            <g fill="currentColor" stroke="none">
+              <rect x="9" y="4.5" width="3" height="9" rx="0.7"/>
+              <rect x="14" y="4.5" width="3" height="9" rx="0.7"/>
+              <rect x="24" y="4.5" width="3" height="9" rx="0.7"/>
+              <rect x="29" y="4.5" width="3" height="9" rx="0.7"/>
+              <rect x="34" y="4.5" width="3" height="9" rx="0.7"/>
+            </g>
+          </svg>
+          <svg class="m-guitar" viewBox="0 0 56 30" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M9 26 C4 24 3 17 6 13 C8 10 12 10 14 12 C15 10 17 9 19 11 C21 12.5 21 13.5 20 14.5 C22.5 16 23 20 21 23 C19 26.5 13 28 9 26 Z" stroke-width="1.7"/>
+            <path d="M20 12.6 L46 5 M21.6 15.4 L47 8" stroke-width="1.7"/>
+            <path d="M27 10.8 L28.2 13.6 M32.5 9.2 L33.7 12 M38 7.6 L39.2 10.4" stroke-width="1.2"/>
+            <path d="M46 5 L52 3.3 Q53.6 4.6 53.2 6.8 L47.5 8.6 Z" stroke-width="1.6"/>
+            <path d="M48 4.7 L49.4 4.3 M48.4 6.7 L49.8 6.3" stroke-width="1.2"/>
+            <rect x="9.6" y="14.2" width="7.2" height="3.2" rx="0.8" transform="rotate(-14 13.2 15.8)" stroke-width="1.3"/>
+            <rect x="8.4" y="19.4" width="5.6" height="2.4" rx="0.6" transform="rotate(-14 11.2 20.6)" stroke-width="1.2"/>
+          </svg>
         </div>
-        <span class="now-status active">read <span class="now-arrow">&rarr;</span></span>
-      </a>
-    </li>
-  </ul>
+        <div class="swatches" aria-hidden="true">
+          <span class="swatch" style="background:var(--sage)"></span>
+          <span class="swatch" style="background:var(--tan)"></span>
+          <span class="swatch" style="background:var(--taupe)"></span>
+        </div>
+      </div>
 
-  <p class="now-footnote">
-    more notes in the works. i&rsquo;m slow but <em>sincere</em>. things land here only when i believe them.
-  </p>
-</section>
+      <div class="margin-block">
+        <p class="label">On rotation</p>
+        <ul class="rotation">
+          <li>
+            <svg class="ic" viewBox="0 0 16 16" aria-hidden="true"><ellipse cx="5" cy="12" rx="3.4" ry="2.6" transform="rotate(-22 5 12)" fill="currentColor"/><path d="M8 11 Q7.6 6 8 2.5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path d="M8 2.5 Q12 3 12.4 6.5 Q10.6 5 8 6" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <span>"The Devil's Tears"<em>Angus &amp; Julia Stone</em></span>
+          </li>
+          <li>
+            <svg class="ic ic-pad" viewBox="0 0 20 14" aria-hidden="true"><path d="M6 3 H14 Q18 3 18.5 8 Q19 12 15.5 12 Q13.5 12 12.5 10 H7.5 Q6.5 12 4.5 12 Q1 12 1.5 8 Q2 3 6 3 Z" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/><path d="M4.4 6 V9 M2.9 7.5 H5.9" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/><circle cx="13.4" cy="6.8" r="0.9" fill="currentColor"/><circle cx="15.4" cy="8.7" r="0.9" fill="currentColor"/></svg>
+            <span>Horizon Zero Dawn<em>remastered</em></span>
+          </li>
+          <li>
+            <svg class="ic ic-pad" viewBox="0 0 20 14" aria-hidden="true"><path d="M6 3 H14 Q18 3 18.5 8 Q19 12 15.5 12 Q13.5 12 12.5 10 H7.5 Q6.5 12 4.5 12 Q1 12 1.5 8 Q2 3 6 3 Z" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/><path d="M4.4 6 V9 M2.9 7.5 H5.9" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/><circle cx="13.4" cy="6.8" r="0.9" fill="currentColor"/><circle cx="15.4" cy="8.7" r="0.9" fill="currentColor"/></svg>
+            <span>Slay the Spire 2</span>
+          </li>
+        </ul>
+      </div>
 
-<!-- =========================================================
-     EDUCATION — wide full-bleed table
-========================================================= -->
-<section class="sec edu" id="education" data-screen-label="Education">
-  <div class="sec-head-new" data-reveal>
-    <div class="sec-num"><em>iv.</em> schooling</div>
-    <div class="sec-label">&sect; 04</div>
+      <div class="margin-block">
+        <p class="label">Based in</p>
+        <p class="body-hand">3/4 Vancouver, BC<br><span style="color:var(--ink-faint)">1/4 San Francisco, CA</span><br><span style="color:var(--ink-faint)">0/4 Harbin, China</span></p>
+      </div>
+    </aside>
+
+    <!-- ============ MAIN ============ -->
+    <div class="main">
+      <p class="roles"><span>AI/ML Engineer · Researcher · Agent Builder</span></p>
+
+      <header class="hero">
+        <div>
+          <h1 class="name">jiongan <em>mu</em><span class="dot">.</span></h1>
+          <div class="tagline-row">
+            <p class="tagline"><span class="tape tl" aria-hidden="true"></span><span class="tape tr" aria-hidden="true"></span>ai/ml engineer <em>researching and building</em> agentic systems for the future.</p>
+            <div class="notes-cluster">
+              <div class="scrap tagline-scrap" style="rotate:1.2deg;">
+                <span class="tape tl" aria-hidden="true"></span>
+                <p style="margin:0;font-size:19px;line-height:1.18;">building agentic systems that are</p>
+              </div>
+              <svg class="point-arrow" viewBox="0 0 40 18" aria-hidden="true">
+                <path d="M2 9.4 C12 8 26 8.3 36 9.1"/>
+                <path d="M30 4 Q35 7.4 36.5 9.1 Q34.6 11 30.6 14.6"/>
+              </svg>
+              <div class="scrap tagline-scrap" style="rotate:-1.5deg;">
+                <span class="tape tc" aria-hidden="true"></span>
+                <p style="margin:0;font-size:19px;line-height:1.18;">Reliable today.<br>Ready for what<br>comes next.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="meta">
+            <span class="item">
+              <svg viewBox="0 0 24 24" fill="none" stroke-width="1.6"><path d="M12 21s7-6.3 7-12a7 7 0 1 0-14 0c0 5.7 7 12 7 12Z"/><circle cx="12" cy="9" r="2.4"/></svg>
+              Vancouver, BC
+            </span>
+            <span class="item">
+              <svg viewBox="0 0 24 24" fill="none" stroke-width="1.6"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c3 3.5 3 14 0 18M12 3c-3 3.5-3 14 0 18"/></svg>
+              Open to chat about ai/ml &amp; else
+            </span>
+          </div>
+        </div>
+
+        <figure class="portrait">
+          <span class="tape tl" aria-hidden="true"></span>
+          <span class="tape tr" aria-hidden="true"></span>
+          <div class="frame">
+            <img src="files/coding-cut.png" alt="jiongan, mid-build"
+                 onerror="phFail(this)">
+          </div>
+          <figcaption>mid-build, as usual.</figcaption>
+        </figure>
+      </header>
+
+
+      <!-- marquee -->
+      <div class="marquee" aria-hidden="true">
+        <div class="track" id="marquee-track"></div>
+      </div>
+
+      <!-- ============ §01 ABOUT ============ -->
+      <section class="section" id="about">
+        <div class="sec-head">
+          <h2>About</h2>
+          <span class="rule"></span>
+        </div>
+
+        <div class="prose">
+          <div class="scrap gutter-note about-note" style="rotate:1.6deg">
+            <span class="tape tl" aria-hidden="true"></span>
+            <svg viewBox="0 0 60 60" width="28" height="28" style="display:block;margin-bottom:3px;opacity:.6" stroke="#6b6452" fill="none" stroke-width="1.4"><path d="M30 54 C30 36 18 26 8 22 M30 40 C24 33 16 31 12 31 M30 44 C36 38 44 37 49 38 M30 30 C26 24 19 22 15 22 M30 34 C35 28 42 27 47 28"/></svg>
+            <p style="margin:0;line-height:1.22">I'm drawn to the frontier — <em style="font-style:italic">where the models keep getting more capable.</em></p>
+          </div>
+
+          <p>i'm an AI/ML Engineer at <strong>Ema</strong>, where i research and build the AutoBuilder/AutoPilot, our <span class="u">agent harness</span>. my focus is on <span class="u">agent orchestration</span>, <span class="u">autolearns</span>, and <span class="u">evals</span>.</p>
+          <p>i recently completed my Master of Science in Applied Computing at the University of Toronto, focusing on computer systems and large language models. previously i worked as a backend software developer at Kijiji, and as both a research and teaching assistant at U of T.</p>
+          <p>i'm drawn to the frontier: designing agentic systems that are <span class="u">reliable today</span> and <span class="u">ready for what comes next</span>, as models grow more capable and the work we hand them grows more ambitious.</p>
+          <p>outside of work i sing, play piano, play guitar, and lose to my friends at video games. i also love making and eating food. my <a href="recipes.html" class="u" style="color:var(--accent)">recipes</a> are where the home-cooked ones live.</p>
+        </div>
+      </section>
+
+      <!-- ============ §02 OFF-HOURS ============ -->
+      <section class="section" id="offhours">
+        <div class="sec-head">
+          <h2>Off-hours</h2>
+          <span class="rule"></span>
+          <span class="link">the stuff that keeps me human <svg class="arr arr-r" viewBox="0 0 24 12" aria-hidden="true"><path d="M1.5 6.4 C7 5.4 14 5.6 22 6.6"/><path d="M17 2.2 Q21 5 22.3 6.6 Q21 8.4 17.2 11"/></svg></span>
+        </div>
+
+        <div class="scrap gutter-note" style="rotate:2deg">
+          <span class="tape tr" aria-hidden="true"></span>
+          <p style="margin:0;line-height:1;font-size:42px;text-align:center;color:var(--ink)">:)</p>
+        </div>
+
+        <div class="cards">
+          <figure class="card">
+            <span class="tape tc" aria-hidden="true"></span>
+            <div class="frame">
+              <img src="files/piano-cut.png" alt="piano" onerror="phFail(this)">
+            </div>
+            <figcaption><b>piano</b> since age 4</figcaption>
+          </figure>
+          <figure class="card">
+            <span class="tape tr" aria-hidden="true"></span>
+            <div class="frame">
+              <img src="files/coding-cut.png" alt="coding" onerror="phFail(this)">
+            </div>
+            <figcaption><b>coding</b> since 2019, before the vibes</figcaption>
+          </figure>
+          <figure class="card">
+            <span class="tape tl" aria-hidden="true"></span>
+            <div class="frame">
+              <img src="files/guitar-cut.png" alt="guitar & singing" onerror="phFail(this)">
+            </div>
+            <figcaption><b>singing &amp; guitar</b> learning still…</figcaption>
+          </figure>
+          <figure class="card">
+            <span class="tape tc" aria-hidden="true"></span>
+            <div class="frame">
+              <img src="files/gaming-cut.png" alt="gaming" onerror="phFail(this)">
+            </div>
+            <figcaption><b>gaming</b> not as much as before</figcaption>
+          </figure>
+        </div>
+      </section>
+
+      <!-- ============ §03 NOTES ============ -->
+      <section class="section" id="notes">
+        <div class="sec-head">
+          <h2>Notes</h2>
+          <span class="rule"></span>
+        </div>
+
+        <p class="prose" style="margin-bottom:18px"><span style="font-family:var(--hand);font-size:23px;line-height:1.5;color:var(--ink)">notes, field observations, and half-formed ideas, <em>published as they're ready.</em></span><svg class="arr arr-rd" viewBox="0 0 30 26" aria-hidden="true"><path d="M2 6 C11 6 22 7.5 24 18.6"/><path d="M18.6 16.8 L24.2 19 L22 13.4"/></svg></p>
+
+        <div class="notes">
+          <a class="note-row" href="notes/subagent-designs.html">
+            <span class="note-thumb">
+              <svg viewBox="0 0 48 48" stroke-width="1.6"><circle cx="24" cy="10" r="5"/><circle cx="11" cy="36" r="5"/><circle cx="37" cy="36" r="5"/><path d="M24 15 18 31M24 15 30 31M16 36h16"/></svg>
+            </span>
+            <span>
+              <span class="t">subagent <em>designs</em></span>
+              <span class="d">how coding agents delegate to other agents, and the three paradigms emerging right now: preset profiles, runtime construction, and dependency graphs.</span>
+            </span>
+            <span class="meta-r">apr '26<span class="read" style="display:block">read <svg class="arr arr-r" viewBox="0 0 24 12" aria-hidden="true"><path d="M1.5 6.4 C7 5.4 14 5.6 22 6.6"/><path d="M17 2.2 Q21 5 22.3 6.6 Q21 8.4 17.2 11"/></svg></span></span>
+          </a>
+
+          <a class="note-row" href="notes/emdash.html">
+            <span class="note-thumb">
+              <svg viewBox="0 0 48 48" stroke-width="1.6"><rect x="8" y="11" width="32" height="9" rx="2"/><rect x="8" y="26" width="32" height="9" rx="2"/><path d="M14 15.5h6M14 30.5h10"/></svg>
+            </span>
+            <span>
+              <span class="t">why i use <em>emdash</em></span>
+              <span class="d">running multiple coding agents in parallel without losing your mind in terminal tabs. local-first, open-source, provider-agnostic — and surprisingly, the product is just organization.</span>
+            </span>
+            <span class="meta-r">apr '26<span class="read" style="display:block">read <svg class="arr arr-r" viewBox="0 0 24 12" aria-hidden="true"><path d="M1.5 6.4 C7 5.4 14 5.6 22 6.6"/><path d="M17 2.2 Q21 5 22.3 6.6 Q21 8.4 17.2 11"/></svg></span></span>
+          </a>
+          <div class="scrap gutter-note" style="rotate:-2deg">
+            <span class="tape tl" aria-hidden="true"></span>
+            <p style="margin:0;line-height:1.25">more notes in the works. i'm slow but <em style="font-style:italic">sincere</em> — things land here only when i believe them.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ §04 SCHOOLING ============ -->
+      <section class="section" id="education">
+        <div class="sec-head">
+          <h2>Schooling</h2>
+          <span class="rule"></span>
+        </div>
+
+        <div class="scrap gutter-note" style="rotate:-1.6deg">
+          <span class="tape tl" aria-hidden="true"></span>
+          <p style="margin:0;line-height:1.25">the degree's done. <em style="font-style:italic">the learning isn't.</em></p>
+        </div>
+
+        <div class="timeline">
+          <div class="edu">
+            <span class="idx">01</span>
+            <span>
+              <div class="school">University of Toronto</div>
+              <div class="deg"><em>M.Sc. Applied Computing</em> — computer systems &amp; LLMs · Toronto, ON</div>
+              <span class="badge">✓ completed</span>
+            </span>
+            <span class="when">aug 2024<br><svg class="arr arr-r" viewBox="0 0 24 12" aria-hidden="true"><path d="M1.5 6.4 C7 5.4 14 5.6 22 6.6"/><path d="M17 2.2 Q21 5 22.3 6.6 Q21 8.4 17.2 11"/></svg> dec 2025</span>
+          </div>
+          <div class="edu">
+            <span class="idx">02</span>
+            <span>
+              <div class="school">University of Toronto</div>
+              <div class="deg"><em>Hons. B.Sc. Computer Science</em> — gpa 3.94 / 4.0 · Toronto, ON</div>
+              <span class="badge">✓ completed</span>
+            </span>
+            <span class="when">sep 2019<br><svg class="arr arr-r" viewBox="0 0 24 12" aria-hidden="true"><path d="M1.5 6.4 C7 5.4 14 5.6 22 6.6"/><path d="M17 2.2 Q21 5 22.3 6.6 Q21 8.4 17.2 11"/></svg> jun 2024</span>
+          </div>
+        </div>
+
+        <div class="explore">
+          <div class="col">
+            <p class="label">What I build</p>
+            <ul>
+              <li>agent orchestration</li>
+              <li>autolearns</li>
+              <li>evals</li>
+              <li>agent harnesses</li>
+            </ul>
+          </div>
+          <div class="col">
+            <p class="label">Past lives</p>
+            <ul>
+              <li>backend dev · Kijiji</li>
+              <li>research asst · U of T</li>
+              <li>teaching asst · U of T</li>
+            </ul>
+          </div>
+          <div class="col">
+            <p class="label">Away from the keys</p>
+            <ul>
+              <li>piano &amp; guitar</li>
+              <li>singing</li>
+              <li>cooking &amp; eating</li>
+              <li>losing at video games</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ §05 CONTACT ============ -->
+      <section class="section contact" id="contact">
+        <div class="sec-head">
+          <h2>Contact</h2>
+          <span class="rule"></span>
+        </div>
+
+        <div class="scrap gutter-note" style="rotate:2deg">
+          <span class="tape tl" aria-hidden="true"></span>
+          <p style="margin:0;line-height:1.25">thanks for stopping by. <em style="font-style:italic">keep building.</em></p>
+          <p style="margin:7px 0 0;text-align:right;font-size:19px;color:var(--ink)">— jiongan</p>
+        </div>
+
+        <div>
+          <div>
+            <h3 class="big">let's make <em>something</em>.</h3>
+            <a class="email-link" href="mailto:jiongan.mu@gmail.com">
+              <svg viewBox="0 0 24 24" stroke-width="1.6"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>
+              jiongan.mu@gmail.com <svg class="arr arr-r" viewBox="0 0 24 12" aria-hidden="true"><path d="M1.5 6.4 C7 5.4 14 5.6 22 6.6"/><path d="M17 2.2 Q21 5 22.3 6.6 Q21 8.4 17.2 11"/></svg>
+            </a>
+
+            <div class="socials">
+              <a href="https://www.linkedin.com/in/jionganmu" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" stroke-width="1.6"><rect x="3" y="3" width="18" height="18" rx="3"/><path d="M7 10v7M7 7v.01M11 17v-4a2 2 0 0 1 4 0v4M11 17v-7"/></svg>linkedin <span class="h">jionganmu</span></a>
+              <a href="https://github.com/MuJiongan" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" stroke-width="1.6"><path d="M9 19c-4 1.5-4-2-6-2.5M15 21v-3.2a2.8 2.8 0 0 0-.8-2.2c2.7-.3 5.5-1.3 5.5-6a4.6 4.6 0 0 0-1.3-3.2 4.3 4.3 0 0 0-.1-3.2s-1-.3-3.4 1.3a11.6 11.6 0 0 0-6 0C6.5 2.3 5.5 2.6 5.5 2.6a4.3 4.3 0 0 0-.1 3.2A4.6 4.6 0 0 0 4 9c0 4.6 2.8 5.7 5.5 6a2.8 2.8 0 0 0-.8 2.1V21"/></svg>github <span class="h">MuJiongan</span></a>
+              <a href="https://instagram.com/jionganmu" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" stroke-width="1.6"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><path d="M17.5 6.5v.01"/></svg>instagram <span class="h">jionganmu</span></a>
+              <a href="https://discord.com/users/zo6231" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" stroke-width="1.6"><path d="M7.5 6.5A16 16 0 0 1 12 6a16 16 0 0 1 4.5.5C19 8 20 12 20 16c-1.5 1.3-3 2-3 2l-1-1.6M7.5 6.5C5 8 4 12 4 16c1.5 1.3 3 2 3 2l1-1.6M8 16c2.5 1 5.5 1 8 0"/><circle cx="9.5" cy="13" r="1"/><circle cx="14.5" cy="13" r="1"/></svg>discord <span class="h">zo6231</span></a>
+              <span style="display:inline-flex;align-items:center;gap:7px;font-family:var(--hand);font-size:18px;color:var(--ink-soft)">wechat <span class="h">mja1078735979</span></span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- footer bar -->
+      <div class="footer-bar">
+        <span>© 2026 jiongan mu</span>
+        <span class="built">designed in vancouver
+          <svg viewBox="0 0 60 16" width="60" height="16" style="vertical-align:middle;margin-left:4px" stroke="#8a8170" fill="none" stroke-width="1.2"><path d="M1 15 14 5 22 11 33 2 45 12 59 4"/></svg>
+        </span>
+        <a href="#home"><svg class="arr arr-u" viewBox="0 0 12 24" aria-hidden="true"><path d="M6 22.5 Q5 12 6 1.8"/><path d="M2 7 Q5.2 3 6 1.8 Q6.8 3 10 6.8"/></svg> back to top</a>
+      </div>
+    </div>
   </div>
-
-  <ol class="edu-list" data-reveal-stagger>
-    <li class="edu-item">
-      <span class="edu-index">01</span>
-      <div class="edu-when">
-        <span>aug 2024</span><span class="edu-to">&rarr;</span><span>dec 2025</span>
-      </div>
-      <div class="edu-what">
-        <h3 class="edu-title">University of Toronto</h3>
-        <p class="edu-sub"><em>M.Sc. Applied Computing</em>, computer systems &amp; LLMs</p>
-      </div>
-      <div class="edu-tag">
-        <span class="edu-loc">Toronto, ON</span>
-        <span class="edu-status">completed</span>
-      </div>
-    </li>
-    <li class="edu-item">
-      <span class="edu-index">02</span>
-      <div class="edu-when">
-        <span>sep 2019</span><span class="edu-to">&rarr;</span><span>jun 2024</span>
-      </div>
-      <div class="edu-what">
-        <h3 class="edu-title">University of Toronto</h3>
-        <p class="edu-sub"><em>Hons. B.Sc. Computer Science</em>, gpa 3.94 / 4.0</p>
-      </div>
-      <div class="edu-tag">
-        <span class="edu-loc">Toronto, ON</span>
-        <span class="edu-status">completed</span>
-      </div>
-    </li>
-  </ol>
-</section>
-
 </main>
 
-<!-- =========================================================
-     CONTACT — dark ground, asymmetric, primary email huge
-     audit §03, §09
-========================================================= -->
-<section class="contact" id="contact" data-screen-label="Contact">
-  <div class="sec-head-new" data-reveal>
-    <div class="sec-num"><em>v.</em> contact</div>
-    <div class="sec-label">&sect; 05</div>
-  </div>
+<script>
+  // swap a failed image for a labeled sketch placeholder
+  window.phFail = function (img) {
+    const label = img.getAttribute('alt') || 'photo';
+    const d = document.createElement('div');
+    d.className = 'ph';
+    d.innerHTML = '<span>' + label + '</span>';
+    img.replaceWith(d);
+  };
 
-  <h2 class="contact-huge" data-reveal-stagger>
-    <span class="line">let&rsquo;s make</span>
-    <span class="line"><em>something</em>.</span>
-  </h2>
+  // marquee — duplicate the phrase track for a seamless loop
+  (function () {
+    const phrases = ["autonomous agents", "orchestration at scale", "agent harnesses in production", "frontier llm systems"];
+    const track = document.getElementById('marquee-track');
+    let html = "";
+    for (let r = 0; r < 2; r++) {
+      for (let i = 0; i < 8; i++) {
+        html += '<span>' + phrases[i % phrases.length] + '</span><span class="star"><svg class="arr arr-star" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 2.4 Q8.4 8 8 13.6"/><path d="M3.1 5 Q8 8 12.9 11"/><path d="M12.9 5 Q8 8 3.1 11"/></svg></span>';
+      }
+    }
+    track.innerHTML = html;
 
-  <a class="contact-email" data-reveal href="mailto:jiongan.mu@gmail.com">
-    <span class="c-email"><em>jiongan.mu@gmail.com</em></span>
-    <span class="c-arrow">&rarr;</span>
-  </a>
-
-  <div class="contact-secondary" data-reveal-stagger>
-    <a href="https://www.linkedin.com/in/jionganmu" target="_blank" rel="noopener">
-      <span class="c-label">linkedin</span>
-      <span class="c-val"><em>jionganmu</em></span>
-    </a>
-    <a href="https://github.com/MuJiongan" target="_blank" rel="noopener">
-      <span class="c-label">github</span>
-      <span class="c-val"><em>MuJiongan</em></span>
-    </a>
-    <a href="https://instagram.com/jionganmu" target="_blank" rel="noopener">
-      <span class="c-label">instagram</span>
-      <span class="c-val"><em>jionganmu</em></span>
-    </a>
-    <a href="https://discord.com/users/zo6231" target="_blank" rel="noopener">
-      <span class="c-label">discord</span>
-      <span class="c-val"><em>zo6231</em></span>
-    </a>
-    <div class="c-wechat">
-      <span class="c-label">wechat</span>
-      <span class="c-val"><em>mja1078735979</em></span>
-    </div>
-  </div>
-</section>
-
-<footer class="foot">
-  <div class="mono tiny">&copy; 2026 jiongan mu</div>
-  <div class="mono tiny"><a href="#home">&uarr; back to top</a></div>
-  <div class="mono tiny">designed in vancouver</div>
-</footer>
-
-<aside class="tweaks" id="tweaks" hidden>
-  <header class="tweaks-head">
-    <span class="mono tiny label">tweaks</span>
-    <button class="tweaks-close" id="tweaks-close" aria-label="Close">&times;</button>
-  </header>
-  <div class="tweaks-body">
-    <div class="tweak">
-      <label class="tweak-label">accent</label>
-      <div class="swatches">
-        <button class="sw" data-accent="#b8532a" style="--c:#b8532a" aria-label="rust"></button>
-        <button class="sw" data-accent="#1f6a3d" style="--c:#1f6a3d" aria-label="forest"></button>
-        <button class="sw" data-accent="#23395b" style="--c:#23395b" aria-label="ink blue"></button>
-        <button class="sw" data-accent="#8a5a00" style="--c:#8a5a00" aria-label="amber"></button>
-        <button class="sw" data-accent="#1a1a1a" style="--c:#1a1a1a" aria-label="black"></button>
-      </div>
-    </div>
-    <div class="tweak">
-      <label class="tweak-label">density</label>
-      <div class="seg" data-tweak="density">
-        <button data-val="airy">airy</button>
-        <button data-val="regular">regular</button>
-      </div>
-    </div>
-    <div class="tweak">
-      <label class="tweak-label">motion</label>
-      <div class="seg" data-tweak="motion">
-        <button data-val="on">on</button>
-        <button data-val="off">off</button>
-      </div>
-    </div>
-  </div>
-</aside>
-
-<script src="site.js"></script>
+    // scroll-spy for nav active state
+    const links = [...document.querySelectorAll('nav.sketch-nav a[href^="#"]')];
+    const map = {}; links.forEach(a => { const id = a.getAttribute('href').slice(1); if (id) map[id] = a; });
+    const ids = ['contact','education','notes','offhours','about','home'];
+    const onScroll = () => {
+      let current = 'home';
+      for (const id of [...ids].reverse()) {
+        const el = document.getElementById(id);
+        if (el && el.getBoundingClientRect().top <= 140) current = id;
+      }
+      links.forEach(a => a.classList.remove('active'));
+      if (map[current]) map[current].classList.add('active');
+    };
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+  })();
+</script>
 </body>
 </html>
